@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Francisco Vaquero — Front‑End Developer & IT Support</title>
+    <meta name="description" content="Resume — Francisco Vaquero: Front‑End Developer & IT Support. Web (HTML/CSS/JS), automations (Zapier, n8n), Google Workspace Admin, remote IT support, and onboarding." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Using system font stack per design preferences; Comfortaa optional for headings if desired. -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet"> -->
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // Apply saved theme early to avoid FOUC
+      (function(){
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'dark') document.documentElement.setAttribute('data-theme','dark');
+          else if (t === 'light') document.documentElement.removeAttribute('data-theme');
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="scrollbar" aria-hidden="true"></div>
+    <div class="theme-cascade" aria-hidden="true"></div>
+    
+    <main class="resume" role="main">
+      <aside class="sidebar">
+        <section class="identity reveal sheen" style="--d: 0s;" data-anim="flip-in">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme" aria-pressed="false">
+            <span class="toggle-track" aria-hidden="true">
+              <svg class="icon sun" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span class="toggle-thumb"></span>
+              <svg class="icon moon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+              </svg>
+            </span>
+          </button>
+          <h1 class="name">Francisco Vaquero</h1>
+          <p class="role typewriter">Front‑End Developer &amp; IT Support</p>
+        </section>
+
+        <section id="contact" class="contact reveal" style="--d: .1s;" data-anim="fade-up">
+          <h2 class="section-title">Contact</h2>
+          <ul>
+            <li><a href="mailto:franciscovaquero93@gmail.com">franciscovaquero93@gmail.com</a></li>
+            <li><a href="tel:+50361312121">+ 503 61312121</a></li>
+            <li><a href="https://www.linkedin.com/in/francisco-vaquerog/" target="_blank" rel="noopener">linkedin.com/in/francisco-vaquerog</a></li>
+            <li>Antiguo Cuscatlán, El Salvador</li>
+          </ul>
+        </section>
+
+        <section id="summary" class="summary reveal" style="--d: .2s;" data-anim="fade-up">
+          <h2 class="section-title">Summary</h2>
+          <p>
+            Front‑end &amp; IT support specialist who builds and maintains lightweight web interfaces (HTML/CSS/JS),
+            automates workflows with Zapier, and supports users through high‑volume ticket/chat queues. Strong at
+            troubleshooting, documenting fixes, and onboarding tools/CRMs. Clear communicator in English &amp; Spanish;
+            comfortable turning vague requests into small, well‑scoped tasks.
+          </p>
+        </section>
+
+        <section id="skills" class="skills reveal" style="--d: .3s;" data-anim="fade-up">
+          <h2 class="section-title">Skills</h2>
+          <div class="swipe-hint" aria-hidden="true" title="Swipe/scroll horizontally">
+            <span class="hint-text">Swipe</span>
+            <span class="chevs"><i></i><i></i></span>
+          </div>
+          <div class="skills-swapper" id="skills-swapper" tabindex="0" aria-label="Skills views">
+            <div class="skills-slide is-active" aria-hidden="false">
+              <ul class="kv">
+                <li><strong>Web:</strong> HTML, CSS, JavaScript</li>
+                <li><strong>Automation &amp; Platforms:</strong> Zapier; CRM setup/management; workflow design</li>
+                <li><strong>IT Support &amp; Operations:</strong> Remote troubleshooting; ticket triage &amp; SLAs; knowledge base docs; Microsoft Office; Google Workspace</li>
+                <li><strong>Data &amp; Reporting:</strong> Data hygiene; spreadsheets; CSV/JSON</li>
+                <li><strong>Core Strengths:</strong> Problem‑solving; self‑management; customer empathy; cross‑team communication; security awareness</li>
+              </ul>
+            </div>
+            <div class="skills-slide" aria-hidden="true">
+              <h3 class="subhead">Recent Focus</h3>
+              <ul class="skill-bars skill-bars--compact-list">
+                <li class="skill" tabindex="0"><span class="label">JavaScript</span><span class="meter" role="meter" aria-label="JavaScript" aria-valuemin="0" aria-valuemax="100" aria-valuenow="86"><span class="fill" style="--p:86%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">Zapier</span><span class="meter" role="meter" aria-label="Zapier" aria-valuemin="0" aria-valuemax="100" aria-valuenow="95"><span class="fill" style="--p:95%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">Google Apps Script</span><span class="meter" role="meter" aria-label="Google Apps Script" aria-valuemin="0" aria-valuemax="100" aria-valuenow="90"><span class="fill" style="--p:90%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">Google Sheets</span><span class="meter" role="meter" aria-label="Google Sheets" aria-valuemin="0" aria-valuemax="100" aria-valuenow="88"><span class="fill" style="--p:88%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">Slack API</span><span class="meter" role="meter" aria-label="Slack API" aria-valuemin="0" aria-valuemax="100" aria-valuenow="84"><span class="fill" style="--p:84%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">n8n</span><span class="meter" role="meter" aria-label="n8n" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82"><span class="fill" style="--p:82%"></span></span></li>
+              </ul>
+              <h3 class="subhead" style="margin-top:12px">Core Stack</h3>
+              <ul class="skill-bars skill-bars--compact-list">
+                <li class="skill" tabindex="0"><span class="label">REST APIs</span><span class="meter" role="meter" aria-label="REST APIs" aria-valuemin="0" aria-valuemax="100" aria-valuenow="88"><span class="fill" style="--p:88%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">Python</span><span class="meter" role="meter" aria-label="Python" aria-valuemin="0" aria-valuemax="100" aria-valuenow="85"><span class="fill" style="--p:85%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">SQLite</span><span class="meter" role="meter" aria-label="SQLite" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80"><span class="fill" style="--p:80%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">Docker</span><span class="meter" role="meter" aria-label="Docker" aria-valuemin="0" aria-valuemax="100" aria-valuenow="76"><span class="fill" style="--p:76%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">Linux</span><span class="meter" role="meter" aria-label="Linux" aria-valuemin="0" aria-valuemax="100" aria-valuenow="78"><span class="fill" style="--p:78%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">LLM Tooling (Ollama, HF)</span><span class="meter" role="meter" aria-label="LLM Tooling" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70"><span class="fill" style="--p:70%"></span></span></li>
+                <li class="skill" tabindex="0"><span class="label">Google Workspace Admin</span><span class="meter" role="meter" aria-label="Google Workspace Admin" aria-valuemin="0" aria-valuemax="100" aria-valuenow="88"><span class="fill" style="--p:88%"></span></span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="languages" class="languages reveal" style="--d: .4s;" data-anim="fade-up">
+          <h2 class="section-title">Languages</h2>
+          <p>English, Spanish</p>
+        </section>
+      </aside>
+
+      <article class="content reveal" style="--d: .15s;" data-anim="rise">
+        <!-- Horizontal experience carousel (shown on wide screens) -->
+        <section id="experience" class="experience-carousel reveal" style="--d: .05s;" data-anim="fade-left" aria-label="Experience timeline">
+          <header class="carousel-head">
+            <h2 class="section-title">Experience</h2>
+            <div class="carousel-controls">
+              <button class="arrow prev" type="button" aria-label="Previous role">◀</button>
+              <button class="arrow next" type="button" aria-label="Next role">▶</button>
+            </div>
+          </header>
+          <div class="cards swiper exp-swiper no-swiper" id="exp-cards" role="list" tabindex="0" aria-label="Experience cards">
+            <div class="swiper-wrapper">
+            <article class="card swiper-slide is-active" role="listitem">
+              <h3 class="card-title">Automation &amp; Integrations Specialist</h3>
+              <p class="card-meta">Fundflare / Graceful FundFlare · Dec 2023 – Present</p>
+              <ul class="bullets">
+                <li>Build, deploy, and maintain end‑to‑end automations with <strong>Zapier</strong> and <strong>n8n</strong>, integrating <strong>Google Workspace</strong> (Gmail, Calendar, Sheets), <strong>Monday.com</strong>, <strong>PandaDoc</strong>, <strong>Notion</strong>, and custom <strong>REST APIs</strong> to streamline operations and reduce manual work.</li>
+                <li>Develop <strong>Google Apps Script</strong> solutions (custom menus, triggers, web apps) and advanced <strong>Google Sheets</strong> tooling (formulas, array logic, macros) for reporting, QA checks, and lightweight internal apps.</li>
+                <li>Create and harden <strong>Slack</strong> apps/bots using the <strong>Slack API</strong> (slash commands, events, webhooks) to route alerts, trigger workflows, and surface task/status updates.</li>
+                <li>Build internal web utilities and small services; containerize with <strong>Docker</strong> and run on <strong>Linux</strong> (Pop!_OS / Ubuntu). Manage virtual environments with <strong>Conda</strong> and experiments in <strong>Google Colab</strong>.</li>
+                <li>Implement and support <strong>Google Workspace Admin</strong>: user provisioning/deprovisioning, groups/aliases, org units, security settings, and credential management; set up environments for new users (Gmail, Zoho Suite, drivers, proxies).</li>
+                <li>Provide remote IT support and troubleshooting via <strong>RustDesk</strong>, <strong>TeamViewer</strong>, and <strong>Tailscale</strong>.</li>
+              </ul>
+              <details class="more" role="group">
+                <summary aria-label="Show more Fundflare details">More details</summary>
+                <ul class="bullets">
+                  <li>Design data pipelines and integrations with <strong>SQLite</strong> and <strong>Python</strong> (ETL, data cleaning, basic analysis); document processes and SOPs in <strong>Notion</strong>.</li>
+                  <li>Integrate financial/trading platforms via <strong>Binance API</strong> and <strong>BloFin API</strong>; research spot‑trading bot strategies and build data capture for back‑testing/monitoring.</li>
+                  <li>Generate, route, and manage documents via <strong>PandaDoc</strong> workflows and APIs (templates, approvals, e‑sign).</li>
+                  <li>Explore and deploy local LLMs with <strong>Ollama</strong> and <strong>Hugging Face</strong> for text extraction/summarization prototypes; evaluate prompts and lightweight inference pipelines.</li>
+                  <li>Conduct foundational security tasks and network diagnostics, including basic <strong>Kali Linux</strong> usage and network recon for internal hardening.</li>
+                  <li>Handle executive assistant/operations tasks as needed: inbox triage, calendar scheduling, booking coordination, document drafting, and turning Sheets data into quick insights.</li>
+                  <li>Hobby/auxiliary: <strong>Android SDK</strong> tinkering and simple app prototypes; <strong>AppleScript</strong>, <strong>Xcode</strong>, and <strong>VS Code</strong> automations for desktop workflows.</li>
+                </ul>
+                <p class="stack"><strong>Selected tools &amp; stack:</strong> Zapier, n8n, Google Apps Script, Google Sheets, Google Workspace Admin, Monday.com, PandaDoc, Notion, Slack API, Python, SQLite, Docker, Linux (Pop!_OS/Ubuntu), RustDesk, TeamViewer, Tailscale, Binance API, BloFin API, Google Colab, Conda, AppleScript, Xcode, VS Code, Virtual Machines, basic Kali Linux.</p>
+              </details>
+            </article>
+
+            <article class="card swiper-slide" role="listitem">
+              <h3 class="card-title">Project Web Developer / Automations</h3>
+              <p class="card-meta">VA LWIS Digital · Apr 2023 – Sep 2023</p>
+              <ul class="bullets">
+                <li>Implemented site changes (<strong>HTML/CSS/JS</strong>) and fixed defects across client pages.</li>
+                <li>Built <strong>Zapier</strong> workflows to automate intake, notifications, and handoffs across forms, spreadsheets, and CRM.</li>
+                <li>Provided remote tech support (workstations, software setup) and onboarding for tools/CRMs.</li>
+                <li>Wrote quickstart guides and troubleshooting notes to reduce repeat incidents.</li>
+              </ul>
+            </article>
+
+            <article class="card swiper-slide" role="listitem">
+              <h3 class="card-title">Onboarding Team Lead / Tech Support</h3>
+              <p class="card-meta">MIR Partners Inc · Mar 2021 – Dec 2022</p>
+              <ul class="bullets">
+                <li>Incoming traffic controller for tickets; prioritized incidents and maintained response SLAs.</li>
+                <li>Delivered remote support for desktop apps &amp; peripherals; captured fixes in a searchable FAQ.</li>
+                <li>Investigated risk/fraud signals and escalated per policy; ensured secure handling of customer data.</li>
+              </ul>
+            </article>
+
+            <article class="card swiper-slide" role="listitem">
+              <h3 class="card-title">Customer Support Representative (Tech Support)</h3>
+              <p class="card-meta">Chime · Jul 2020 – Dec 2020</p>
+              <ul class="bullets">
+                <li>Resolved high‑volume chat/email cases; handled secure verification and sensitive data carefully.</li>
+                <li>Explained technical/policy constraints to users in clear, empathetic language.</li>
+              </ul>
+            </article>
+
+            <article class="card swiper-slide" role="listitem">
+              <h3 class="card-title">Tech Support Representative</h3>
+              <p class="card-meta">Cash App · Jul 2019 – May 2020 (first)</p>
+              <ul class="bullets">
+                <li>Provided technical &amp; customer support; collaborated cross‑functionally to unblock users.</li>
+                <li>Supported risk/fraud reviews in line with guidelines.</li>
+              </ul>
+            </article>
+
+            <article class="card swiper-slide" role="listitem">
+              <h3 class="card-title">Bilingual Customer Service Representative</h3>
+              <p class="card-meta">The Office Gurus · Jul 2019 – May 2020 (second)</p>
+              <ul class="bullets">
+                <li>Handled customer follow‑ups and payment processing across chat/email/calls.</li>
+                <li>Completed accurate data entry, reactivations, and cancellations.</li>
+              </ul>
+            </article>
+            </div>
+          </div>
+          <div class="dots swiper-pagination" id="exp-dots" role="tablist" aria-label="Experience pagination"></div>
+          </section>
+
+        <!-- Vertical detailed list (mobile and print) -->
+        <section class="experience">
+          <h2 class="section-title">Experience</h2>
+
+          <div class="item reveal" style="--d: .2s;" data-anim="slide-up">
+            <header class="item-header">
+              <h3 class="item-title">Automation &amp; Integrations Specialist</h3>
+              <div class="meta">
+                <span class="company">Fundflare / Graceful FundFlare</span>
+                <span class="spacer">·</span>
+                <span class="period">Dec 2023 – Present</span>
+              </div>
+            </header>
+            <ul class="bullets">
+              <li>Build, deploy, and maintain end‑to‑end automations with <strong>Zapier</strong> and <strong>n8n</strong>, integrating <strong>Google Workspace</strong> (Gmail, Calendar, Sheets), <strong>Monday.com</strong>, <strong>PandaDoc</strong>, <strong>Notion</strong>, and custom <strong>REST APIs</strong>.</li>
+              <li>Develop <strong>Google Apps Script</strong> solutions (custom menus, triggers, web apps) and advanced <strong>Google Sheets</strong> tooling for reporting, QA checks, and lightweight internal apps.</li>
+              <li>Create and harden <strong>Slack</strong> apps/bots using the <strong>Slack API</strong> (slash commands, events, webhooks) to route alerts and trigger workflows.</li>
+              <li>Build internal web utilities and small services; containerize with <strong>Docker</strong> and run on <strong>Linux</strong> (Pop!_OS / Ubuntu). Manage virtual environments with <strong>Conda</strong> and experiments in <strong>Google Colab</strong>.</li>
+              <li>Implement and support <strong>Google Workspace Admin</strong>: provisioning/deprovisioning, groups/aliases, org units, security settings, and credential management.</li>
+              <li>Provide remote IT support via <strong>RustDesk</strong>, <strong>TeamViewer</strong>, and <strong>Tailscale</strong>; script routine fixes and setup steps.</li>
+              <li>Design data pipelines and integrations with <strong>SQLite</strong> and <strong>Python</strong> (ETL, data cleaning, basic analysis); document processes and SOPs in <strong>Notion</strong>.</li>
+              <li>Integrate financial/trading platforms via <strong>Binance API</strong> and <strong>BloFin API</strong>; research spot‑trading bot strategies.</li>
+              <li>Generate, route, and manage documents via <strong>PandaDoc</strong> workflows and APIs (templates, approvals, e‑sign).</li>
+              <li>Explore and deploy local LLMs with <strong>Ollama</strong> and <strong>Hugging Face</strong> for text extraction/summarization prototypes.</li>
+              <li>Conduct foundational security tasks and network diagnostics, including basic <strong>Kali Linux</strong> usage and network recon for internal hardening.</li>
+              <li>Handle EA/operations tasks: inbox triage, calendar scheduling, booking coordination, document drafting, and quick insights from Sheets data.</li>
+            </ul>
+            <p class="stack"><strong>Selected tools &amp; stack:</strong> Zapier, n8n, Google Apps Script, Google Sheets, Google Workspace Admin, Monday.com, PandaDoc, Notion, Slack API, Python, SQLite, Docker, Linux (Pop!_OS/Ubuntu), RustDesk, TeamViewer, Tailscale, Binance API, BloFin API, Google Colab, Conda, AppleScript, Xcode, VS Code, Virtual Machines, basic Kali Linux.</p>
+          </div>
+
+          <div class="item reveal" style="--d: .3s;" data-anim="slide-up">
+            <header class="item-header">
+              <h3 class="item-title">Project Web Developer / Automations</h3>
+              <div class="meta">
+                <span class="company">VA LWIS Digital</span>
+                <span class="spacer">·</span>
+                <span class="period">Apr 2023 – Sep 2023</span>
+              </div>
+            </header>
+            <ul class="bullets">
+              <li>Implemented site changes (HTML/CSS/JS) and fixed defects across client pages.</li>
+              <li>Built Zapier workflows to automate intake, notifications, and handoffs across forms, spreadsheets, and CRM.</li>
+              <li>Provided remote tech support (workstations, software setup) and onboarding for tools/CRMs.</li>
+              <li>Wrote quickstart guides and troubleshooting notes to reduce repeat incidents.</li>
+            </ul>
+          </div>
+
+          <div class="item reveal" style="--d: .4s;" data-anim="slide-up">
+            <header class="item-header">
+              <h3 class="item-title">Onboarding Team Lead / Tech Support</h3>
+              <div class="meta">
+                <span class="company">MIR Partners Inc</span>
+                <span class="spacer">·</span>
+                <span class="period">Mar 2021 – Dec 2022</span>
+              </div>
+            </header>
+            <ul class="bullets">
+              <li>Incoming traffic controller for tickets; prioritized incidents and maintained response SLAs.</li>
+              <li>Delivered remote support for desktop apps &amp; peripherals; captured fixes in a searchable FAQ.</li>
+              <li>Investigated risk/fraud signals and escalated per policy; ensured secure handling of customer data.</li>
+            </ul>
+          </div>
+
+          <div class="item reveal" style="--d: .5s;" data-anim="slide-up">
+            <header class="item-header">
+              <h3 class="item-title">Customer Support Representative (Tech Support)</h3>
+              <div class="meta">
+                <span class="company">Chime</span>
+                <span class="spacer">·</span>
+                <span class="period">Jul 2020 – Dec 2020</span>
+              </div>
+            </header>
+            <ul class="bullets">
+              <li>Resolved high‑volume chat/email cases; handled secure verification and sensitive data carefully.</li>
+              <li>Explained technical/policy constraints to users in clear, empathetic language.</li>
+            </ul>
+          </div>
+
+          <!-- Sequential roles within the same period, shown clearly without overlap -->
+          <div class="item reveal" style="--d: .6s;" data-anim="slide-up">
+            <header class="item-header">
+              <h3 class="item-title">Tech Support Representative</h3>
+              <div class="meta">
+                <span class="company">Cash App</span>
+                <span class="spacer">·</span>
+                <span class="period">Jul 2019 – May 2020 (first)</span>
+              </div>
+            </header>
+            <ul class="bullets">
+              <li>Provided technical &amp; customer support; collaborated cross‑functionally to unblock users.</li>
+              <li>Supported risk/fraud reviews in line with guidelines.</li>
+            </ul>
+          </div>
+
+          <div class="item reveal" style="--d: .7s;" data-anim="slide-up">
+            <header class="item-header">
+              <h3 class="item-title">Bilingual Customer Service Representative</h3>
+              <div class="meta">
+                <span class="company">The Office Gurus</span>
+                <span class="spacer">·</span>
+                <span class="period">Jul 2019 – May 2020 (second)</span>
+              </div>
+            </header>
+            <ul class="bullets">
+              <li>Handled customer follow‑ups and payment processing across chat/email/calls.</li>
+              <li>Completed accurate data entry, reactivations, and cancellations.</li>
+            </ul>
+            <p class="note">Within Jul 2019 – May 2020, these two roles were held sequentially. If you’d like exact month split shown, I can update once provided.</p>
+          </div>
+        </section>
+
+        <section id="education" class="education reveal" style="--d: .2s;" data-anim="fade-up">
+          <h2 class="section-title">Education</h2>
+          <ul class="edu-list">
+            <li><strong>Computer Maintenance (Certificate)</strong> — 2008–2010</li>
+            <li><strong>High School Diploma — Liceo Prof. Luis Alonso Pino</strong> — 2008–2010</li>
+          </ul>
+        </section>
+      </article>
+    </main>
+
+    <!-- Back to top button (mobile + desktop) -->
+    <button id="to-top" class="to-top" aria-label="Back to top" title="Back to top">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Francisco Vaquero",
+        "jobTitle": "Front‑End Developer & IT Support",
+        "email": "mailto:franciscovaquero93@gmail.com",
+        "telephone": "+50361312121",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Antiguo Cuscatlán",
+          "addressCountry": "SV"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/in/francisco-vaquerog/"
+        ]
+      }
+    </script>
+    <script src="animations.js"></script>
+  </body>
+  </html>

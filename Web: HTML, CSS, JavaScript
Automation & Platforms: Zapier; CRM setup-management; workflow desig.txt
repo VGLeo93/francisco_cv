@@ -1,0 +1,9 @@
+Web: HTML, CSS, JavaScript
+Automation & Platforms: Zapier; CRM setup/management; workflow design
+IT Support & Operations: Remote troubleshooting; ticket triage & SLAs; knowledge base docs; Microsoft Office; Google Workspace
+Data & Reporting: Data hygiene; spreadsheets; CSV/JSON
+Core Strengths: Problem‑solving; self‑management; customer empathy; cross‑team communication; security awareness
+Recent Focus
+JavaScript
+Zapier
+Google Apps Script
