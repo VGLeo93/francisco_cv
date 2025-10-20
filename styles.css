@@ -277,7 +277,7 @@ body {
   .sidebar { order: 1; }
   .typewriter { /* avoid overflow on small screens */ width: auto; border-right: 0; animation: none; }
   /* Make anchors land below fixed bottom nav comfortably */
-  #summary, #experience, #skills, #contact, #education, #languages { scroll-margin-top: 80px; }
+  #summary, #experience, #skills, #contact, #education, #languages { : 80px; }
 }
 
 /* Mobile bottom nav */
