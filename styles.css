@@ -20,7 +20,7 @@
   --canvas-bottom: #eef2f7;
   --canvas-wave-1: rgba(37,99,235,0.08);   /* blue */
   --canvas-wave-2: rgba(124,58,237,0.08);  /* violet */
-  --bar-bg: color-mix(in oklab, var(--border) 80%, transparent);
+  --bar-bg: rgba(224, 224, 224, 0.8); /* fallback for unsupported browsers */
   --space-1: 6px;
   --space-2: 10px;
   --space-3: 14px;
@@ -475,5 +475,15 @@ body {
 
 /* Anchor landing offsets for top nav */
 @media (min-width: 861px) {
-  #summary, #experience, #skills, #education, #contact, #languages { scroll-margin-top: 70px; }
+  #summary, #experience, #skills, #education, #contact, #languages { scroll-margin-top: 24px
+@media (min-width: 861px) {
+  #summary,
+  #experience,
+  #skills,
+  #education,
+  #contact,
+  #languages {
+    scroll-margin-top: 24px;
+  }
 }
+
