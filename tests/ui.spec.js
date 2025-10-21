@@ -61,6 +61,10 @@ function centerOf(page, selector) {
   await sleep(120);
   const waveRan = await page.$eval('.theme-cascade', el => el.classList.contains('run') || getComputedStyle(el).opacity !== '0');
   if (!waveRan) throw new Error('Theme wave animation did not trigger');
+  
+  // Verify avatar image loads
+  const avatarLoaded = await page.$eval('.avatar-square', img => img && img.complete && img.naturalWidth > 0);
+  if (!avatarLoaded) throw new Error('Avatar image failed to load');
 
   // Scroll to SKILLS section programmatically for testing
   await page.evaluate(() => document.getElementById('skills').scrollIntoView({ behavior: 'instant', block: 'start' }));

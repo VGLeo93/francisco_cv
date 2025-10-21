@@ -553,7 +553,8 @@ body {
 .theme-cascade.to-dark { --cascade-a: #a78bfa; --cascade-b: #38bdf8; }
 .theme-cascade.to-light { --cascade-a: #2563eb; --cascade-b: #7c3aed; }
 @keyframes cascadeReveal { to { clip-path: circle(150vmax at var(--cx) var(--cy)); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .theme-cascade { display: none; } }
+/* Keep the cascade visible even when reduced motion is set, per design request */
+/*@media (prefers-reduced-motion: reduce) { .theme-cascade { display: none; } }*/
 /* Desktop top nav */
 .top-nav { position: sticky; top: 0; z-index: 60; display: none; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-pane); background: color-mix(in oklab, var(--bg), #000 6%); border-bottom: 1px solid var(--border); backdrop-filter: blur(6px); }
 .top-nav a { position: relative; text-decoration: none; color: var(--ink); padding: 8px 10px; border-radius: 8px; font-size: 14px; transition: background .25s ease, color .2s ease; }

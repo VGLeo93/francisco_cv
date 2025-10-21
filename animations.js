@@ -45,12 +45,15 @@
         const cx = r.left + r.width / 2; const cy = r.top + r.height / 2;
         cascade.style.setProperty('--cx', cx + 'px');
         cascade.style.setProperty('--cy', cy + 'px');
+        // Ensure visible even if reduced-motion styles would hide it
+        cascade.style.display = 'block';
         cascade.classList.remove('to-dark','to-light','run');
         cascade.classList.add(nextDark ? 'to-dark' : 'to-light');
         cascade.classList.add('run');
         setTimeout(() => applyTheme(nextDark), 120);
         cascade.addEventListener('animationend', () => {
           cascade.classList.remove('run','to-dark','to-light');
+          cascade.style.display = '';
         }, { once: true });
       });
     } catch(_) {}
