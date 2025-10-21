@@ -72,9 +72,33 @@ function centerOf(page, selector) {
   if (!barsVisible) throw new Error('Skills bars slide did not appear after horizontal gesture');
   log('Skills bars visible after gesture');
 
+  // Ensure Featured Course is visible on mobile
+  await page.evaluate(() => document.getElementById('learning').scrollIntoView({ behavior: 'instant', block: 'start' }));
+  await sleep(300);
+  const featuredVisible = await page.$eval('#learning .course-card', el => {
+    const r = el.getBoundingClientRect();
+    const disp = getComputedStyle(el).display;
+    return disp !== 'none' && r.height > 0 && r.width > 0;
+  });
+  if (!featuredVisible) throw new Error('Featured Course not visible on mobile viewport');
+  log('Featured Course visible on mobile');
+
+  // Ensure Certifications section is visible on mobile
+  await page.evaluate(() => document.getElementById('certifications').scrollIntoView({ behavior: 'instant', block: 'start' }));
+  await sleep(300);
+  const certVisible = await page.$eval('#certifications', el => getComputedStyle(el).display !== 'none');
+  if (!certVisible) throw new Error('Certifications section hidden on mobile');
+  log('Certifications visible on mobile');
+
   // Switch to desktop viewport for the carousel layout
   await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
   await sleep(400);
+
+  // On desktop, Featured Course and Certifications still visible
+  const certVisibleDesktop = await page.$eval('#certifications', el => getComputedStyle(el).display !== 'none');
+  if (!certVisibleDesktop) throw new Error('Certifications section hidden on desktop');
+  const featuredVisibleDesktop = await page.$eval('#learning .course-card', el => getComputedStyle(el).display !== 'none');
+  if (!featuredVisibleDesktop) throw new Error('Featured Course hidden on desktop');
 
   await page.evaluate(() => document.getElementById('experience').scrollIntoView({ behavior: 'instant', block: 'start' }));
   await sleep(400);
@@ -88,8 +112,8 @@ function centerOf(page, selector) {
 
   const firstTitle = await page.$eval('#exp-cards .swiper-slide.is-active .card-title, #exp-cards .card.is-active .card-title', el => el.textContent.trim());
 
-  // Experience slider: move to next card via arrow (also exercised by wheel handlers separately)
-  await page.click('.experience-carousel .next');
+  // Experience slider: move to next card via arrow (scoped to the experience carousel)
+  await page.click('#experience-carousel .next');
   await sleep(520);
   const expAfter = await page.$eval('#exp-cards .swiper-slide.is-active .card-title, #exp-cards .card.is-active .card-title', el => el.textContent.trim());
   if (expAfter === firstTitle) throw new Error('Experience did not advance when pressing Next');
@@ -114,6 +138,24 @@ function centerOf(page, selector) {
   // Back to Summary for completeness
   await page.evaluate(() => document.getElementById('summary').scrollIntoView({ behavior: 'instant', block: 'start' }));
   await sleep(300);
+
+  // Validate badge contrast in dark mode
+  await page.evaluate(() => { document.documentElement.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); });
+  await page.evaluate(() => document.getElementById('learning').scrollIntoView({ behavior: 'instant', block: 'start' }));
+  await sleep(300);
+  const ratio = await page.$eval('.featured-training .badge', (el) => {
+    const cs = getComputedStyle(el);
+    function lum(rgb){
+      const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      if (!m) return 0; const [r,g,b] = [m[1],m[2],m[3]].map(Number).map(v=>{v/=255; return v<=0.03928?v/12.92:Math.pow(((v+0.055)/1.055),2.4)});
+      return 0.2126*r + 0.7152*g + 0.0722*b;
+    }
+    const L1 = lum(cs.color); const L2 = lum(cs.backgroundColor);
+    const cr = (Math.max(L1,L2)+0.05)/(Math.min(L1,L2)+0.05);
+    return cr;
+  });
+  if (ratio < 3) throw new Error('Badge contrast in dark mode too low: ' + ratio.toFixed(2));
+  log('Dark badge contrast OK (ratio ~', ratio.toFixed(2), ')');
 
   console.log('\nAll checks passed.');
   await browser.close();

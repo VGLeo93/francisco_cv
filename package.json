@@ -5,7 +5,7 @@
     "puppeteer-core": "22.15.0"
   },
   "scripts": {
-    "test:ui": "node tests/ui.spec.js"
+    "test:ui": "node tests/ui.spec.js",
+    "shot:skills": "node tests/skills.screenshot.js"
   }
 }
-

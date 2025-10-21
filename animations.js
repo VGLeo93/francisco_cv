@@ -99,10 +99,11 @@
 (function(){
   const toTop = document.getElementById('to-top');
   if (!toTop) return;
-  const showAt = 240;
+  const mq = window.matchMedia('(max-width: 600px)');
+  function threshold(){ return mq.matches ? 120 : 240; }
   function toggle(){
     const y = window.scrollY || document.documentElement.scrollTop;
-    if (y > showAt) toTop.classList.add('show'); else toTop.classList.remove('show');
+    if (y > threshold()) toTop.classList.add('show'); else toTop.classList.remove('show');
   }
   window.addEventListener('scroll', () => requestAnimationFrame(toggle), { passive: true });
   toggle();
@@ -133,6 +134,32 @@
   bind(document.querySelector('#skills-swapper .skill-bars'));
 })();
 
+// Skills swipe coachmark (shows once on first view; hides after interaction)
+(function(){
+  const container = document.getElementById('skills');
+  const swapper = document.getElementById('skills-swapper');
+  if (!container || !swapper) return;
+  const key = 'seen_skills_swipe_hint';
+  try {
+    if (localStorage.getItem(key) === '1') return;
+  } catch(_) {}
+  const mark = document.createElement('div');
+  mark.className = 'coachmark';
+  mark.innerHTML = '<span>Swipe</span><span class="chev" aria-hidden="true"></span>';
+  container.style.position = container.style.position || 'relative';
+  container.appendChild(mark);
+  function show(){ mark.classList.add('show'); setTimeout(hide, 2600); }
+  function hide(){ mark.classList.remove('show'); try { localStorage.setItem(key, '1'); } catch(_){} }
+  // Show when section first becomes visible
+  const io = new IntersectionObserver((entries)=>{
+    if (entries.some(e=>e.isIntersecting)) { show(); io.disconnect(); }
+  }, { threshold: 0.2 });
+  io.observe(container);
+  // Hide after first swipe/keyboard/nav interaction
+  const end = ()=> hide();
+  ['wheel','pointerup','touchend','keydown','click'].forEach(ev => swapper.addEventListener(ev, end, { once: true }));
+})();
+
 // Sidebar skills swapper: horizontal swipe/scroll toggles between list and bars (no overlay)
 (function(){
   const container = document.getElementById('skills-swapper');
@@ -140,6 +167,7 @@
   const slides = Array.from(container.querySelectorAll('.skills-slide'));
   let idx = slides.findIndex(s => s.classList.contains('is-active'));
   if (idx < 0) idx = 0;
+  const dotsEl = document.getElementById('skills-dots');
 
   function setState(i){
     slides.forEach((sl, k) => {
@@ -147,6 +175,7 @@
       sl.setAttribute('aria-hidden', k === i ? 'false' : 'true');
     });
     updateHeight();
+    updateDots();
   }
   function go(to){
     if (to === idx || to < 0 || to >= slides.length) return;
@@ -162,6 +191,26 @@
     if (!active) return;
     const h = active.scrollHeight || 0;
     container.style.height = h + 'px';
+  }
+
+  function buildDots(){
+    if (!dotsEl) return;
+    dotsEl.innerHTML = '';
+    slides.forEach((_, i) => {
+      const b = document.createElement('span');
+      b.className = 'swiper-pagination-bullet' + (i === idx ? ' swiper-pagination-bullet-active' : '');
+      b.setAttribute('role','button');
+      b.tabIndex = 0;
+      b.addEventListener('click', () => go(i));
+      b.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(i);} });
+      dotsEl.appendChild(b);
+    });
+  }
+
+  function updateDots(){
+    if (!dotsEl) return;
+    const bullets = Array.from(dotsEl.querySelectorAll('.swiper-pagination-bullet'));
+    bullets.forEach((b, i) => b.classList.toggle('swiper-pagination-bullet-active', i === idx));
   }
 
   // Horizontal intent via wheel/Shift+wheel
@@ -192,8 +241,10 @@
   // Keyboard support
   container.addEventListener('keydown', (e)=>{ if (e.key==='ArrowRight') { e.preventDefault(); go(idx+1);} if (e.key==='ArrowLeft') { e.preventDefault(); go(idx-1);} });
 
-  // Initialize height
+  // Initialize UI
+  buildDots();
   updateHeight();
+  updateDots();
   window.addEventListener('resize', () => setTimeout(updateHeight, 50));
 })();
 
@@ -304,8 +355,8 @@
       const wrapper = container.querySelector('.swiper-wrapper');
       const slides = Array.from(wrapper.querySelectorAll('.swiper-slide'));
       const dotsEl = document.getElementById('exp-dots');
-      const prevBtn = document.querySelector('.experience-carousel .prev');
-      const nextBtn = document.querySelector('.experience-carousel .next');
+      const prevBtn = document.querySelector('#experience-carousel .prev');
+      const nextBtn = document.querySelector('#experience-carousel .next');
       let cur = 0; let anim = false;
 
       function buildDots(){
@@ -400,6 +451,96 @@
   if (window.Swiper) boot(); else window.addEventListener('load', boot);
 })();
 
+// Certifications slider (fallback stacked slider)
+(function(){
+  const container = document.getElementById('cert-cards');
+  if (!container) return;
+  const USE_SWIPER = false;
+  if (USE_SWIPER && window.Swiper) {
+    // If you enable Swiper, wire with IDs below
+  }
+  // Fallback: stacked slider
+  container.classList.add('no-swiper');
+  const wrapper = container.querySelector('.swiper-wrapper');
+  const slides = Array.from(wrapper.querySelectorAll('.swiper-slide'));
+  const dotsEl = document.getElementById('cert-dots');
+  const prevBtn = document.querySelector('#certifications .prev');
+  const nextBtn = document.querySelector('#certifications .next');
+  let cur = 0; let anim = false;
+
+  function buildDots(){
+    if (!dotsEl) return;
+    dotsEl.innerHTML='';
+    slides.forEach((_, i) => {
+      const b = document.createElement('span');
+      b.className = 'swiper-pagination-bullet' + (i===0?' swiper-pagination-bullet-active':'');
+      b.setAttribute('role','button'); b.tabIndex = 0;
+      b.addEventListener('click', () => go(i));
+      dotsEl.appendChild(b);
+    });
+  }
+
+  function updateDots(){
+    if (!dotsEl) return;
+    const bullets = Array.from(dotsEl.querySelectorAll('.swiper-pagination-bullet'));
+    bullets.forEach((b, i) => b.classList.toggle('swiper-pagination-bullet-active', i===cur));
+  }
+
+  function updateHeight(){
+    const c = slides[cur]?.querySelector('.card') || slides[cur];
+    if (!c) return;
+    const maxH = Math.round(window.innerHeight * 0.72);
+    const h = Math.min((c.scrollHeight||c.offsetHeight||0), maxH);
+    wrapper.style.height = h + 'px';
+  }
+
+  function setState(){
+    slides.forEach((sl, i) => sl.classList.toggle('is-active', i===cur));
+    updateDots(); updateHeight();
+  }
+
+  function go(i){
+    if (anim) return;
+    const len = slides.length; if (!len) return;
+    const attempted = i; const next = ((i % len) + len) % len;
+    if (next === cur) return;
+    anim = true;
+    const out = slides[cur];
+    const dir = attempted > cur || (cur === len - 1 && next === 0) ? 'left' : 'right';
+    const target = slides[next];
+    target.classList.add(dir === 'left' ? 'slide-in-right' : 'slide-in-left');
+    out.classList.add(dir === 'left' ? 'slide-out-left' : 'slide-out-right');
+    cur = next; setState();
+    setTimeout(() => { out.classList.remove('slide-out-left','slide-out-right'); anim = false; }, 420);
+    const cleanup = slides[cur];
+    setTimeout(() => { cleanup.classList.remove('slide-in-left','slide-in-right'); }, 420);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => go(cur-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => go(cur+1));
+
+  // Input
+  let wheelLock = false;
+  container.addEventListener('wheel', (e)=>{
+    const absX = Math.abs(e.deltaX), absY = Math.abs(e.deltaY);
+    const horizontal = e.shiftKey ? absY > 0 : absX > absY;
+    const magnitude = e.shiftKey ? absY : absX;
+    if (!horizontal || magnitude < 2) return;
+    e.preventDefault();
+    if (wheelLock) return; wheelLock = true; setTimeout(()=>wheelLock=false, 320);
+    const dir = e.shiftKey ? e.deltaY : e.deltaX;
+    if (dir > 0) go(cur+1); else go(cur-1);
+  }, { passive: false });
+
+  let startX=0, startY=0, down=false, lockedH=false;
+  container.addEventListener('pointerdown', e=>{down=true; lockedH=false; startX=e.clientX; startY=e.clientY;});
+  container.addEventListener('pointermove', e=>{ if(!down)return; const dx=e.clientX-startX, dy=e.clientY-startY; if(!lockedH && Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>18) lockedH=true; if(lockedH) e.preventDefault();});
+  container.addEventListener('pointerup', e=>{ if(!down)return; down=false; const dx=e.clientX-startX, dy=e.clientY-startY; if(Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>40){ if (dx<0) go(cur+1); else go(cur-1);} });
+
+  buildDots(); setState(); updateHeight();
+  window.addEventListener('resize', () => setTimeout(updateHeight, 50));
+})();
+
 // Ensure all details are included for print (open then restore)
 (function(){
   const details = Array.from(document.querySelectorAll('details.more'));
@@ -411,6 +552,25 @@
 
   window.addEventListener('beforeprint', () => { remember(); openAll(); });
   window.addEventListener('afterprint', restore);
+})();
+
+// Show experience dots only when the carousel is in view (desktop)
+(function(){
+  const section = document.getElementById('experience-carousel');
+  if (!section) return;
+  const dots = document.getElementById('exp-dots');
+  if (!dots) return;
+
+  function strictlyInView(){
+    const r = section.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    // show only when the middle band of the viewport overlaps the section
+    return r.top < vh * 0.7 && r.bottom > vh * 0.3;
+  }
+  const update = () => section.classList.toggle('in-view', strictlyInView());
+  window.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
 })();
 
 // Mobile layout: place SKILLS after EXPERIENCE (content) on small screens, restore on wide

@@ -43,16 +43,31 @@
             </span>
           </button>
           <h1 class="name">Francisco Vaquero</h1>
+          <img src="cv-francisco.png" alt="Profile photo" class="avatar-square"/>
           <p class="role typewriter">Front‑End Developer &amp; IT Support</p>
         </section>
 
         <section id="contact" class="contact reveal" style="--d: .1s;" data-anim="fade-up">
           <h2 class="section-title">Contact</h2>
-          <ul>
-            <li><a href="mailto:franciscovaquero93@gmail.com">franciscovaquero93@gmail.com</a></li>
-            <li><a href="tel:+50361312121">+ 503 61312121</a></li>
-            <li><a href="https://www.linkedin.com/in/francisco-vaquerog/" target="_blank" rel="noopener">linkedin.com/in/francisco-vaquerog</a></li>
-            <li>Antiguo Cuscatlán, El Salvador</li>
+          <ul class="contact-list" aria-label="Contact details">
+              <li class="contact-item">
+                <span class="ci-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="2"/></svg>
+                </span>
+                <a href="mailto:franciscovaquero93@gmail.com">franciscovaquero93@gmail.com</a>
+              </li>
+              <li class="contact-item">
+                <span class="ci-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 10.2a12.8 12.8 0 0 0 7.2 7.2l2.4-2.4c.3-.3.8-.4 1.2-.3 1 .3 2.1.5 3.2.5.4 0 .8.3.8.8V20c0 .4-.4.8-.8.8C10.4 20.8 3.2 13.6 3.2 4.8c0-.4.3-.8.8-.8H6c.4 0 .8.3.8.8 0 1.1.2 2.2.5 3.2.1.4 0 .8-.3 1.2L6.6 10.2z" fill="currentColor"/></svg>
+                </span>
+                <a href="tel:+50361312121">+ 503 61312121</a>
+              </li>
+              <li class="contact-item">
+                <span class="ci-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-5.7-7-11a7 7 0 1 1 14 0c0 5.3-7 11-7 11z" stroke="currentColor" stroke-width="2"/></svg>
+                </span>
+                <span>Antiguo Cuscatlán, El Salvador</span>
+              </li>
           </ul>
         </section>
 
@@ -104,6 +119,7 @@
               </ul>
             </div>
           </div>
+          <div class="dots" id="skills-dots" aria-label="Skills pagination" role="tablist"></div>
         </section>
 
         <section id="languages" class="languages reveal" style="--d: .4s;" data-anim="fade-up">
@@ -113,6 +129,114 @@
       </aside>
 
       <article class="content reveal" style="--d: .15s;" data-anim="rise">
+        <!-- Featured training (shows first) -->
+        <section id="learning" class="featured-training reveal" style="--d: .02s;" data-anim="scale-in" aria-label="Featured training">
+          <h2 class="section-title">Featured Course</h2>
+          <a class="course-card" href="certifications/Machine Learning-Ai Engineer career path.pdf" target="_blank" rel="noopener" title="Open certification PDF">
+            <div class="course-head">
+              <span class="badge">Career Path</span>
+              <span class="pulse" aria-hidden="true"></span>
+            </div>
+            <h3 class="course-title">Machine Learning — AI Engineer</h3>
+            <p class="course-meta">Comprehensive track covering ML foundations, tooling, and deployment.</p>
+            <div class="course-cta">View Certificate (PDF)</div>
+          </a>
+        </section>
+
+        <!-- Certifications slider (same style as experience) -->
+        <section id="certifications" class="experience-carousel reveal" style="--d: .05s;" data-anim="fade-left" aria-label="Certifications slider">
+          <header class="carousel-head">
+            <h2 class="section-title">Certifications</h2>
+            <div class="carousel-controls">
+              <button class="arrow prev" type="button" aria-label="Previous certificate">◀</button>
+              <button class="arrow next" type="button" aria-label="Next certificate">▶</button>
+            </div>
+          </header>
+          <div class="cards swiper exp-swiper no-swiper" id="cert-cards" role="list" tabindex="0" aria-label="Certification cards">
+            <div class="swiper-wrapper">
+              <article class="card swiper-slide" data-index="0" role="listitem">
+                <h3 class="card-title"><span class="cert-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="6" cy="12" r="2" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="18" cy="7" r="2" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="18" cy="17" r="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M8 12h6M16 8l-2 3M14 13l2 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>AI / LLM</h3>
+                <ul class="bullets">
+                  <li><a href="certifications/Build Chatbots with Python Skill Path.pdf" target="_blank" rel="noopener">Build Chatbots with Python (Skill Path)</a></li>
+                  <li><a href="certifications/Learn How to Use ChatGPT Course.pdf" target="_blank" rel="noopener">Learn How to Use ChatGPT</a></li>
+                  <li><a href="certifications/Learn Prompt Engineering Course.pdf" target="_blank" rel="noopener">Learn Prompt Engineering</a></li>
+                  <li><a href="certifications/OpenAI API Coding with Python Course.pdf" target="_blank" rel="noopener">OpenAI API Coding with Python</a></li>
+                  <li><a href="certifications/Defending Against AI-Gen attacks course.pdf" target="_blank" rel="noopener">Defending Against AI‑Gen Attacks</a></li>
+                </ul>
+              </article>
+              <article class="card swiper-slide" data-index="1" role="listitem">
+                <h3 class="card-title"><span class="cert-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 7v10M17 7v10M10 5l-3 2M10 19l-3-2M14 5l3 2M14 19l3-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>Python Core</h3>
+                <ul class="bullets">
+                  <li><a href="certifications/Learn Python 3 Course.pdf" target="_blank" rel="noopener">Learn Python 3</a></li>
+                  <li><a href="certifications/Learn Recursion with Python Course.pdf" target="_blank" rel="noopener">Learn Recursion with Python</a></li>
+                </ul>
+              </article>
+              <article class="card swiper-slide" data-index="2" role="listitem">
+                <h3 class="card-title"><span class="cert-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 6L3 12l5 6M16 6l5 6-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>Web Frontend</h3>
+                <ul class="bullets">
+                  <li><a href="certifications/Learn HTML Course.pdf" target="_blank" rel="noopener">Learn HTML</a></li>
+                  <li><a href="certifications/Learn CSS: Box Model and Layout Course.pdf" target="_blank" rel="noopener">Learn CSS: Box Model & Layout</a></li>
+                </ul>
+              </article>
+              <article class="card swiper-slide" data-index="3" role="listitem">
+                <h3 class="card-title"><span class="cert-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="16" height="6" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <rect x="4" y="14" width="16" height="6" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="8" cy="7" r="1" fill="currentColor"/>
+                    <circle cx="8" cy="17" r="1" fill="currentColor"/>
+                  </svg>
+                </span>Backend / Platform</h3>
+                <ul class="bullets">
+                  <li><a href="certifications/Learn Node.js Course.pdf" target="_blank" rel="noopener">Learn Node.js</a></li>
+                  <li><a href="certifications/Learn PHP: Introduction Course.pdf" target="_blank" rel="noopener">Learn PHP: Introduction</a></li>
+                </ul>
+              </article>
+              <article class="card swiper-slide" data-index="4" role="listitem">
+                <h3 class="card-title"><span class="cert-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 17h9a4 4 0 0 0 0-8 6 6 0 0 0-11 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>Cloud &amp; Dev</h3>
+                <ul class="bullets">
+                  <li><a href="certifications/Intro to Cloud Computing Course.pdf" target="_blank" rel="noopener">Intro to Cloud Computing</a></li>
+                  <li><a href="certifications/Learn C++: References and Pointers Course.pdf" target="_blank" rel="noopener">Learn C++: References & Pointers</a></li>
+                </ul>
+              </article>
+              <article class="card swiper-slide" data-index="5" role="listitem">
+                <h3 class="card-title"><span class="cert-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="9" width="14" height="6" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M9 12h2M13 12h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="8" cy="15" r="1" fill="currentColor"/>
+                    <circle cx="16" cy="15" r="1" fill="currentColor"/>
+                  </svg>
+                </span>Game Dev &amp; PM</h3>
+                <ul class="bullets">
+                  <li><a href="certifications/Introduction to Game Development Course.pdf" target="_blank" rel="noopener">Introduction to Game Development</a></li>
+                  <li><a href="certifications/Introduction to Project Management Course.pdf" target="_blank" rel="noopener">Introduction to Project Management</a></li>
+                </ul>
+              </article>
+            </div>
+          </div>
+          <div class="dots swiper-pagination" id="cert-dots" role="tablist" aria-label="Certifications pagination"></div>
+        </section>
+
         <!-- Experience section anchor (for all screen sizes) -->
         <div id="experience" class="section-anchor" aria-hidden="true"></div>
         <!-- Experience carousel (shown on wide screens) -->
@@ -184,7 +308,7 @@
 
             <article class="card swiper-slide" data-index="4" role="listitem">
               <h3 class="card-title">Tech Support Representative</h3>
-              <p class="card-meta">Cash App · Jul 2019 – May 2020 (first)</p>
+              <p class="card-meta">Cash App · Jul 2019 – Nov 2019</p>
               <ul class="bullets">
                 <li>Provided technical &amp; customer support; collaborated cross‑functionally to unblock users.</li>
                 <li>Supported risk/fraud reviews in line with guidelines.</li>
@@ -193,7 +317,7 @@
 
             <article class="card swiper-slide" data-index="5" role="listitem">
               <h3 class="card-title">Bilingual Customer Service Representative</h3>
-              <p class="card-meta">The Office Gurus · Jul 2019 – May 2020 (second)</p>
+              <p class="card-meta">The Office Gurus · Nov 2019 – May 2020</p>
               <ul class="bullets">
                 <li>Handled customer follow‑ups and payment processing across chat/email/calls.</li>
                 <li>Completed accurate data entry, reactivations, and cancellations.</li>
@@ -289,7 +413,7 @@
               <div class="meta">
                 <span class="company">Cash App</span>
                 <span class="spacer">·</span>
-                <span class="period">Jul 2019 – May 2020 (first)</span>
+                <span class="period">Jul 2019 – Nov 2019</span>
               </div>
             </header>
             <ul class="bullets">
@@ -304,14 +428,14 @@
               <div class="meta">
                 <span class="company">The Office Gurus</span>
                 <span class="spacer">·</span>
-                <span class="period">Jul 2019 – May 2020 (second)</span>
+                <span class="period">Nov 2019 – May 2020</span>
               </div>
             </header>
             <ul class="bullets">
               <li>Handled customer follow‑ups and payment processing across chat/email/calls.</li>
               <li>Completed accurate data entry, reactivations, and cancellations.</li>
             </ul>
-            <p class="note">Within Jul 2019 – May 2020, these two roles were held sequentially. If you’d like exact month split shown, I can update once provided.</p>
+            
           </div>
         </section>
 
