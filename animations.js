@@ -38,14 +38,17 @@
       btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
       btn.addEventListener('click', () => {
         const nextDark = root.getAttribute('data-theme') !== 'dark';
-        // Always use our radial cascade "wave" (clearer visual)
-        // If the overlay is missing for any reason, just apply instantly.
+        // Use View Transition API to drive CSS wave clip-path (see styles_ideas.md section)
+        if (document.startViewTransition) {
+          document.startViewTransition(() => applyTheme(nextDark));
+          return;
+        }
+        // Fallback (older browsers): instant, or radial overlay if available
         if (!cascade) { applyTheme(nextDark); return; }
         const r = btn.getBoundingClientRect();
         const cx = r.left + r.width / 2; const cy = r.top + r.height / 2;
         cascade.style.setProperty('--cx', cx + 'px');
         cascade.style.setProperty('--cy', cy + 'px');
-        // Ensure visible even if reduced-motion styles would hide it
         cascade.style.display = 'block';
         cascade.classList.remove('to-dark','to-light','run');
         cascade.classList.add(nextDark ? 'to-dark' : 'to-light');

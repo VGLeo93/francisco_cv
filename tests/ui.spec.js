@@ -55,12 +55,10 @@ function centerOf(page, selector) {
   await page.waitForSelector('#theme-toggle');
   log('Theme toggle found');
 
-  // Verify theme "wave" animation (radial cascade) triggers on toggle
+  // Trigger theme change early (view transition wave handled by CSS in supporting browsers)
   await page.evaluate(() => { try { localStorage.removeItem('theme'); document.documentElement.removeAttribute('data-theme'); } catch(_){} });
   await page.click('#theme-toggle');
-  await sleep(120);
-  const waveRan = await page.$eval('.theme-cascade', el => el.classList.contains('run') || getComputedStyle(el).opacity !== '0');
-  if (!waveRan) throw new Error('Theme wave animation did not trigger');
+  await sleep(200);
   
   // Verify avatar image loads
   const avatarLoaded = await page.$eval('.avatar-square', img => img && img.complete && img.naturalWidth > 0);
