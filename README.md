@@ -4,70 +4,67 @@ This repository contains a single‑page, interactive resume implemented with va
 
 ## Quick Start
 
-- Open `index.html` in any modern browser (no build tooling required).
-- Toggle dark/light with the switch in the top‑right of the name card.
-- Desktop gestures:
-  - Experience slider: horizontal trackpad scroll or Shift+mouse‑wheel left/right to move between cards; Left/Right keys also work.
-  - SKILLS block: horizontal trackpad scroll or Shift+mouse‑wheel to swap between the text list and the animated bars; Left/Right keys also work when focused.
-- Mobile gestures:
-  - Experience slider: swipe left/right to move between roles.
-  - SKILLS block: swipe left/right to swap views.
+- Open `index.html` in any modern browser (no build step).
+- Toggle dark/light with the switch inside the name card.
+- Desktop (≥980px):
+  - Experience carousel: horizontal trackpad scroll, Shift+mouse‑wheel, ◀/▶ buttons, or Left/Right keys.
+  - SKILLS swapper: horizontal scroll/swipe or Left/Right keys.
+- Mobile (<980px):
+  - Experience shows as a vertical timeline (scroll to read long entries).
+  - SKILLS appears after Experience for better reading flow.
 
 ## Project Structure
 
 ```
 index.html      # Content and structure
-styles.css      # Visual design, layout, animations, dark theme tokens
-animations.js   # Behavior: reveal-on-scroll, theme cascade, sliders, gestures
+styles.css      # Visual design, layout, tokens, responsive rules
+animations.js   # Reveal-on-scroll, theme toggle, skills swapper, experience slider (vanilla)
 Francisco_Vaquero_CV_Tech.md  # Source content/notes used to populate the CV
 Francisco_Vaquero_CV_Cleaned_Typos.pptx  # Reference layout/assets (not used at runtime)
 ```
 
 ### Main Sections
 
-- Left sidebar (static + interactive)
-  - Identity header with theme toggle (dark/light)
-  - Contact, Summary
-  - SKILLS (stacked swapper)
-    - Slide 1: text list (Web / Automation & Platforms / IT Support & Operations / Data & Reporting / Core Strengths)
-    - Slide 2: animated skill bars (Recent Focus + Core Stack)
+- Sidebar (left on desktop; first on mobile)
+  - Identity (theme toggle), Contact, Summary
+  - SKILLS (swapper: list ↔ bars)
   - Languages
-- Right content
-  - Experience (stacked slider with one card visible at a time)
+- Content (right on desktop)
+  - Experience
+    - Desktop: stacked carousel (one card visible at a time)
+    - Mobile: vertical timeline (scrollable)
   - Education
 
 ## Features
 
 ### Layout & Print
-- Two‑column layout optimized for desktop; responsive collapse on small screens.
-- Print to A4 with preserved two columns and disabled animations.
+- Desktop: two‑column layout
+- Mobile: single column with reading order — Identity → Contact → Summary → Experience → Skills → Languages
+- Print (A4): preserved two columns; animations disabled; details expanded
 
 ### Theme & Color
-- Theme toggle (dark/light) with a subtle cascade overlay animation.
-- Design tokens:
-  - Light: `--accent` blue → violet, soft pane background.
-  - Dark: `--accent` violet → sky; sidebar uses dark ink on white for contrast.
+- Theme toggle (dark/light), respects reduced‑motion
+- Design tokens in `:root` and `[data-theme='dark']`
 
 ### Animations
-- Reveal‑on‑scroll for sections and titles.
-- Name card sheen once on load; section title underlines animate in.
-- Experience cards: hover lift; slide in/out between cards.
-- Skill bars: only the hovered/tapped/focused bar animates and saturates; others remain calm.
-- Theme switch: layered radial + linear gradient cascade with eased timing.
+- Reveal‑on‑scroll (fade/translate only; no blur to keep text crisp on mobile)
+- Name card sheen once; section title underline animates in
+- Experience cards: hover lift; slide transitions on desktop
+- Skill bars: only hovered/focused/tapped bar animates
 
 ### Interaction & Gestures
-- Horizontal intent detection for trackpads and wheels:
-  - If `|deltaX| > |deltaY|` (or Shift held → use `deltaY`), treat as horizontal navigation.
-- Experience slider (right column): stacked slides; one card visible; moves left/right via:
-  - Trackpad horizontal scroll or Shift+wheel, swipe on touch, or Left/Right keys.
-- SKILLS swapper (left column): stacked slides; stays in place; switches list ↔ bars via:
-  - Trackpad horizontal scroll or Shift+wheel, swipe on touch, or Left/Right keys.
-- Print mode: opens and expands details automatically; animations disabled.
+- Horizontal intent detection: only consume trackpad/wheel when clearly horizontal (or Shift+wheel)
+- Experience (desktop): trackpad/wheel/◀▶/dots/Left‑Right keys, with wrap‑around (no dead‑ends)
+- Experience (mobile): vertical timeline — normal scroll
+- SKILLS swapper: horizontal scroll/swipe or Left/Right keys
+- Print mode: details auto‑expand; animations disabled
 
 ### Accessibility
-- Bars use `role="meter"` with `aria-valuemin/max/now`.
-- Keyboard navigation for both sliders (Left/Right) and Escape/Enter where applicable.
-- High‑contrast text in dark mode, including sidebar.
+- `.sr-only` utility for screen‑reader text
+- Skill bars: `role="meter"` with `aria-valuemin/max/now`
+- Keyboard navigation (Left/Right) for carousel/swapper; focus styles
+- `#experience` anchor sentinel for reliable in‑page jumps across layouts
+- Honors `prefers-reduced-motion`
 
 ## Customization Guide
 
@@ -86,13 +83,44 @@ Francisco_Vaquero_CV_Cleaned_Typos.pptx  # Reference layout/assets (not used at 
 
 ## Known Considerations / TODOs
 
-- `color-mix()` is used for subtle tints; older browsers fall back to basic colors.
-- If adding a third SKILLS view (e.g., Frameworks), extend the swapper to 3 slides and update the Left/Right handlers accordingly.
-- Add visible affordance (chevron/dots) on SKILLS to hint it’s swipeable (optional).
-- Experience and SKILLS sliders currently share similar logic; extract a small slider utility if you plan to add more stacked views.
-- PPT assets are not required at runtime; they’re just for reference.
+- `color-mix()` has fallbacks; exact tinting can vary on older browsers
+- If adding a third SKILLS view, extend the swapper and handlers accordingly
+- Carousel defaults to the built‑in slider (no CDN); Swiper is optional
+- PPT assets are not required at runtime
 
-## Implementation Notes (for the next AI agent)
+## Experience: Desktop vs Mobile
+
+- Desktop (≥980px): `#experience-carousel` shows a single card at a time and wraps from last → first.
+- Mobile (<980px): `section.experience` is a vertical timeline so long entries are fully readable.
+- Anchors: `#experience` is a sentinel placed above the experience zone so in‑page links land correctly.
+
+## Enabling Swiper (optional)
+
+The project includes Swiper CSS/JS via CDN in `index.html`, but uses the built‑in slider by default for maximum reliability.
+
+- To enable Swiper: set `const USE_SWIPER = true;` in `animations.js` (Swiper block) and keep the CDN tags in `index.html`.
+- To self‑host Swiper: replace CDN tags with local assets and leave `USE_SWIPER = true`.
+
+## Deploy (GitHub Pages)
+
+This repo includes an automated workflow to publish the static site with GitHub Pages:
+
+- Push to `main` (or trigger the workflow manually in the Actions tab).
+- Workflow `.github/workflows/deploy.yml` builds a minimal `public/` folder and deploys using `actions/deploy-pages`.
+- The site will be available at the repository’s Pages URL (Settings → Pages). The workflow sets the `github-pages` environment automatically.
+
+Local preview: simply open `index.html` in a browser; no build step is required.
+
+## Testing
+
+Basic UI checks run with Puppeteer Core + system Chrome.
+
+- Requirements: Chrome/Chromium available on the system (e.g., `/usr/bin/google-chrome`), Node 18+
+- Install dev deps: `npm ci`
+- Run: `npm run test:ui`
+- Verifies: theme toggle loads; SKILLS swapper gesture; Experience carousel (desktop) advances and loops
+
+## Implementation Notes (for maintainers)
 
 - Sliders are “stacked” (absolute positioned slides inside a container whose height is set to the active slide’s `scrollHeight`).
   - Experience slider container: `#exp-cards` (right column).
@@ -100,7 +128,7 @@ Francisco_Vaquero_CV_Cleaned_Typos.pptx  # Reference layout/assets (not used at 
 - Horizontal intent logic is centralized per slider/swapper:
   - Desktop: intercept only when horizontal intent is clear, or Shift is held.
   - Touch: pointer/touchstart/…end with threshold (30–40px) decides left/right.
-- Theme cascade origin is derived from the theme‑toggle button’s bounding rect; animation then switches theme ~120ms after start to hide flicker.
+- Theme cascade origin is derived from the theme‑toggle button’s rect. Respects reduced‑motion.
 - Print hooks (`beforeprint/afterprint`) expand `<details>` and restore their state.
 
 ## File Map

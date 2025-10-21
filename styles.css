@@ -28,6 +28,20 @@
   --space-5: 28px;
 }
 
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 1px, 1px);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
 /* Dark theme variables */
 [data-theme='dark'] {
   --bg: #0b1220;
@@ -201,11 +215,15 @@ body {
   position: absolute; left: -14px; top: 18px;
   width: 10px; height: 10px; border-radius: 50%;
   background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  /* Fallback first for browsers without color-mix */
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
   box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 15%, transparent);
 }
 .experience .item::after {
   content: "";
   position: absolute; left: -10px; top: 34px; bottom: -20px; width: 2px;
+  /* Fallback first for browsers without color-mix */
+  background: rgba(37,99,235,0.22);
   background: color-mix(in oklab, var(--accent) 22%, transparent);
 }
 .experience .item:last-child::after { display: none; }
@@ -225,11 +243,11 @@ body {
 .skill { display: grid; grid-template-columns: 160px 1fr; align-items: center; gap: 12px; }
 .skill .label { color: var(--ink); font-weight: 600; font-size: 14px; transition: color .2s ease; }
 .meter { position: relative; height: 10px; background: var(--bar-bg); border-radius: 999px; overflow: hidden; }
-.meter .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 55%, transparent), color-mix(in oklab, var(--accent-2) 55%, transparent)); border-radius: 999px; box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent); transition: width .9s cubic-bezier(.22,.61,.36,1), background .2s ease, box-shadow .2s ease; }
+.meter .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 55%, transparent), color-mix(in oklab, var(--accent-2) 55%, transparent)); border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(37,99,235,0.18); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent); transition: width .9s cubic-bezier(.22,.61,.36,1), background .2s ease, box-shadow .2s ease; }
 /* Animate on highlight (hover/focus/tap) only */
 .skill:hover .meter .fill,
 .skill:focus-within .meter .fill,
-.skill.active .meter .fill { width: var(--p); background: linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent-2) 35%, transparent); }
+.skill.active .meter .fill { width: var(--p); background: linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow: inset 0 0 0 1px rgba(124,58,237,0.35); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent-2) 35%, transparent); }
 .skill:hover .label, .skill:focus-within .label, .skill.active .label { color: var(--accent); }
 .meter .fill::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,.25) 0, rgba(255,255,255,0) 40% 60%, rgba(255,255,255,.25) 100%); transform: translateX(-100%); opacity: 0; }
 .skill:hover .meter .fill::after,
@@ -246,9 +264,10 @@ body {
   .skills-highlight.reveal.is-visible .meter .fill { transition: none; }
 }
 
-/* Reveal-on-scroll animations (CSS transitions; JS adds .is-visible) */
-.reveal { opacity: 0; transform: translateY(12px); filter: saturate(0.92) blur(0.3px); }
-.reveal.is-visible { opacity: 1; transform: translateY(0); filter: none; transition: opacity .6s ease var(--d, 0s), transform .6s ease var(--d, 0s), filter .6s ease var(--d, 0s); }
+/* Reveal-on-scroll animations (CSS transitions; JS adds .is-visible)
+   Remove blur to keep type crisp on mobile */
+.reveal { opacity: 0; transform: translateY(12px); }
+.reveal.is-visible { opacity: 1; transform: translateY(0); transition: opacity .6s ease var(--d, 0s), transform .6s ease var(--d, 0s); }
 
 /* Section title underline animates when visible */
 .reveal.is-visible > .section-title::after,
@@ -273,11 +292,12 @@ body {
     grid-template-columns: 1fr;
     gap: var(--space-3);
   }
+  /* Keep identity/contact before content; SKILLS is moved after EXPERIENCE via JS */
   .content { order: 2; }
   .sidebar { order: 1; }
   .typewriter { /* avoid overflow on small screens */ width: auto; border-right: 0; animation: none; }
-  /* Make anchors land below fixed bottom nav comfortably */
-  #summary, #experience, #skills, #contact, #education, #languages { : 80px; }
+  /* Anchor offset on mobile (no fixed nav now) */
+  #summary, #experience, #skills, #contact, #education, #languages { scroll-margin-top: 12px; }
 }
 
 /* Mobile bottom nav */
@@ -344,8 +364,9 @@ body {
 .reveal[data-anim="flip-in"] { transform: perspective(600px) rotateX(6deg) translateY(8px); transform-origin: top; }
 .reveal[data-anim].is-visible { transform: none; }
 
-/* Experience carousel (wide screens) */
+/* Experience: mobile-first shows vertical list; carousel only on wide */
 .experience-carousel { display: none; margin-bottom: var(--space-4); }
+.experience { display: block; }
 .experience-carousel .carousel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-2); }
 .experience-carousel .carousel-controls .arrow { border: 1px solid var(--border); background: var(--bg); color: var(--ink); width: 36px; height: 32px; border-radius: 8px; cursor: pointer; box-shadow: var(--shadow); }
 .experience-carousel .cards { overflow: hidden; padding-inline: 12px; touch-action: pan-y; }
@@ -374,8 +395,8 @@ body {
 .experience-carousel .card { max-height: min(72vh, 920px); overflow: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 .experience-carousel .card::-webkit-scrollbar { width: 10px; }
 .experience-carousel .card::-webkit-scrollbar-track { background: transparent; }
-.experience-carousel .card::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--accent) 40%, #999); border-radius: 8px; }
-.experience-carousel .card::-webkit-scrollbar-thumb:hover { background: color-mix(in oklab, var(--accent-2) 55%, #777); }
+.experience-carousel .card::-webkit-scrollbar-thumb { background: #9aa6b2; background: color-mix(in oklab, var(--accent) 40%, #999); border-radius: 8px; }
+.experience-carousel .card::-webkit-scrollbar-thumb:hover { background: #7b8794; background: color-mix(in oklab, var(--accent-2) 55%, #777); }
 .experience-carousel .card.is-active { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); }
 .experience-carousel .cards { transition: height .35s ease; }
 .experience-carousel .card-title { margin: 0 0 4px 0; font-size: 18px; line-height: 1.25; }
@@ -383,6 +404,18 @@ body {
 .experience-carousel .card-meta { margin: 0 0 6px 0; color: var(--muted); font-size: clamp(12px, 1.1vw, 14px); }
 .experience-carousel .bullets { margin: var(--space-2) 0 0 0; padding-left: 18px; font-size: clamp(13px, 1.2vw, 16px); line-height: 1.55; }
 .experience-carousel .bullets li { margin: var(--space-1) 0; }
+
+/* Mobile typography stability: avoid transforms on slides to keep antialiasing crisp */
+@media (max-width: 600px) {
+  .experience-carousel .exp-swiper.no-swiper .swiper-slide { transform: none !important; transition: opacity .35s ease; }
+  .experience-carousel .exp-swiper.no-swiper .swiper-slide.is-active { opacity: 1; pointer-events: auto; z-index: 2; }
+  .experience-carousel .exp-swiper.no-swiper .swiper-slide.slide-out-left,
+  .experience-carousel .exp-swiper.no-swiper .swiper-slide.slide-out-right,
+  .experience-carousel .exp-swiper.no-swiper .swiper-slide.slide-in-left,
+  .experience-carousel .exp-swiper.no-swiper .swiper-slide.slide-in-right { transform: none !important; }
+  /* Slightly larger body size within cards for readability */
+  .experience-carousel .card { font-size: 16px; line-height: 1.6; }
+}
 
 /* Dots pagination */
 .experience-carousel .dots { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 0 2px; }
@@ -410,7 +443,6 @@ body {
 .more[open] > summary::after { transform: rotate(-180deg); }
 .more .stack { margin-top: var(--space-2); }
 
-/* Show carousel on wide screens; keep vertical list for mobile/print */
 @media (min-width: 980px) {
   .experience-carousel { display: block; }
   .experience { display: none; }
@@ -427,7 +459,7 @@ body {
 .toggle-track { width: 62px; height: 32px; border-radius: 999px; background: linear-gradient(180deg, var(--bg-pane), rgba(0,0,0,0.02)); border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: space-between; padding: 2px 6px; gap: 6px; box-shadow: var(--shadow); position: relative; }
 .toggle-thumb { width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle at 60% 40%, #fff 40%, rgba(255,255,255,0.9) 41%) no-repeat; border: 1px solid var(--border); transform: translateX(0); transition: transform .25s ease, background .25s ease; box-shadow: 0 2px 6px rgba(0,0,0,.12); position: absolute; left: 2px; }
 [data-theme='dark'] .toggle-thumb { transform: translateX(30px); background: radial-gradient(circle at 35% 35%, #f5f7ff 25%, #cde9ff 26% 40%, #8dd3ff 41%); }
-.theme-toggle:focus-visible .toggle-track { outline: none; box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent), #000 10%); }
+.theme-toggle:focus-visible .toggle-track { outline: none; box-shadow: 0 0 0 2px var(--accent); box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent), #000 10%); }
 .toggle-track .icon { color: var(--muted); opacity: .75; transition: color .25s ease, opacity .25s ease; }
 [data-theme='dark'] .toggle-track .moon { color: var(--accent); opacity: 1; }
 [data-theme='dark'] .toggle-track .sun { opacity: .6; }
@@ -465,17 +497,15 @@ body {
 @keyframes cascadeReveal { to { clip-path: circle(150vmax at var(--cx) var(--cy)); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .theme-cascade { display: none; } }
 /* Desktop top nav */
-.top-nav { position: sticky; top: 0; z-index: 60; display: none; align-items: center; gap: 10px; padding: 8px 12px; background: color-mix(in oklab, var(--bg), #000 6%); border-bottom: 1px solid var(--border); backdrop-filter: blur(6px); }
+.top-nav { position: sticky; top: 0; z-index: 60; display: none; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-pane); background: color-mix(in oklab, var(--bg), #000 6%); border-bottom: 1px solid var(--border); backdrop-filter: blur(6px); }
 .top-nav a { position: relative; text-decoration: none; color: var(--ink); padding: 8px 10px; border-radius: 8px; font-size: 14px; transition: background .25s ease, color .2s ease; }
 .top-nav a::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 4px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform: scaleX(0); transform-origin: left; transition: transform .25s ease, opacity .25s ease; opacity: .6; }
-.top-nav a:hover, .top-nav a:focus-visible { background: color-mix(in oklab, var(--bg), #000 8%); }
+.top-nav a:hover, .top-nav a:focus-visible { background: rgba(0,0,0,0.06); background: color-mix(in oklab, var(--bg), #000 8%); }
 .top-nav a:hover::after, .top-nav a:focus-visible::after { transform: scaleX(1); opacity: 1; }
 .top-nav a.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; }
 @media (min-width: 861px) { .top-nav { display: flex; } }
 
 /* Anchor landing offsets for top nav */
-@media (min-width: 861px) {
-  #summary, #experience, #skills, #education, #contact, #languages { scroll-margin-top: 24px
 @media (min-width: 861px) {
   #summary,
   #experience,
@@ -487,3 +517,29 @@ body {
   }
 }
 
+/* Back-to-top button */
+.to-top {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease, box-shadow .25s ease;
+  z-index: 1000;
+}
+.to-top:hover, .to-top:focus-visible { box-shadow: 0 8px 20px rgba(0,0,0,0.20); outline: none; }
+.to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+/* Generic anchor sentinel for sections */
+.section-anchor { display: block; height: 0; }

@@ -99,14 +99,16 @@
 (function(){
   const toTop = document.getElementById('to-top');
   if (!toTop) return;
-  const showAt = 400;
+  const showAt = 240;
   function toggle(){
     const y = window.scrollY || document.documentElement.scrollTop;
     if (y > showAt) toTop.classList.add('show'); else toTop.classList.remove('show');
   }
   window.addEventListener('scroll', () => requestAnimationFrame(toggle), { passive: true });
   toggle();
-  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  const goTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  toTop.addEventListener('click', goTop);
+  toTop.addEventListener('touchstart', goTop, { passive: true });
 })();
 
 // Skill bars interaction: animate only hovered/tapped item; support keyboard focus
@@ -265,13 +267,16 @@
   function boot(){
   const container = document.getElementById('exp-cards');
   if (!container) return;
-    if (window.Swiper) {
+    const USE_SWIPER = false; // force reliable fallback across all sizes
+    if (USE_SWIPER && window.Swiper) {
       const swiper = new Swiper('#exp-cards', {
         slidesPerView: 1,
         centeredSlides: true,
         spaceBetween: 24,
         autoHeight: true,
         speed: 500,
+        loop: true,
+        loopAdditionalSlides: 1,
         resistanceRatio: 0.85,
         keyboard: { enabled: true },
         mousewheel: { forceToAxis: true, releaseOnEdges: true, sensitivity: 0.8 },
@@ -287,8 +292,11 @@
       container.classList.remove('no-swiper');
 
       function updateActive(s){
-        const i = s.activeIndex;
-        container.querySelectorAll('.card').forEach((el, idx) => el.classList.toggle('is-active', idx === i));
+        const real = s.realIndex;
+        container.querySelectorAll('.swiper-slide[data-index]').forEach(sl => {
+          const idx = Number(sl.getAttribute('data-index'));
+          sl.classList.toggle('is-active', idx === real);
+        });
       }
     } else {
       // Fallback: stacked slider (one visible, no horizontal scrolling)
@@ -332,18 +340,22 @@
       }
 
       function go(i){
-        if (anim || i===cur || i<0 || i>=slides.length) return;
+        if (anim) return;
+        const len = slides.length;
+        if (!len) return;
+        const attempted = i;
+        const next = ((i % len) + len) % len;
+        if (next === cur) return;
         anim = true;
         const out = slides[cur];
-        const dir = i>cur ? 'left' : 'right';
-        // Prepare incoming slide for nicer entrance
-        const incoming = slides[i];
-        incoming.classList.add(dir==='left'?'slide-in-right':'slide-in-left');
-        // Animate outgoing
-        out.classList.add(dir==='left'?'slide-out-left':'slide-out-right');
-        cur = i; setState();
+        const dir = attempted > cur || (cur === len - 1 && next === 0) ? 'left' : 'right';
+        const target = slides[next];
+        target.classList.add(dir === 'left' ? 'slide-in-right' : 'slide-in-left');
+        out.classList.add(dir === 'left' ? 'slide-out-left' : 'slide-out-right');
+        cur = next; setState();
         setTimeout(() => { out.classList.remove('slide-out-left','slide-out-right'); anim = false; }, 420);
-        setTimeout(() => { incoming.classList.remove('slide-in-left','slide-in-right'); }, 420);
+        const cleanup = slides[cur];
+        setTimeout(() => { cleanup.classList.remove('slide-in-left','slide-in-right'); }, 420);
       }
 
       if (prevBtn) prevBtn.addEventListener('click', () => go(cur-1));
@@ -399,4 +411,28 @@
 
   window.addEventListener('beforeprint', () => { remember(); openAll(); });
   window.addEventListener('afterprint', restore);
+})();
+
+// Mobile layout: place SKILLS after EXPERIENCE (content) on small screens, restore on wide
+(function(){
+  const skills = document.getElementById('skills');
+  const content = document.querySelector('main.resume .content');
+  if (!skills || !content) return;
+  const originalParent = skills.parentNode;
+  const nextSibling = skills.nextElementSibling;
+  const mql = window.matchMedia('(max-width: 860px)');
+  function apply(){
+    try {
+      if (mql.matches) {
+        if (skills.parentNode !== content) content.appendChild(skills);
+      } else {
+        if (skills.parentNode !== originalParent) {
+          if (nextSibling && nextSibling.parentNode === originalParent) originalParent.insertBefore(skills, nextSibling);
+          else originalParent.appendChild(skills);
+        }
+      }
+    } catch(_) {}
+  }
+  (mql.addEventListener ? mql.addEventListener('change', apply) : mql.addListener(apply));
+  if (document.readyState === 'complete') apply(); else window.addEventListener('load', apply);
 })();

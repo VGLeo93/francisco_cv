@@ -72,15 +72,44 @@ function centerOf(page, selector) {
   if (!barsVisible) throw new Error('Skills bars slide did not appear after horizontal gesture');
   log('Skills bars visible after gesture');
 
-  // Experience slider: move to next card
+  // Switch to desktop viewport for the carousel layout
+  await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
+  await sleep(400);
+
   await page.evaluate(() => document.getElementById('experience').scrollIntoView({ behavior: 'instant', block: 'start' }));
   await sleep(400);
-  const expBefore = await page.$$eval('#exp-cards .card.is-active .card-title', els => els.map(e => e.textContent.trim()));
-  await wheelOn(page, '#exp-cards', 400, false);
-  await sleep(500);
-  const expAfter = await page.$$eval('#exp-cards .card.is-active .card-title', els => els.map(e => e.textContent.trim()));
-  if (JSON.stringify(expBefore) === JSON.stringify(expAfter)) throw new Error('Experience did not advance on horizontal gesture');
-  log('Experience advances after gesture');
+
+  // Reset to first slide via pagination (works for both Swiper and fallback)
+  await page.evaluate(() => {
+    const firstDot = document.querySelector('#exp-dots .swiper-pagination-bullet');
+    if (firstDot) firstDot.dispatchEvent(new Event('click', { bubbles: true }));
+  });
+  await sleep(520);
+
+  const firstTitle = await page.$eval('#exp-cards .swiper-slide.is-active .card-title, #exp-cards .card.is-active .card-title', el => el.textContent.trim());
+
+  // Experience slider: move to next card via arrow (also exercised by wheel handlers separately)
+  await page.click('.experience-carousel .next');
+  await sleep(520);
+  const expAfter = await page.$eval('#exp-cards .swiper-slide.is-active .card-title, #exp-cards .card.is-active .card-title', el => el.textContent.trim());
+  if (expAfter === firstTitle) throw new Error('Experience did not advance when pressing Next');
+  log('Experience advances via navigation');
+
+  // Cycle through all roles to ensure wrap-around works (fallback + Swiper loop)
+  await page.evaluate(() => {
+    const firstDot = document.querySelector('#exp-dots .swiper-pagination-bullet');
+    if (firstDot) firstDot.dispatchEvent(new Event('click', { bubbles: true }));
+  });
+  await sleep(520);
+
+  const totalSlides = await page.$$eval('#exp-cards .swiper-slide[data-index]', els => new Set(els.map(el => el.getAttribute('data-index'))).size);
+  for (let i = 0; i < totalSlides; i++) {
+    await page.click('.experience-carousel .next');
+    await sleep(520);
+  }
+  const expLoop = await page.$eval('#exp-cards .swiper-slide.is-active .card-title, #exp-cards .card.is-active .card-title', el => el.textContent.trim());
+  if (expLoop !== firstTitle) throw new Error('Experience slider did not loop back to the first card');
+  log('Experience loops back to first card after full cycle');
 
   // Back to Summary for completeness
   await page.evaluate(() => document.getElementById('summary').scrollIntoView({ behavior: 'instant', block: 'start' }));
