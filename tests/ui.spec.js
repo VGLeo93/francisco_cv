@@ -83,12 +83,22 @@ function centerOf(page, selector) {
   if (!featuredVisible) throw new Error('Featured Course not visible on mobile viewport');
   log('Featured Course visible on mobile');
 
+  // Verify that the featured certificate PDF exists on disk (prevents broken links in deploy)
+  const featuredHref = await page.$eval('#learning .course-card', el => el.getAttribute('href'));
+  const fPath = path.resolve(__dirname, '..', decodeURI(featuredHref));
+  if (!fs.existsSync(fPath)) throw new Error('Featured certificate missing locally: ' + fPath);
+
   // Ensure Certifications section is visible on mobile
   await page.evaluate(() => document.getElementById('certifications').scrollIntoView({ behavior: 'instant', block: 'start' }));
   await sleep(300);
   const certVisible = await page.$eval('#certifications', el => getComputedStyle(el).display !== 'none');
   if (!certVisible) throw new Error('Certifications section hidden on mobile');
   log('Certifications visible on mobile');
+
+  // Validate all certification links resolve to local files (mirrors Pages artifact)
+  const certHrefs = await page.$$eval('#certifications .bullets a', as => as.map(a => a.getAttribute('href')));
+  const missing = certHrefs.map(h => path.resolve(__dirname, '..', decodeURI(h))).filter(p => !fs.existsSync(p));
+  if (missing.length) throw new Error('Missing certification PDFs: ' + missing.join(', '));
 
   // Switch to desktop viewport for the carousel layout
   await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
