@@ -48,8 +48,15 @@ jobs:
           test -f dist/index.html
           test -f "dist/cv-francisco.png"
           test -d dist/certifications
-          # Ensure at least a few PDFs exist
-          ls -1 dist/certifications/*.pdf | head -n 3
+          # Ensure every local PDF is included in the artifact
+          set +e
+          repo_count=$(ls -1 certifications/*.pdf 2>/dev/null | wc -l | tr -d ' ')
+          dist_count=$(ls -1 dist/certifications/*.pdf 2>/dev/null | wc -l | tr -d ' ')
+          echo "Local PDFs:  $repo_count"
+          echo "Artifact PDFs: $dist_count"
+          if [ "$repo_count" = "0" ]; then echo "No local PDFs found (expected some)"; exit 1; fi
+          if [ "$repo_count" != "$dist_count" ]; then echo "Mismatch in PDF counts"; exit 1; fi
+          set -e
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -82,5 +89,5 @@ jobs:
           set -e
           echo "Checking $URL"
           curl -fsSI "$URL" > /dev/null
-          curl -fsSI "$URL/cv-francisco.png" > /dev/null
+          curl -fsSI "$URL/cv-francisco.png?v=wave3" > /dev/null
           curl -fsSI "$URL/certifications/machine-learning-ai-engineer-career-path.pdf" > /dev/null
