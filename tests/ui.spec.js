@@ -55,6 +55,13 @@ function centerOf(page, selector) {
   await page.waitForSelector('#theme-toggle');
   log('Theme toggle found');
 
+  // Verify theme "wave" animation (radial cascade) triggers on toggle
+  await page.evaluate(() => { try { localStorage.removeItem('theme'); document.documentElement.removeAttribute('data-theme'); } catch(_){} });
+  await page.click('#theme-toggle');
+  await sleep(120);
+  const waveRan = await page.$eval('.theme-cascade', el => el.classList.contains('run') || getComputedStyle(el).opacity !== '0');
+  if (!waveRan) throw new Error('Theme wave animation did not trigger');
+
   // Scroll to SKILLS section programmatically for testing
   await page.evaluate(() => document.getElementById('skills').scrollIntoView({ behavior: 'instant', block: 'start' }));
   await sleep(400);

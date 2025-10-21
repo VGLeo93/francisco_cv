@@ -38,12 +38,8 @@
       btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
       btn.addEventListener('click', () => {
         const nextDark = root.getAttribute('data-theme') !== 'dark';
-        // Prefer View Transition API wave if available
-        if (document.startViewTransition) {
-          document.startViewTransition(() => applyTheme(nextDark));
-          return;
-        }
-        // Fallback: radial cascade overlay (reduced motion: instant)
+        // Always use our radial cascade "wave" (clearer visual),
+        // and fall back to instant switch for reduced motion.
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !cascade) {
           applyTheme(nextDark);
           return;
