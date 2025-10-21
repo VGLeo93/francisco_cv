@@ -100,6 +100,28 @@ function centerOf(page, selector) {
   const featuredVisibleDesktop = await page.$eval('#learning .course-card', el => getComputedStyle(el).display !== 'none');
   if (!featuredVisibleDesktop) throw new Error('Featured Course hidden on desktop');
 
+  // Validate no mobile cutoff across common small heights
+  const mobileViewports = [
+    { width: 320, height: 568 }, // iPhone SE (legacy)
+    { width: 360, height: 640 },
+    { width: 375, height: 667 },
+    { width: 390, height: 844 }
+  ];
+  for (const vp of mobileViewports) {
+    await page.setViewport({ ...vp, isMobile: true, deviceScaleFactor: 2 });
+    await sleep(200);
+    await page.evaluate(() => window.scrollTo(0, 1e9));
+    await sleep(200);
+    const remains = await page.evaluate(() => {
+      const se = document.scrollingElement || document.documentElement;
+      return se.scrollHeight - (se.scrollTop + se.clientHeight);
+    });
+    if (remains > 2) throw new Error(`Page not scrollable to bottom on ${vp.width}x${vp.height} (remaining ${remains}px)`);
+  }
+  // Restore desktop viewport for experience carousel checks
+  await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
+  await sleep(300);
+
   await page.evaluate(() => document.getElementById('experience').scrollIntoView({ behavior: 'instant', block: 'start' }));
   await sleep(400);
 

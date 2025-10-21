@@ -64,7 +64,7 @@
 [data-theme='dark'] .sidebar { background: var(--bg); color: var(--ink); }
 
 * { box-sizing: border-box; }
-html, body { min-height: 100%; overflow-x: hidden; }
+html, body { height: 100%; overflow-x: hidden; }
 body {
   margin: 0;
   color: var(--ink);
@@ -320,8 +320,6 @@ body {
   .resume {
     grid-template-columns: 1fr;
     gap: var(--space-3);
-    /* Extra breathing room so fixed buttons or OS UI never cover the last lines */
-    padding-bottom: calc(var(--space-4) + 80px + env(safe-area-inset-bottom, 0px));
   }
   /* Keep identity/contact before content; SKILLS is moved after EXPERIENCE via JS */
   .content { order: 2; }
