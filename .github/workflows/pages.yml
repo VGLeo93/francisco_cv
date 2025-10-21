@@ -27,14 +27,17 @@ jobs:
       - name: Prepare static site
         run: |
           set -e
-          mkdir -p dist
+          rm -rf dist && mkdir -p dist
           rsync -av --delete ./ dist/ \
+            --exclude='dist' \
             --exclude='.git*' \
             --exclude='.github' \
             --exclude='node_modules' \
             --exclude='tests' \
             --exclude='package.json' \
             --exclude='package-lock.json'
+          # Disable Jekyll so all static assets (PDFs, images) are served
+          touch dist/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -51,4 +54,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
