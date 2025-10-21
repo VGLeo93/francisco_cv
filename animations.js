@@ -38,12 +38,9 @@
       btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
       btn.addEventListener('click', () => {
         const nextDark = root.getAttribute('data-theme') !== 'dark';
-        // Always use our radial cascade "wave" (clearer visual),
-        // and fall back to instant switch for reduced motion.
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !cascade) {
-          applyTheme(nextDark);
-          return;
-        }
+        // Always use our radial cascade "wave" (clearer visual)
+        // If the overlay is missing for any reason, just apply instantly.
+        if (!cascade) { applyTheme(nextDark); return; }
         const r = btn.getBoundingClientRect();
         const cx = r.left + r.width / 2; const cy = r.top + r.height / 2;
         cascade.style.setProperty('--cx', cx + 'px');
