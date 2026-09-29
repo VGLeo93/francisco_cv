@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy CV to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -20,74 +20,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Pages
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install test tools
+        run: npm ci
+      - name: Export printable CV
+        run: npm run build:pdf
+      - name: Check CV
+        run: npm run test:ui
+      - name: Prepare site including all downloads
+        run: npm run build
+      - name: Configure Pages
         uses: actions/configure-pages@v5
-
-      - name: Prepare static site
-        run: |
-          set -e
-          rm -rf dist && mkdir -p dist
-          rsync -av --delete ./ dist/ \
-            --exclude='dist' \
-            --exclude='.git*' \
-            --exclude='.github' \
-            --exclude='node_modules' \
-            --exclude='tests' \
-            --exclude='package.json' \
-            --exclude='package-lock.json'
-          # Disable Jekyll so all static assets (PDFs, images) are served
-          touch dist/.nojekyll
-          echo "\n== Artifact contents =="
-          (cd dist && find . -maxdepth 3 -type f | sort)
-          echo "\n== Sizes ==" && du -h --max-depth=1 dist || true
-
-      - name: Sanity-check required assets
-        run: |
-          set -e
-          test -f dist/index.html
-          test -f "dist/cv-francisco.png"
-          test -d dist/certifications
-          # Ensure every local PDF is included in the artifact
-          set +e
-          repo_count=$(ls -1 certifications/*.pdf 2>/dev/null | wc -l | tr -d ' ')
-          dist_count=$(ls -1 dist/certifications/*.pdf 2>/dev/null | wc -l | tr -d ' ')
-          echo "Local PDFs:  $repo_count"
-          echo "Artifact PDFs: $dist_count"
-          if [ "$repo_count" = "0" ]; then echo "No local PDFs found (expected some)"; exit 1; fi
-          if [ "$repo_count" != "$dist_count" ]; then echo "Mismatch in PDF counts"; exit 1; fi
-          set -e
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: public
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    outputs:
-      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
-
-  verify:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - name: Wait for Pages propagation
-        run: sleep 20
-      - name: Verify key assets are live
-        env:
-          URL: ${{ needs.deploy.outputs.page_url }}
-        run: |
-          set -e
-          echo "Checking $URL"
-          curl -fsSI "$URL" > /dev/null
-          curl -fsSI "$URL/cv-francisco.png?v=wave3" > /dev/null
-          curl -fsSI "$URL/certifications/machine-learning-ai-engineer-career-path.pdf" > /dev/null

@@ -5,6 +5,8 @@
     "puppeteer-core": "22.15.0"
   },
   "scripts": {
+    "build": "node scripts/build-site.js",
+    "build:pdf": "node scripts/export-pdf.js",
     "test:ui": "node tests/ui.spec.js",
     "shot:skills": "node tests/skills.screenshot.js"
   }

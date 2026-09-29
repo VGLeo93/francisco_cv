@@ -1,145 +1,62 @@
-# Francisco Vaquero — Interactive CV (HTML/CSS/JS)
+# Francisco Vaquero — CV
 
-This repository contains a single‑page, interactive resume implemented with vanilla HTML/CSS/JS. It is optimized for desktop and mobile, prints cleanly to A4/PDF, supports dark/light themes, and includes tasteful micro‑interactions.
+[View the CV website](https://vgleo93.github.io/francisco_cv/) · [Download the PDF](Francisco_Vaquero_CV.pdf) · [Read the Markdown CV](Francisco_Vaquero_CV_Tech.md)
 
-## Quick Start
+A personal CV for automation, integrations and IT operations roles. Built with semantic HTML, CSS and a small vanilla JavaScript theme controller. The website has an editorial two-column desktop layout, a mobile reading layout, light/dark themes and downloadable certificates. Experience is visible without carousels; skills are grouped by capability.
 
-- Open `index.html` in any modern browser (no build step).
-- Toggle dark/light with the switch inside the name card.
-- Desktop (≥980px):
-  - Experience carousel: horizontal trackpad scroll, Shift+mouse‑wheel, ◀/▶ buttons, or Left/Right keys.
-  - SKILLS swapper: horizontal scroll/swipe or Left/Right keys.
-- Mobile (<980px):
-  - Experience shows as a vertical timeline (scroll to read long entries).
-  - SKILLS appears after Experience for better reading flow.
+## Content
 
-## Project Structure
+The September 2026 revamp brings Fundflare / Graceful FundFlare to the front, tightens the experience bullets, integrates the current automation stack into the skills and summary, and moves training below experience. It adds a downloadable, selectable-text CV PDF.
 
+The existing website is the source for contact details and employment dates; the original Markdown draft used a different phone number and overlapping early-role dates. The revamp preserves the published website's details. No new employers, credentials, dates, proficiency scores or numerical achievements were added. The existing AI Engineer certificate records completion in October 2025. The original portrait and all 16 certificate PDFs are retained.
+
+Edit both `index.html` and `Francisco_Vaquero_CV_Tech.md` when changing professional facts. The PDF is generated from the website's print stylesheet, with certificate links rewritten to the public website so they also work outside this checkout.
+
+## Local use
+
+Open `index.html` directly, or serve the repository with `python3 -m http.server 4173 --bind 127.0.0.1`.
+
+With Node 22 and Chrome/Chromium installed (`.node-version` selects the supported version):
+
+```sh
+npm ci
+npm run build:pdf
+npm run test:ui
+npm run build
 ```
-index.html      # Content and structure
-styles.css      # Visual design, layout, tokens, responsive rules
-animations.js   # Reveal-on-scroll, theme toggle, skills swapper, experience slider (vanilla)
-Francisco_Vaquero_CV_Tech.md  # Source content/notes used to populate the CV
-Francisco_Vaquero_CV_Cleaned_Typos.pptx  # Reference layout/assets (not used at runtime)
+
+If Chrome is in a nonstandard location, set `CHROME` to its executable. Dependencies are only used for PDF export and tests; the website itself has no third-party runtime requests or build framework.
+
+- `Save as PDF` downloads `Francisco_Vaquero_CV.pdf`.
+- Browser printing uses the A4 stylesheet and expands all certificate links.
+- The theme follows the system until a reader saves a choice; storage-restricted browsing is supported.
+- All experience remains readable with JavaScript disabled.
+
+## Verification
+
+`npm run test:ui` checks page identity, six employment entries, all 16 certificate links, local assets/PDF, valid anchors, navigation, certificate disclosure, theme persistence and system preferences, unavailable storage, text contrast, print-state restoration, no-JavaScript reading, runtime errors and horizontal overflow at 320, 360, 390, 768, 1024 and 1469 pixels.
+
+To capture local QA images outside the repository:
+
+```sh
+CV_QA_DIR=/tmp/francisco-cv-qa npm run test:ui
+npm run shot:skills
 ```
 
-### Main Sections
+## Deployment
 
-- Sidebar (left on desktop; first on mobile)
-  - Identity (theme toggle), Contact, Summary
-  - SKILLS (swapper: list ↔ bars)
-  - Languages
-- Content (right on desktop)
-  - Experience
-    - Desktop: stacked carousel (one card visible at a time)
-    - Mobile: vertical timeline (scrollable)
-  - Education
+Only `.github/workflows/pages.yml` publishes to GitHub Pages on pushes to `main`. It exports the PDF, runs UI checks and stages an explicit asset list in `public/`: site code, original portrait, CV downloads and certificate PDFs. `.github/workflows/deploy.yml` now validates pull requests rather than competing with the Pages publisher.
 
-## Features
+The generated site excludes development tools and local evidence. Original PowerPoint/reference files remain in the repository. The website and PDF contain the same current experience; certificate disclosure opens automatically for printing.
 
-### Layout & Print
-- Desktop: two‑column layout
-- Mobile: single column with reading order — Identity → Contact → Summary → Experience → Skills → Languages
-- Print (A4): preserved two columns; animations disabled; details expanded
+## Files
 
-### Theme & Color
-- Theme toggle (dark/light), respects reduced‑motion
-- Design tokens in `:root` and `[data-theme='dark']`
+- `index.html`: professional content and accessible page structure.
+- `styles.css`: design tokens, responsive layouts and A4 print rules.
+- `animations.js`: theme preferences and print disclosure state.
+- `Francisco_Vaquero_CV_Tech.md`: editable, application-friendly text CV.
+- `Francisco_Vaquero_CV.pdf`: printable download.
+- `scripts/`: shared browser launcher, PDF export and site packaging.
+- `certifications/`: original certification documents.
 
-### Animations
-- Reveal‑on‑scroll (fade/translate only; no blur to keep text crisp on mobile)
-- Name card sheen once; section title underline animates in
-- Experience cards: hover lift; slide transitions on desktop
-- Skill bars: only hovered/focused/tapped bar animates
-
-### Interaction & Gestures
-- Horizontal intent detection: only consume trackpad/wheel when clearly horizontal (or Shift+wheel)
-- Experience (desktop): trackpad/wheel/◀▶/dots/Left‑Right keys, with wrap‑around (no dead‑ends)
-- Experience (mobile): vertical timeline — normal scroll
-- SKILLS swapper: horizontal scroll/swipe or Left/Right keys
-- Print mode: details auto‑expand; animations disabled
-
-### Accessibility
-- `.sr-only` utility for screen‑reader text
-- Skill bars: `role="meter"` with `aria-valuemin/max/now`
-- Keyboard navigation (Left/Right) for carousel/swapper; focus styles
-- `#experience` anchor sentinel for reliable in‑page jumps across layouts
-- Honors `prefers-reduced-motion`
-
-## Customization Guide
-
-- Content
-  - Edit text lists and the bars inside the SKILLS swapper in `index.html`.
-  - Edit experience cards (company, dates, bullets) in `index.html` using the reference content in `Francisco_Vaquero_CV_Tech.md`.
-- Skill bars
-  - Each bar has a `--p:` inline percentage (e.g., `--p:88%`).
-  - Add/remove bars by duplicating a `<li class="skill">` in the Recent/Core groups.
-- Colors & Theme
-  - Update `:root` and `[data-theme='dark']` tokens in `styles.css`.
-  - Cascade speed/feel: adjust `@keyframes cascadeReveal` and `.theme-cascade.run` timing.
-- Animations
-  - Slide timing: `.skills-swapper .skills-slide` and experience slide transitions.
-  - Reveal thresholds: tune the IntersectionObserver options in `animations.js`.
-
-## Known Considerations / TODOs
-
-- `color-mix()` has fallbacks; exact tinting can vary on older browsers
-- If adding a third SKILLS view, extend the swapper and handlers accordingly
-- Carousel defaults to the built‑in slider (no CDN); Swiper is optional
-- PPT assets are not required at runtime
-
-## Experience: Desktop vs Mobile
-
-- Desktop (≥980px): `#experience-carousel` shows a single card at a time and wraps from last → first.
-- Mobile (<980px): `section.experience` is a vertical timeline so long entries are fully readable.
-- Anchors: `#experience` is a sentinel placed above the experience zone so in‑page links land correctly.
-
-## Enabling Swiper (optional)
-
-The project includes Swiper CSS/JS via CDN in `index.html`, but uses the built‑in slider by default for maximum reliability.
-
-- To enable Swiper: set `const USE_SWIPER = true;` in `animations.js` (Swiper block) and keep the CDN tags in `index.html`.
-- To self‑host Swiper: replace CDN tags with local assets and leave `USE_SWIPER = true`.
-
-## Deploy (GitHub Pages)
-
-This repo includes an automated workflow to publish the static site with GitHub Pages:
-
-- Push to `main` (or trigger the workflow manually in the Actions tab).
-- Workflow `.github/workflows/deploy.yml` builds a minimal `public/` folder and deploys using `actions/deploy-pages`.
-- The site will be available at the repository’s Pages URL (Settings → Pages). The workflow sets the `github-pages` environment automatically.
-
-Local preview: simply open `index.html` in a browser; no build step is required.
-
-## Testing
-
-Basic UI checks run with Puppeteer Core + system Chrome.
-
-- Requirements: Chrome/Chromium available on the system (e.g., `/usr/bin/google-chrome`), Node 18+
-- Install dev deps: `npm ci`
-- Run: `npm run test:ui`
-- Verifies: theme toggle loads; SKILLS swapper gesture; Experience carousel (desktop) advances and loops
-
-## Implementation Notes (for maintainers)
-
-- Sliders are “stacked” (absolute positioned slides inside a container whose height is set to the active slide’s `scrollHeight`).
-  - Experience slider container: `#exp-cards` (right column).
-  - SKILLS swapper: `#skills-swapper` (left column).
-- Horizontal intent logic is centralized per slider/swapper:
-  - Desktop: intercept only when horizontal intent is clear, or Shift is held.
-  - Touch: pointer/touchstart/…end with threshold (30–40px) decides left/right.
-- Theme cascade origin is derived from the theme‑toggle button’s rect. Respects reduced‑motion.
-- Print hooks (`beforeprint/afterprint`) expand `<details>` and restore their state.
-
-## File Map
-
-- `index.html`
-  - Sidebar: identity, contact, summary, skills (stacked), languages
-  - Content: experience (stacked), education
-- `styles.css`
-  - Tokens, layout, reveal animations, card/transitions, skill bars, dark theme, print
-- `animations.js`
-  - Reveal observer, theme toggle + cascade, experience slider, skills swapper, per‑bar activation logic
-
-## License / Notes
-This CV is personal content intended for job applications. Do not publish or remix without consent.
+This CV is personal content intended for job applications. Reuse requires the owner's consent.
