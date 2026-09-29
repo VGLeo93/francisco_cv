@@ -10,6 +10,8 @@ The September 2026 revamp brings Fundflare / Graceful FundFlare to the front, ti
 
 The existing website is the source for contact details and employment dates; the original Markdown draft used a different phone number and overlapping early-role dates. The revamp preserves the published website's details. No new employers, credentials, dates, proficiency scores or numerical achievements were added. The existing AI Engineer certificate records completion in October 2025. The original portrait and all 16 certificate PDFs are retained.
 
+The owner subsequently confirmed the FundFlare employment dates as December 14, 2023–April 26, 2025. The website, Markdown CV and downloadable PDF use this corrected range.
+
 Edit both `index.html` and `Francisco_Vaquero_CV_Tech.md` when changing professional facts. The PDF is generated from the website's print stylesheet, with certificate links rewritten to the public website so they also work outside this checkout.
 
 ## Local use

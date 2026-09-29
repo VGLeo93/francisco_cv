@@ -64,7 +64,9 @@ async function main() {
     await page.waitForSelector('#experience .job');
     assert.equal(await page.$eval('h1', element => element.textContent.replace(/\s+/g, ' ').trim()), 'Francisco Vaquero');
     assert.equal(await page.$$eval('#experience article', elements => elements.length), 6);
-    assert.match(await page.$eval('#experience .job', element => element.textContent), /Fundflare.*Dec 2023/s);
+    assert.match(await page.$eval('#experience .job', element => element.textContent), /Fundflare.*Dec 14, 2023.*Apr 26, 2025/s);
+    assert.deepEqual(await page.$$eval('#experience .job:first-of-type time', elements =>
+      elements.map(element => element.getAttribute('datetime'))), ['2023-12-14', '2025-04-26']);
     assert.equal(await page.$$eval('[role="meter"]', elements => elements.length), 0);
     assert.ok(await page.$eval('.portrait', image => image.complete && image.naturalWidth > 0));
     assert.ok(await page.$$eval('[id]', elements => new Set(elements.map(element => element.id)).size === elements.length));

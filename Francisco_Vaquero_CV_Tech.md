@@ -24,14 +24,14 @@ Automation and integrations specialist who connects business tools with Zapier, 
 
 ### Fundflare / Graceful FundFlare — Automation & Integrations Specialist
 
-**Dec 2023 – Present**
+**Dec 14, 2023 – Apr 26, 2025**
 
-- Build and maintain Zapier and n8n workflows connecting Google Workspace, Monday.com, Notion, PandaDoc and custom REST APIs.
-- Develop Google Apps Script and Google Sheets tools for reporting, QA checks and lightweight internal applications.
-- Integrate Slack API commands, events and webhooks; automate document generation, approvals and e-signatures with PandaDoc.
-- Use Python and SQLite for ETL, data cleaning and reporting; document workflows and SOPs in Notion.
-- Administer Google Workspace, run internal utilities on Linux with Docker, and provide remote support through RustDesk, TeamViewer and Tailscale.
-- Prototype text extraction and summarization with local LLMs using Ollama and Hugging Face.
+- Built and maintained Zapier and n8n workflows connecting Google Workspace, Monday.com, Notion, PandaDoc and custom REST APIs.
+- Developed Google Apps Script and Google Sheets tools for reporting, QA checks and lightweight internal applications.
+- Integrated Slack API commands, events and webhooks; automated document generation, approvals and e-signatures with PandaDoc.
+- Used Python and SQLite for ETL, data cleaning and reporting; documented workflows and SOPs in Notion.
+- Administered Google Workspace, ran internal utilities on Linux with Docker, and provided remote support through RustDesk, TeamViewer and Tailscale.
+- Prototyped text extraction and summarization with local LLMs using Ollama and Hugging Face.
 
 ### VA LWIS Digital — Project Web Developer / Automations
 
