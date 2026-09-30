@@ -11,6 +11,14 @@
   const workflowStatus = document.getElementById('workflow-status');
   const workflowInput = document.getElementById('workflow-input');
   const workflowOutput = document.getElementById('workflow-output');
+  const workflowForm = document.getElementById('workflow-form');
+  const workflowRequester = document.getElementById('workflow-requester');
+  const workflowExample = document.getElementById('workflow-example');
+  const workflowPriority = document.getElementById('workflow-priority');
+  const workflowCard = document.getElementById('workflow-card');
+  const workflowEmpty = document.getElementById('workflow-empty');
+  const formFields = [workflowExample, workflowRequester, workflowPriority, workflowInput].filter(Boolean);
+  const emptyMessage = 'Your organized request will appear here, with a team, a next step, and a reply draft.';
   const workflowDisclosure = document.querySelector('.workflow-wrap');
   const compactWorkflow = window.matchMedia('(max-width: 700px)');
   const stages = ['receive', 'transform', 'deliver'].map(stage =>
@@ -88,6 +96,32 @@
     });
   }
 
+  function lockForm(locked) {
+    formFields.forEach(field => {
+      if (field.tagName === 'SELECT') field.disabled = locked;
+      else field.readOnly = locked;
+    });
+  }
+
+  function clearResult(message = emptyMessage) {
+    if (workflowCard) {
+      workflowCard.hidden = true;
+      workflowCard.querySelectorAll('[id^="result-"]').forEach(element => { element.textContent = ''; });
+    }
+    if (workflowEmpty) {
+      workflowEmpty.hidden = false;
+      workflowEmpty.textContent = message;
+    }
+    if (workflowOutput) delete workflowOutput.dataset.priority;
+  }
+
+  function clearValidation() {
+    formFields.forEach(field => {
+      field.removeAttribute('aria-invalid');
+      field.setAttribute('aria-describedby', 'workflow-help');
+    });
+  }
+
   function stopWorkflow(message) {
     if (workflowTimer !== null) window.clearTimeout(workflowTimer);
     workflowTimer = null;
@@ -95,14 +129,14 @@
     workflowRunning = false;
     pendingResult = null;
     if (runWorkflow) runWorkflow.disabled = false;
-    if (workflowInput) workflowInput.readOnly = false;
+    lockForm(false);
     if (workflow) {
       workflow.setAttribute('aria-busy', 'false');
       if (wasRunning) workflow.dataset.state = 'idle';
     }
     if (wasRunning) {
       clearStages();
-      if (workflowOutput) workflowOutput.textContent = 'Run the sample to see the routed message.';
+      clearResult();
       if (workflowStatus) workflowStatus.textContent = message;
     }
   }
@@ -126,11 +160,11 @@
     if (mode !== 'running') {
       cancelReveals();
       stopWorkflow(backgrounded ? 'Demo paused while tab is hidden' :
-        mode === 'reduced' ? 'Reduced motion enabled — ready to run' : 'Motion paused');
+        mode === 'reduced' ? 'Reduced motion enabled — ready to try' : 'Motion paused');
     } else if (workflow && workflowStatus && !workflowRunning &&
                !['complete', 'error'].includes(workflow.dataset.state)) {
       // Resume optional motion, not a cancelled demo; announce the real idle state.
-      workflowStatus.textContent = 'Ready to run';
+      workflowStatus.textContent = 'Ready to try';
     }
   }
 
@@ -146,21 +180,55 @@
   }
   listen(reducedMotion, applyMotion);
 
-  // A deterministic, browser-only example. No credentials, network calls or real services.
-  function transformPayload(raw) {
-    let payload;
-    try { payload = JSON.parse(raw); } catch (_) {
-      throw new Error('Enter valid JSON with requester, topic and priority.');
+  // Rules and templates run entirely in the browser. No backend or AI service is simulated.
+  const examples = {
+    support: {
+      topic: 'Help signing in', priority: 'high', team: 'Technical support',
+      normal: 'Add to the support queue for review.',
+      high: 'Move the request to the priority support queue.',
+    },
+    onboarding: {
+      topic: 'Set up a new account', priority: 'normal', team: 'Onboarding',
+      normal: 'Prepare the account setup checklist.',
+      high: 'Flag the setup request for priority review.',
+    },
+    billing: {
+      topic: 'Check an invoice', priority: 'normal', team: 'Billing',
+      normal: 'Review the invoice and payment details.',
+      high: 'Flag the invoice for priority review.',
+    },
+  };
+
+  function invalidField(field, message) {
+    const error = new Error(message);
+    error.field = field;
+    return error;
+  }
+
+  function prepareRequest() {
+    const requester = workflowRequester.value.trim();
+    const topic = workflowInput.value.trim();
+    const kind = workflowExample.value;
+    const priority = workflowPriority.value;
+    if (!requester || requester.length > 60) {
+      throw invalidField(workflowRequester, 'Add a name using 1–60 characters.');
     }
-    if (!payload || typeof payload !== 'object' || Array.isArray(payload) ||
-        typeof payload.requester !== 'string' || !payload.requester.trim() || payload.requester.length > 60 ||
-        typeof payload.topic !== 'string' || !payload.topic.trim() || payload.topic.length > 120 ||
-        !['high', 'normal'].includes(payload.priority)) {
-      throw new Error('Use requester (1–60 characters), topic (1–120 characters) and priority "high" or "normal".');
+    if (!topic || topic.length > 120) {
+      throw invalidField(workflowInput, 'Describe the request using 1–120 characters.');
     }
+    if (!['support', 'onboarding', 'billing'].includes(kind)) {
+      throw invalidField(workflowExample, 'Choose one of the example requests.');
+    }
+    if (!['normal', 'high'].includes(priority)) {
+      throw invalidField(workflowPriority, 'Choose Normal or Urgent.');
+    }
+    const example = examples[kind];
     return {
-      channel: payload.priority === 'high' ? '#support-priority' : '#support',
-      text: '[' + payload.priority.toUpperCase() + '] ' + payload.requester.trim() + ': ' + payload.topic.trim(),
+      requester, topic, priority: priority === 'high' ? 'Urgent' : 'Normal',
+      team: example.team, action: example[priority],
+      reply: 'Hi ' + requester + ', thanks for sharing "' + topic + '". ' +
+        (priority === 'high' ? 'This is marked urgent for ' : 'This is ready for ') +
+        example.team + ' to review.',
     };
   }
 
@@ -171,52 +239,67 @@
     stages.forEach(node => { if (node) node.dataset.complete = 'true'; });
     workflow.dataset.state = 'complete';
     workflow.setAttribute('aria-busy', 'false');
-    workflowStatus.textContent = 'Workflow complete';
-    workflowOutput.textContent = JSON.stringify(pendingResult, null, 2);
-    workflowInput.readOnly = false;
+    workflowStatus.textContent = 'Request prepared';
+    Object.entries(pendingResult).forEach(([key, value]) => {
+      document.getElementById('result-' + key).textContent = value;
+    });
+    workflowOutput.dataset.priority = pendingResult.priority.toLowerCase();
+    workflowCard.hidden = false;
+    workflowEmpty.hidden = true;
+    lockForm(false);
     pendingResult = null;
     runWorkflow.disabled = false;
   }
 
-  if (workflow && runWorkflow && workflowStatus && workflowInput && workflowOutput && stages.every(Boolean)) {
+  if (workflow && runWorkflow && workflowStatus && workflowForm && formFields.length === 4 &&
+      workflowOutput && workflowCard && workflowEmpty && stages.every(Boolean)) {
     workflow.dataset.state = 'idle';
     workflow.setAttribute('aria-busy', 'false');
-    workflowInput.addEventListener('input', () => {
+    function resetPreview() {
       if (workflowRunning) return;
       clearStages();
       workflow.dataset.state = 'idle';
-      workflowInput.removeAttribute('aria-invalid');
-      workflowInput.setAttribute('aria-describedby', 'workflow-help');
-      workflowStatus.textContent = 'Ready to run';
-      workflowOutput.textContent = 'Run the sample to see the routed message.';
+      clearValidation();
+      workflowStatus.textContent = 'Ready to try';
+      clearResult();
+    }
+    workflowForm.addEventListener('input', resetPreview);
+    workflowPriority.addEventListener('change', resetPreview);
+    workflowExample.addEventListener('change', () => {
+      if (workflowRunning || !Object.prototype.hasOwnProperty.call(examples, workflowExample.value)) return;
+      const example = examples[workflowExample.value];
+      workflowInput.value = example.topic;
+      workflowPriority.value = example.priority;
+      resetPreview();
     });
-    runWorkflow.addEventListener('click', () => {
+    workflowForm.addEventListener('submit', event => {
+      event.preventDefault();
       if (workflowRunning) return;
       clearStages();
-      workflowInput.removeAttribute('aria-invalid');
-      workflowInput.setAttribute('aria-describedby', 'workflow-help');
+      clearValidation();
       try {
-        pendingResult = transformPayload(workflowInput.value);
+        pendingResult = prepareRequest();
       } catch (error) {
         workflow.dataset.state = 'error';
-        workflowInput.setAttribute('aria-invalid', 'true');
-        workflowInput.setAttribute('aria-describedby', 'workflow-help workflow-status');
+        error.field.setAttribute('aria-invalid', 'true');
+        error.field.setAttribute('aria-describedby', 'workflow-help workflow-status');
         workflowStatus.textContent = error.message;
-        workflowOutput.textContent = 'Correct the payload, then run it again.';
+        clearResult('Fix the highlighted field, then try again.');
+        error.field.focus();
         return;
       }
       workflowRunning = true;
       workflow.dataset.state = 'running';
       workflow.setAttribute('aria-busy', 'true');
       runWorkflow.disabled = true;
-      workflowInput.readOnly = true;
-      workflowOutput.textContent = 'Processing the sample…';
+      lockForm(true);
+      clearResult('Organizing the request…');
       // Reduced or paused motion keeps the demo useful without timed movement.
       if (!motionRunning()) {
         finishWorkflow();
         return;
       }
-      const labels = ['Receiving data…', 'Transforming data…', 'Preparing preview…'];
+      const labels = ['Checking the details…', 'Choosing the next step…', 'Preparing a reply draft…'];
       function showStage(index) {
         stages.forEach(node => { delete node.dataset.active; });
         stages[index].dataset.active = 'true';

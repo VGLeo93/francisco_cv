@@ -4,19 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <title>Francisco Vaquero | Developer · Automation &amp; AI</title>
+    <title>Francisco Vaquero | Software Developer &amp; Automation Specialist</title>
     <meta
       name="description"
-      content="Francisco Vaquero, Automation Developer at Praeco. Full-stack development, Salesforce, Supabase, n8n, infrastructure, cybersecurity support and local AI."
+      content="Francisco Vaquero, Software Developer and Automation Specialist. I build applications, connect systems, and automate workflows. Try a small app and explore my work at Praeco."
     />
     <link rel="canonical" href="https://vgleo93.github.io/francisco_cv/" />
     <meta
       property="og:title"
-      content="Francisco Vaquero | Developer · Automation &amp; AI"
+      content="Francisco Vaquero | Software Developer &amp; Automation Specialist"
     />
     <meta
       property="og:description"
-      content="Automation Developer at Praeco. I build applications, automate workflows, and connect systems. Explore my experience, skills and course certificates."
+      content="I build applications, connect systems, and automate workflows. Try an interactive example and explore my experience, skills and course certificates."
     />
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://vgleo93.github.io/francisco_cv/" />
@@ -44,8 +44,8 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260930-praeco" />
-    <script src="animations.js?v=20260930-proof" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260930-request-app" />
+    <script src="animations.js?v=20260930-request-app" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#experience">Skip to experience</a>
@@ -189,13 +189,13 @@
               <span class="name-accent">Vaquero</span>
             </h1>
             <p class="role" data-reveal>
-              Developer · Automation &amp; AI
+              Software Developer &amp; Automation Specialist
             </p>
             <p class="hero-lead" data-reveal>
-              I build applications, automate workflows, and connect systems.
+              I build applications, connect systems, and automate workflows.
             </p>
             <p id="summary" class="hero-summary" data-reveal>
-              Full-stack development, Salesforce, Supabase &amp; local AI.
+              Front-end, back-end, Salesforce, Supabase &amp; local AI.
             </p>
             <div class="hero-actions" data-reveal>
               <a
@@ -228,7 +228,7 @@
             </div>
           </div>
           <details class="workflow-wrap" open data-reveal>
-            <summary class="workflow-summary">Try the workflow demo<svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg></summary>
+            <summary class="workflow-summary">Try a small app I built<svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg></summary>
             <script>
               // Resolve the mobile disclosure before its contents can paint.
               document.currentScript.parentElement.open = !window.matchMedia("(max-width: 700px)").matches;
@@ -239,12 +239,12 @@
               data-state="idle"
               aria-labelledby="workflow-heading"
             >
-              <h2 id="workflow-heading">Workflow playground</h2>
-              <p class="workflow-intro">Browser-only. No messages sent.</p>
+              <h2 id="workflow-heading">From request to next step</h2>
+              <p class="workflow-intro">Choose an example, change a detail, and see how a small app organizes the work.</p>
               <div
                 class="workflow-diagram"
                 role="group"
-                aria-label="A browser-only demo: sample payload, JavaScript transformation, and a message preview. No external services are contacted."
+                aria-label="Three steps: receive a request, organize the details, and prepare the next step."
               >
                 <svg
                   class="workflow-connections"
@@ -270,7 +270,7 @@
                       <use href="#icon-webhook" />
                     </svg>
                   </div>
-                  <span>Payload</span>
+                  <span>Request</span>
                 </div>
                 <div
                   class="workflow-node node-transform"
@@ -279,7 +279,7 @@
                   <div class="node-icon">
                     <svg class="icon" aria-hidden="true"><use href="#icon-code" /></svg>
                   </div>
-                  <span>JavaScript</span>
+                  <span>Organize</span>
                 </div>
                 <div
                   class="workflow-node node-deliver"
@@ -288,28 +288,45 @@
                   <div class="node-icon">
                     <svg class="icon" aria-hidden="true"><use href="#icon-mail" /></svg>
                   </div>
-                  <span>Preview</span>
+                  <span>Next step</span>
                 </div>
               </div>
               <div class="workflow-console">
-              <div class="workflow-data" data-enhanced>
-                <label for="workflow-input">Sample webhook payload</label>
-                <textarea id="workflow-input" rows="5" spellcheck="false"
-                  maxlength="1000" aria-describedby="workflow-help">{
-  "requester": "Ada",
-  "topic": "CRM setup",
-  "priority": "high"
-}</textarea>
-              </div>
+              <form id="workflow-form" class="workflow-data" data-enhanced novalidate autocomplete="off">
+                <div class="workflow-field">
+                  <label for="workflow-example">Choose an example</label>
+                  <select id="workflow-example" aria-describedby="workflow-help">
+                    <option value="support">App support</option>
+                    <option value="onboarding">New customer</option>
+                    <option value="billing">Billing question</option>
+                  </select>
+                </div>
+                <div class="workflow-field-row">
+                  <div class="workflow-field">
+                    <label for="workflow-requester">Name</label>
+                    <input id="workflow-requester" type="text" value="Ada" maxlength="60" required aria-describedby="workflow-help" />
+                  </div>
+                  <div class="workflow-field">
+                    <label for="workflow-priority">Urgency</label>
+                    <select id="workflow-priority" aria-describedby="workflow-help">
+                      <option value="normal">Normal</option>
+                      <option value="high" selected>Urgent</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="workflow-field">
+                  <label for="workflow-input">What do they need?</label>
+                  <input id="workflow-input" type="text" value="Help signing in" maxlength="120" required aria-describedby="workflow-help" />
+                </div>
               <div class="workflow-controls" data-enhanced>
                 <button
                   id="run-workflow"
                   class="button button-primary"
-                  type="button"
+                  type="submit"
                 >
                   <svg class="icon" aria-hidden="true">
                     <use href="#icon-play" /></svg
-                  >Run workflow
+                  >Prepare request
                 </button>
                 <p
                   id="workflow-status"
@@ -317,7 +334,7 @@
                   aria-live="polite"
                   aria-atomic="true"
                 >
-                  Ready to run
+                  Ready to try
                 </p>
                 <button
                   id="motion-toggle"
@@ -329,19 +346,40 @@
                   <span class="motion-label">Motion: on</span>
                 </button>
               </div>
+              </form>
               <div class="workflow-result" data-enhanced>
-                <p class="output-label" id="workflow-output-label">Message preview</p>
-                <pre id="workflow-output" aria-labelledby="workflow-output-label">Run the sample to see the routed message.</pre>
+                <p class="output-label" id="workflow-output-label">Ready for the next person</p>
+                <div id="workflow-output" aria-labelledby="workflow-output-label">
+                  <p id="workflow-empty">Your organized request will appear here, with a team, a next step, and a reply draft.</p>
+                  <div id="workflow-card" hidden>
+                    <span class="request-priority" id="result-priority"></span>
+                    <h3 id="result-topic"></h3>
+                    <p class="request-person">For <span id="result-requester"></span></p>
+                    <dl class="request-details">
+                      <dt>Team</dt><dd id="result-team"></dd>
+                      <dt>Next step</dt><dd id="result-action"></dd>
+                    </dl>
+                    <div class="request-reply">
+                      <h4>Reply draft</h4>
+                      <p id="result-reply"></p>
+                    </div>
+                  </div>
+                </div>
               </div>
               </div>
               <div class="workflow-footer">
+                <p class="workflow-explanation"><strong>What this shows:</strong> I build apps that collect information and automations that prepare the next step, so people spend less time copying and sorting details.</p>
                 <p class="workflow-note" id="workflow-help">
-                  Synthetic data, processed in this browser. Nothing is sent to an external service.
+                  Sample requests only. Nothing you enter is sent or saved.
                 </p>
+                <details class="workflow-logic">
+                  <summary>How does it work?</summary>
+                  <p>The app checks the details, picks a team from the request type, and uses urgency to choose the next action. The reply is a template for someone to review.</p>
                 <a class="text-link demo-source"
                   href="https://github.com/VGLeo93/francisco_cv/blob/main/animations.js"
-                  target="_blank" rel="noopener noreferrer">View demo source<svg class="icon icon-small" aria-hidden="true"><use href="#icon-external" /></svg></a>
-                <noscript><p class="workflow-note">Enable JavaScript to try the demo. The complete CV is available below.</p></noscript>
+                  target="_blank" rel="noopener noreferrer">View the code<svg class="icon icon-small" aria-hidden="true"><use href="#icon-external" /></svg></a>
+                </details>
+                <noscript><p class="workflow-note">Enable JavaScript to try the app. The complete CV is available below.</p></noscript>
               </div>
             </div>
           </details>
@@ -392,7 +430,7 @@
                     automation workflows.
                   </li>
                   <li>
-                    Develop web scrapers and AI-assisted data extraction
+                    Develop web scrapers and AI data extraction
                     workflows.
                   </li>
                   <li>
@@ -613,7 +651,7 @@
                   </ul>
                 </div>
                 <div class="skill-group" data-reveal>
-                  <h3>AI-assisted development</h3>
+                  <h3>Development tools</h3>
                   <ul>
                     <li>Codex, Claude &amp; Antigravity</li>
                     <li>Application &amp; workflow debugging</li>
