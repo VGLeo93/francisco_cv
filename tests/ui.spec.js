@@ -17,6 +17,28 @@ async function capture(page, name) {
   await page.screenshot({ path: path.join(qaDirectory, name + '.png') });
 }
 
+async function fillRequest(page, values = {}) {
+  await page.select('#workflow-example', values.kind || 'support');
+  await page.evaluate(values => {
+    const fields = {
+      'workflow-requester': values.requester ?? 'Ada',
+      'workflow-input': values.topic ?? 'Help signing in',
+      'workflow-priority': values.priority ?? 'high',
+    };
+    Object.entries(fields).forEach(([id, value]) => {
+      const field = document.getElementById(id);
+      field.value = value;
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  }, values);
+}
+
+async function readRequest(page) {
+  assert.equal(await page.$eval('#workflow-card', card => card.hidden), false, 'The result card is visible');
+  return page.$$eval('#workflow-card [id^="result-"]', fields => Object.fromEntries(
+    fields.map(field => [field.id.replace('result-', ''), field.textContent])));
+}
+
 function contrast(foreground, background) {
   function luminance(rgb) {
     const values = rgb.match(/[\d.]+/g).slice(0, 3).map(Number).map(value => {
@@ -45,7 +67,7 @@ async function checkContrast(page) {
       });
       return 'rgb(' + result.join(',') + ')';
     }
-    return ['#summary', '.bullets li', '.contact-list a', '.button-primary', '#workflow-input', '#workflow-output', '.workflow-note', '.workflow-intro', '.motion-label'].map(selector => {
+    return ['#summary', '.bullets li', '.contact-list a', '.button-primary', '#workflow-input', '#workflow-output', '.workflow-note', '.workflow-intro', '.workflow-explanation', '#result-reply', '.motion-label'].map(selector => {
       const element = document.querySelector(selector);
       return { selector, foreground: getComputedStyle(element).color, background: background(element) };
     });
@@ -102,22 +124,24 @@ async function checkMotion(browser, errors, externalRequests) {
     assert.equal(await page.$eval('html', element => element.dataset.motion), 'running');
 
     await page.click('#run-workflow');
-    assert.equal(await page.$eval('#workflow-status', element => element.textContent.trim()), 'Receiving data…');
+    assert.equal(await page.$eval('#workflow-status', element => element.textContent.trim()), 'Checking the details…');
     assert.equal(await page.$eval('#run-workflow', button => button.disabled), true);
     assert.equal(await page.$eval('[data-flow-stage="receive"]', element => element.dataset.active), 'true');
     assert.ok(await page.$$eval('.flow-signal', elements => elements.every(element =>
       getComputedStyle(element).animationName === 'flow-travel')), 'Signals move only during a running workflow');
     assert.equal(await page.$eval('#workflow-input', element => element.readOnly), true);
+    assert.equal(await page.$eval('#workflow-requester', element => element.readOnly), true);
+    assert.equal(await page.$$eval('#workflow-form select', elements => elements.every(element => element.disabled)), true);
     // A second synthetic activation cannot start overlapping timer chains.
-    await page.$eval('#run-workflow', button => button.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    await page.$eval('#workflow-form', form => form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
     await page.waitForFunction(() => document.querySelector('[data-flow-stage="transform"]').dataset.active === 'true');
     await page.waitForFunction(() => document.querySelector('[data-flow-stage="deliver"]').dataset.active === 'true');
-    await page.waitForFunction(() => document.getElementById('workflow-status').textContent === 'Workflow complete');
+    await page.waitForFunction(() => document.getElementById('workflow-status').textContent === 'Request prepared');
     assert.equal(await page.$eval('#run-workflow', button => button.disabled), false);
     assert.equal(await page.$$eval('.workflow-node[data-active="true"]', elements => elements.length), 0);
     assert.equal(await page.$$eval('.workflow-node[data-complete="true"]', elements => elements.length), 3);
-    assert.deepEqual(JSON.parse(await page.$eval('#workflow-output', element => element.textContent)),
-      { channel: '#support-priority', text: '[HIGH] Ada: CRM setup' });
+    assert.equal((await readRequest(page)).team, 'Technical support');
+    assert.equal((await readRequest(page)).priority, 'Urgent');
     assert.ok(await page.$$eval('.flow-signal', elements => elements.every(element =>
       getComputedStyle(element).animationName === 'none')), 'Completing a run stops the signals');
     await capture(page, 'workflow-complete');
@@ -134,6 +158,8 @@ async function checkMotion(browser, errors, externalRequests) {
     await page.click('#motion-toggle');
     assert.equal(await page.$eval('html', element => element.dataset.motion), 'paused');
     assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Motion paused');
+    assert.equal(await page.$eval('#workflow-card', card => card.hidden), true);
+    assert.equal(await page.$$eval('#workflow-form select', elements => elements.every(element => !element.disabled)), true);
     assert.equal(await page.$eval('#run-workflow', button => button.disabled), false);
     assert.equal(await page.$$eval('.workflow-node[data-active="true"]', elements => elements.length), 0);
     assert.equal(await page.evaluate(() => localStorage.getItem('motion')), 'paused');
@@ -144,7 +170,7 @@ async function checkMotion(browser, errors, externalRequests) {
     assert.ok(await page.$$eval('.flow-signal', elements => elements.every(element =>
       getComputedStyle(element).animationName === 'none')), 'Paused motion stops decorative loops');
     await page.click('#run-workflow');
-    assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Workflow complete');
+    assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Request prepared');
     await page.click('#motion-toggle');
     assert.equal(await page.$eval('html', element => element.dataset.motion), 'running');
     assert.equal(await page.evaluate(() => localStorage.getItem('motion')), 'running');
@@ -166,7 +192,7 @@ async function checkMotion(browser, errors, externalRequests) {
     });
     assert.equal(await page.$eval('html', element => element.dataset.motion), 'running');
     assert.equal(await page.$eval('.workflow-visual', element => element.dataset.state), 'idle');
-    assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Ready to run', 'Returning to the tab clears the cancelled-demo status');
+    assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Ready to try', 'Returning to the tab clears the cancelled-demo status');
 
     assert.equal(await page.$eval('.workflow-visual', element => element.hasAttribute('data-tilt')), false);
     assert.equal(await page.$eval('.workflow-visual', element => getComputedStyle(element).transform), 'none');
@@ -181,7 +207,7 @@ async function checkMotion(browser, errors, externalRequests) {
     await page.click('#motion-toggle');
     assert.equal(await page.$eval('html', element => element.dataset.motion), 'reduced', 'System opt-out wins over saved running');
     await page.click('#run-workflow');
-    assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Workflow complete', 'Reduced-motion demo completes without waiting');
+    assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Request prepared', 'Reduced-motion demo completes without waiting');
     assert.ok(await page.$$eval('.flow-signal', elements => elements.every(element =>
       getComputedStyle(element).animationName === 'none')), 'Reduced motion stops decorative loops');
     await setMedia(page, false, false);
@@ -253,6 +279,7 @@ async function main() {
     await page.goto(url, { waitUntil: 'load' });
     assert.equal(page.url(), url);
     assert.match(await page.title(), /Francisco Vaquero/);
+    assert.match(await page.$eval('.role', element => element.textContent), /Software Developer & Automation Specialist/);
     assert.ok(await page.evaluate(async () => {
       await document.fonts.ready;
       return document.fonts.check('500 16px "Space Grotesk"') && document.fonts.check('400 16px Inter');
@@ -288,37 +315,62 @@ async function main() {
     assert.deepEqual(await page.$$eval('.workflow-node', elements => elements.map(element => element.dataset.flowStage)),
       ['receive', 'transform', 'deliver']);
 
-    // Real deterministic output, recoverable validation, reruns and text-only rendering.
-    const normal = JSON.stringify({ requester: '  Mia  ', topic: ' Billing issue ', priority: 'normal' });
-    await page.$eval('#workflow-input', (input, value) => { input.value = value; }, normal);
-    await page.click('#run-workflow');
-    const expected = { channel: '#support', text: '[NORMAL] Mia: Billing issue' };
-    assert.deepEqual(JSON.parse(await page.$eval('#workflow-output', element => element.textContent)), expected);
-    await page.click('#run-workflow');
-    assert.deepEqual(JSON.parse(await page.$eval('#workflow-output', element => element.textContent)), expected);
-    await page.$eval('#workflow-input', input => { input.dispatchEvent(new Event('input', { bubbles: true })); });
-    assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Ready to run');
-    assert.equal(await page.$eval('#workflow-output', element => element.textContent), 'Run the sample to see the routed message.',
-      'Editing input cannot leave a stale completed preview');
-    for (const invalid of ['{', 'null', '[]', '{}', '{"requester":" ","topic":"CRM","priority":"high"}',
-      '{"requester":"Ada","topic":"CRM","priority":"urgent"}']) {
-      await page.$eval('#workflow-input', (input, value) => { input.value = value; }, invalid);
+    // Each example routes to a distinct team; urgency changes the next action.
+    for (const [kind, team] of [['support', 'Technical support'], ['onboarding', 'Onboarding'], ['billing', 'Billing']]) {
+      await fillRequest(page, { kind, requester: '  Mia  ', topic: ' Please review this request ', priority: 'normal' });
       await page.click('#run-workflow');
-      assert.equal(await page.$eval('#workflow-input', input => input.getAttribute('aria-invalid')), 'true');
-      assert.equal(await page.$eval('#workflow-input', input => input.getAttribute('aria-describedby')), 'workflow-help workflow-status');
+      const normal = await readRequest(page);
+      assert.equal(normal.team, team);
+      assert.equal(normal.requester, 'Mia');
+      assert.equal(normal.topic, 'Please review this request');
+      assert.equal(normal.priority, 'Normal');
+      assert.match(normal.reply, /Hi Mia/);
+      await page.click('#run-workflow');
+      assert.deepEqual(await readRequest(page), normal, 'Reruns are deterministic');
+      await page.select('#workflow-priority', 'high');
+      assert.equal(await page.$eval('#workflow-card', card => card.hidden), true, 'Changing urgency clears the stale result');
+      await page.click('#run-workflow');
+      const urgent = await readRequest(page);
+      assert.equal(urgent.team, team);
+      assert.equal(urgent.priority, 'Urgent');
+      assert.notEqual(urgent.action, normal.action);
+    }
+    await page.select('#workflow-example', 'onboarding');
+    assert.equal(await page.$eval('#workflow-requester', input => input.value), '  Mia  ', 'Choosing an example preserves the name');
+    assert.equal(await page.$eval('#workflow-input', input => input.value), 'Set up a new account');
+    assert.equal(await page.$eval('#workflow-priority', input => input.value), 'normal');
+    assert.equal(await page.$eval('#workflow-card', card => card.hidden), true);
+    assert.equal(await page.$eval('#workflow-status', element => element.textContent), 'Ready to try');
+    for (const [values, fieldId] of [
+      [{ requester: ' ' }, 'workflow-requester'],
+      [{ requester: 'x'.repeat(61) }, 'workflow-requester'],
+      [{ topic: '' }, 'workflow-input'],
+      [{ topic: 'x'.repeat(121) }, 'workflow-input'],
+      [{ priority: 'invalid' }, 'workflow-priority'],
+    ]) {
+      await fillRequest(page, values);
+      await page.click('#run-workflow');
+      const selector = '#' + fieldId;
+      assert.equal(await page.$eval(selector, input => input.getAttribute('aria-invalid')), 'true');
+      assert.equal(await page.$eval(selector, input => input.getAttribute('aria-describedby')), 'workflow-help workflow-status');
+      assert.equal(await page.$eval(selector, input => input === document.activeElement), true, 'Validation focuses the field to correct');
       assert.equal(await page.$eval('.workflow-visual', element => element.dataset.state), 'error');
       assert.equal(await page.$eval('#run-workflow', button => button.disabled), false);
-      assert.equal(await page.$eval('#workflow-output', element => element.textContent), 'Correct the payload, then run it again.');
+      assert.equal(await page.$eval('#workflow-card', card => card.hidden), true);
     }
-    const literal = { requester: '<img src=x onerror=alert(1)>', topic: 'Text only', priority: 'high' };
-    await page.$eval('#workflow-input', (input, value) => { input.value = value; }, JSON.stringify(literal));
+    await fillRequest(page, { requester: 'x'.repeat(60), topic: 'y'.repeat(120) });
     await page.click('#run-workflow');
-    assert.equal(await page.$eval('#workflow-input', input => input.hasAttribute('aria-invalid')), false);
-    assert.equal(await page.$eval('#workflow-input', input => input.getAttribute('aria-describedby')), 'workflow-help');
+    assert.equal((await readRequest(page)).topic.length, 120, 'Maximum valid field lengths work');
+    const literal = '<img src=x onerror=alert(1)>';
+    await fillRequest(page, { requester: literal, topic: 'Text only' });
+    await page.click('#run-workflow');
+    assert.equal(await page.$$eval('#workflow-form [aria-invalid]', fields => fields.length), 0);
     assert.equal(await page.$$eval('#workflow-output img', images => images.length), 0);
-    assert.equal(JSON.parse(await page.$eval('#workflow-output', element => element.textContent)).text,
-      '[HIGH] ' + literal.requester + ': Text only');
-    await page.$eval('#workflow-input', input => { input.value = JSON.stringify({ requester: 'Ada', topic: 'CRM setup', priority: 'high' }); });
+    assert.equal((await readRequest(page)).requester, literal, 'Entered text is rendered literally');
+    await page.type('#workflow-input', ' changed');
+    assert.equal(await page.$eval('#workflow-card', card => card.hidden), true, 'Typing clears the previous result');
+    await fillRequest(page);
+    await page.click('#run-workflow');
 
     // All on-page anchors and local downloads/assets must resolve before deployment.
     const links = await page.$$eval('a[href]', elements => elements.map(element => ({
@@ -424,8 +476,8 @@ async function main() {
         await page.click('.workflow-summary');
         assert.equal(await page.$eval('.workflow-wrap', details => details.open), true);
         await page.click('#run-workflow');
-        assert.deepEqual(JSON.parse(await page.$eval('#workflow-output', element => element.textContent)),
-          { channel: '#support-priority', text: '[HIGH] Ada: CRM setup' });
+        assert.equal((await readRequest(page)).team, 'Technical support');
+        await capture(page, 'mobile-demo-result');
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), 'Open mobile demo does not overflow');
         await page.click('.workflow-summary');
       }
@@ -465,7 +517,7 @@ async function main() {
     await restricted.click('#motion-toggle');
     assert.equal(await restricted.$eval('html', element => element.dataset.motion), 'paused');
     await restricted.click('#run-workflow');
-    assert.equal(await restricted.$eval('#workflow-status', element => element.textContent), 'Workflow complete');
+    assert.equal(await restricted.$eval('#workflow-status', element => element.textContent), 'Request prepared');
     await restricted.close();
 
     // Core CV and native certificate disclosure remain usable without JavaScript.
