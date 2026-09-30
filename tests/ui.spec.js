@@ -261,9 +261,12 @@ async function main() {
     assert.equal(await page.$('vite-error-overlay, nextjs-portal, [data-nextjs-dialog-overlay]'), null, 'No framework error overlay');
     await page.waitForSelector('#experience .job');
     assert.equal(await page.$eval('h1', element => element.textContent.replace(/\s+/g, ' ').trim()), 'Francisco Vaquero');
-    assert.equal(await page.$$eval('#experience article', elements => elements.length), 6);
-    assert.match(await page.$eval('#experience .job', element => element.textContent), /Fundflare.*Dec 14, 2023.*Apr 26, 2025/s);
+    assert.equal(await page.$$eval('#experience article', elements => elements.length), 7);
+    assert.match(await page.$eval('#experience .job', element => element.textContent), /Automation Developer.*Praeco.*Jan 27, 2026.*Present/s);
     assert.deepEqual(await page.$$eval('#experience .job:first-of-type time', elements =>
+      elements.map(element => element.getAttribute('datetime'))), ['2026-01-27']);
+    assert.match(await page.$eval('#fundflare', element => element.textContent), /Fundflare.*Dec 14, 2023.*Apr 26, 2025/s);
+    assert.deepEqual(await page.$$eval('#fundflare time', elements =>
       elements.map(element => element.getAttribute('datetime'))), ['2023-12-14', '2025-04-26']);
     assert.equal(await page.$$eval('[role="meter"]', elements => elements.length), 0);
     assert.equal(await page.$eval('.portrait', image => image.getAttribute('src')), 'assets/portrait.webp');
@@ -471,7 +474,7 @@ async function main() {
     await staticPage.setJavaScriptEnabled(false);
     await setMedia(staticPage);
     await staticPage.goto(url, { waitUntil: 'load' });
-    assert.equal(await staticPage.$$eval('#experience article', elements => elements.length), 6);
+    assert.equal(await staticPage.$$eval('#experience article', elements => elements.length), 7);
     assert.ok(await staticPage.$$eval('[data-reveal]', elements => elements.length > 0 && elements.every(element =>
       getComputedStyle(element).opacity === '1' && element.getBoundingClientRect().height > 0)), 'No-JS content is not hidden behind animation');
     assert.equal(await staticPage.$$eval('.workflow-node', elements => elements.filter(element => element.getBoundingClientRect().height > 0).length), 3);
@@ -483,7 +486,7 @@ async function main() {
 
     assert.deepEqual(errors, [], 'No runtime/console errors');
     assert.deepEqual(externalRequests, [], 'No external runtime dependencies');
-    console.log('PASS: identity/facts, six roles, 16 certificates, assets/PDF, active navigation/progress, theme/OS/storage, contrast, finite reveals/workflow, keyboard/reentry, motion pause/persistence/system opt-out/background-tab, print restoration, six responsive sizes, no-JS reading and console health.');
+    console.log('PASS: identity/facts, seven roles, 16 certificates, assets/PDF, active navigation/progress, theme/OS/storage, contrast, finite reveals/workflow, keyboard/reentry, motion pause/persistence/system opt-out/background-tab, print restoration, six responsive sizes, no-JS reading and console health.');
   } finally {
     if (browser) await browser.close();
     await site.close();
