@@ -10,11 +10,11 @@ Antiguo Cuscatlán, El Salvador
 
 ## Professional summary
 
-Software developer and automation specialist, currently working as an Automation Developer at Praeco. Builds applications across front-end and back-end systems, connects business tools, and automates workflows. Experience includes Salesforce, Supabase, VPS administration, cybersecurity support, web scraping, trading bot development, machine learning and local AI fine-tuning. Communicates in English and Spanish.
+Software developer and automation specialist at Praeco, building applications, connecting systems and automating workflows. Works across front-end and back-end development, Salesforce, databases and self-hosted infrastructure, with experience in web scraping, trading bot development, machine learning, local AI fine-tuning and cybersecurity support. Communicates in English and Spanish.
 
 ## Skills
 
-- **Automation:** n8n, Zapier, Salesforce automations, workflow design and open-source CRM setup and management.
+- **Automation:** n8n, Zapier, Salesforce development and automations, workflow design and open-source CRM setup and management.
 - **Development:** Front-end and back-end development, JavaScript, Python, HTML, CSS, Google Apps Script, REST APIs, webhooks and trading bot development.
 - **Data and scraping:** Supabase, SQL, SQLite, web scrapers, AI data extraction, Google Sheets, Monday.com, PandaDoc, Notion and Slack API.
 - **Infrastructure and security:** VPS administration, Linux, Docker, Tailscale private networks, self-hosted applications, cybersecurity support, Google Workspace Admin, RustDesk and TeamViewer.
@@ -25,17 +25,20 @@ Software developer and automation specialist, currently working as an Automation
 
 ## Experience
 
-### Praeco — Automation Developer
+### Praeco — Software & Automation Developer
 
 **Jan 27, 2026 – Present**
 
-- Develop front-end and back-end applications; debug code and automation workflows using Codex, Claude and Antigravity.
-- Build Salesforce automations and n8n workflows; configure and maintain open-source CRMs.
-- Set up and administer VPS servers, self-hosted applications and Tailscale private networks.
-- Create and manage Supabase databases and write SQL queries for applications and automation workflows.
-- Develop web scrapers and AI data extraction workflows.
-- Work on trading bot development, machine learning and fine-tuning local AI models.
-- Support cybersecurity tasks across server, network and application environments.
+Build applications and automated workflows, with hands-on work across data, infrastructure and local AI.
+
+- **Application development.** Build front-end interfaces and back-end services, connecting the screens people use with the data and logic behind them.
+- **Salesforce & workflow automation.** Develop Salesforce automations and build n8n workflows that connect business tools and handle recurring tasks.
+- **Databases.** Set up and manage Supabase databases; write SQL to organize, retrieve and maintain data for applications and automated workflows.
+- **Servers & private networks.** Set up and administer VPS servers, connect them through Tailscale private networks, and deploy and maintain self-hosted applications and open-source CRMs.
+- **Web scraping & data extraction.** Build web scrapers and AI extraction workflows that collect information from websites and turn it into structured data.
+- **Trading bot development.** Develop and debug trading bots, including the application logic and workflows used to automate trading tasks.
+- **Machine learning & local AI.** Work with machine learning, run local AI models and fine-tune them for specific tasks.
+- **Cybersecurity & debugging.** Support cybersecurity tasks; diagnose and fix issues in application code and automation workflows.
 
 ### Fundflare / Graceful FundFlare — Automation & Integrations Specialist
 
