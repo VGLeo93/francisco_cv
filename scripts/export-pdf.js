@@ -1,19 +1,25 @@
 'use strict';
 
 const path = require('node:path');
-const { pathToFileURL } = require('node:url');
 const { launchBrowser } = require('./browser');
+const { startLocalSite } = require('./local-server');
 
 async function main() {
   const root = path.resolve(__dirname, '..');
-  const browser = await launchBrowser();
+  const site = await startLocalSite(root);
+  let browser;
   try {
+    browser = await launchBrowser();
     const page = await browser.newPage();
     await page.setViewport({ width: 1469, height: 1071 });
-    await page.goto(pathToFileURL(path.join(root, 'index.html')).href, { waitUntil: 'load' });
+    await page.goto(site.url, { waitUntil: 'load' });
     await page.emulateMediaType('print');
+    await page.evaluate(() => document.fonts.ready);
     await page.evaluate(() => {
       document.querySelectorAll('details').forEach(details => { details.open = true; });
+      // A single text run preserves the full name for résumé text extraction.
+      const name = document.querySelector('h1');
+      name.textContent = name.textContent.replace(/\s+/g, ' ').trim();
       // PDF links must work on someone else's computer, not point into this checkout.
       const base = document.querySelector('link[rel="canonical"]').href;
       document.querySelectorAll('a[href]').forEach(link => {
@@ -38,7 +44,8 @@ async function main() {
     });
     console.log('Exported ' + output);
   } finally {
-    await browser.close();
+    if (browser) await browser.close();
+    await site.close();
   }
 }
 

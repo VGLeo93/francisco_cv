@@ -1,6 +1,6 @@
 # Francisco Vaquero
 
-**Automation & Integrations Specialist**
+**Developer · Automation & Integrations**
 
 Antiguo Cuscatlán, El Salvador
 
@@ -10,7 +10,7 @@ Antiguo Cuscatlán, El Salvador
 
 ## Professional summary
 
-Automation and integrations specialist who connects business tools with Zapier, n8n, Python, Google Apps Script and REST APIs. Builds reporting tools and internal utilities, administers Google Workspace, and provides remote IT support. Experienced in troubleshooting, onboarding and documenting processes; communicates in English and Spanish.
+Developer and automation specialist who connects business tools with JavaScript, Python, Zapier, n8n, Google Apps Script and REST APIs. Builds reporting tools and internal utilities, administers Google Workspace, and provides remote IT support. Experienced in troubleshooting, onboarding and documenting processes; communicates in English and Spanish.
 
 ## Skills
 
