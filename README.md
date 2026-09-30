@@ -2,7 +2,7 @@
 
 [View the CV website](https://vgleo93.github.io/francisco_cv/) · [Download the PDF](Francisco_Vaquero_CV.pdf) · [Read the Markdown CV](Francisco_Vaquero_CV_Tech.md)
 
-A developer portfolio and downloadable résumé, built with semantic HTML, responsive CSS and small vanilla JavaScript enhancements. Dark ink, coral accents, name-led typography and an interactive workflow playground give the website its own identity. Six roles form a readable career timeline before the open skills groups; training and contact close the page.
+A developer portfolio and downloadable résumé, built with semantic HTML, responsive CSS and small vanilla JavaScript enhancements. Dark ink, coral accents, name-led typography and an interactive workflow playground give the website its own identity. Seven roles form a readable career timeline before the open skills groups; training and contact close the page.
 
 The site has no framework or third-party runtime requests. Fonts, tool icons, the original portrait and all 16 certificates are served locally.
 
@@ -10,9 +10,11 @@ The site has no framework or third-party runtime requests. Fonts, tool icons, th
 
 The September 2026 redesign presents Francisco as a developer working with automation and integrations. The workflow playground is a browser-only JavaScript example—not a claimed client project. Edit the synthetic JSON payload and press `Run workflow` to normalize the text and select a support channel from its priority. The result is shown on the page, never sent to an API or messaging service. Invalid JSON or fields produce a recoverable inline error. On phones, a native disclosure keeps the demo optional so readers reach experience sooner. The demo links directly to its source code.
 
-The existing website is the source for contact details and employment dates; the original Markdown draft used a different phone number and overlapping early-role dates. The revamp preserves the published website's details. No new employers, credentials, dates, proficiency scores or numerical achievements were added. The existing AI Engineer document is identified as a Codecademy Certificate of Completion dated October 20, 2025. The original portrait and all 16 certificate PDFs are retained; the page serves a smaller 240×309 WebP copy of the portrait.
+The existing website is the source for contact details and earlier employment dates; the original Markdown draft used a different phone number and overlapping early-role dates. These published details are preserved. The existing AI Engineer document is identified as a Codecademy Certificate of Completion dated October 20, 2025. The original portrait and all 16 certificate PDFs are retained; the page serves a smaller 240×309 WebP copy of the portrait.
 
 The owner subsequently confirmed the FundFlare employment dates as December 14, 2023–April 26, 2025. The website, Markdown CV and downloadable PDF use this corrected range.
+
+The September 30 update adds the owner-confirmed current role at **Praeco**, starting **January 27, 2026**, under the descriptive title **Automation Developer**. It includes full-stack development, Salesforce and n8n automations, Supabase and SQL, VPS and Tailscale administration, web scraping, trading bot development, machine learning, local AI fine-tuning, AI coding tools and cybersecurity support. Cybersecurity wording remains general because the owner has not specified individual security tasks. The personally owned NVIDIA DGX Spark appears under a separate personal AI lab note. No performance metrics, seniority, security certifications or trading results are inferred.
 
 Edit both `index.html` and `Francisco_Vaquero_CV_Tech.md` when changing professional facts. The PDF is generated from the website's print stylesheet, with certificate links rewritten to the public website so they also work outside this checkout.
 
@@ -39,7 +41,7 @@ If Chrome is in a nonstandard location, set `CHROME` to its executable. Dependen
 
 ## Verification
 
-`npm run test:ui` checks identity, six roles, the precise FundFlare dates, 16 certificates, fonts and local downloads, anchors, active navigation/progress, disclosure, theme/system/storage behavior, text contrast, finite reveals, payload validation and deterministic output, error descriptions, workflow stages, reentry prevention, keyboard activation/focus, motion persistence, live reduced-motion changes, simulated background visibility, print restoration, no-JavaScript reading, console health and overflow at 320, 360, 390, 768, 1024 and 1469 pixels. It also checks the 1168×556 laptop opening and mobile first paint with the deferred script withheld.
+`npm run test:ui` checks identity, seven roles, the current Praeco role and start date, the precise FundFlare dates, 16 certificates, fonts and local downloads, anchors, active navigation/progress, disclosure, theme/system/storage behavior, text contrast, finite reveals, payload validation and deterministic output, error descriptions, workflow stages, reentry prevention, keyboard activation/focus, motion persistence, live reduced-motion changes, simulated background visibility, print restoration, no-JavaScript reading, console health and overflow at 320, 360, 390, 768, 1024 and 1469 pixels. It also checks the 1168×556 laptop opening and mobile first paint with the deferred script withheld.
 
 Tests and PDF export share a loopback-only HTTP server that serves public CV files, not development tools or directory listings. This gives fonts the same same-origin behavior as GitHub Pages.
 

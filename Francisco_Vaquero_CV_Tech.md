@@ -1,6 +1,6 @@
 # Francisco Vaquero
 
-**Developer · Automation & Integrations**
+**Developer · Automation & AI**
 
 Antiguo Cuscatlán, El Salvador
 
@@ -10,17 +10,32 @@ Antiguo Cuscatlán, El Salvador
 
 ## Professional summary
 
-Developer and automation specialist who connects business tools with JavaScript, Python, Zapier, n8n, Google Apps Script and REST APIs. Builds reporting tools and internal utilities, administers Google Workspace, and provides remote IT support. Experienced in troubleshooting, onboarding and documenting processes; communicates in English and Spanish.
+Automation Developer at Praeco with experience in full-stack development, Salesforce automations, Supabase databases, VPS administration and cybersecurity support. Builds web scrapers and AI-assisted workflows using JavaScript, Python, n8n and REST APIs. Experience includes trading bot development, machine learning and local AI fine-tuning. Communicates in English and Spanish.
 
 ## Skills
 
-- **Automation:** Zapier, n8n, workflow design, CRM setup and management.
-- **Development:** Python, JavaScript, HTML, CSS, Google Apps Script, REST APIs and webhooks.
-- **Data and tools:** Google Sheets, SQLite, Monday.com, PandaDoc, Notion and Slack API.
-- **IT operations:** Google Workspace Admin, Linux, Docker, RustDesk, TeamViewer, Tailscale, ticket triage and knowledge-base documentation.
-- **AI tooling:** Ollama, Hugging Face, Google Colab, text extraction and summarization prototypes.
+- **Automation:** n8n, Zapier, Salesforce automations, workflow design and open-source CRM setup and management.
+- **Development:** Front-end and back-end development, JavaScript, Python, HTML, CSS, Google Apps Script, REST APIs, webhooks and trading bot development.
+- **Data and scraping:** Supabase, SQL, SQLite, web scrapers, AI-assisted data extraction, Google Sheets, Monday.com, PandaDoc, Notion and Slack API.
+- **Infrastructure and security:** VPS administration, Linux, Docker, Tailscale private networks, self-hosted applications, cybersecurity support, Google Workspace Admin, RustDesk and TeamViewer.
+- **AI and machine learning:** Machine learning, local AI fine-tuning, Ollama, Hugging Face, Google Colab, text extraction and summarization.
+- **AI-assisted development:** Codex, Claude, Antigravity, application and workflow debugging, ticket triage and documentation.
+
+**Personal AI lab:** Run local AI models on my own NVIDIA DGX Spark.
 
 ## Experience
+
+### Praeco — Automation Developer
+
+**Jan 27, 2026 – Present**
+
+- Develop front-end and back-end applications; debug code and automation workflows using Codex, Claude and Antigravity.
+- Build Salesforce automations and n8n workflows; configure and maintain open-source CRMs.
+- Set up and administer VPS servers, self-hosted applications and Tailscale private networks.
+- Create and manage Supabase databases and write SQL queries for applications and automation workflows.
+- Develop web scrapers and AI-assisted data extraction workflows.
+- Work on trading bot development, machine learning and fine-tuning local AI models.
+- Support cybersecurity tasks across server, network and application environments.
 
 ### Fundflare / Graceful FundFlare — Automation & Integrations Specialist
 
@@ -45,7 +60,7 @@ Developer and automation specialist who connects business tools with JavaScript,
 
 **Mar 2021 – Dec 2022**
 
-- Acted as the incoming traffic controller for tickets, prioritizing incidents and maintaining response SLAs.
+- Triaged incoming support tickets, prioritized incidents and maintained response SLAs.
 - Delivered remote support for desktop applications and peripherals; recorded fixes in a searchable FAQ.
 - Investigated risk and fraud signals, escalated cases according to policy, and handled customer data securely.
 
