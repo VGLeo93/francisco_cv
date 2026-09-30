@@ -17,6 +17,7 @@ async function startLocalSite(root) {
     '.js': 'text/javascript; charset=utf-8', '.png': 'image/png',
     '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.pdf': 'application/pdf',
     '.md': 'text/markdown; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
+    '.webp': 'image/webp',
   };
   const server = http.createServer(async (request, response) => {
     if (request.method !== 'GET' && request.method !== 'HEAD') {

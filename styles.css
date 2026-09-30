@@ -75,12 +75,14 @@ button {
 }
 button,
 a,
-summary {
+summary,
+textarea {
   touch-action: manipulation;
 }
 a:focus-visible,
 button:focus-visible,
-summary:focus-visible {
+summary:focus-visible,
+textarea:focus-visible {
   outline: 3px solid var(--mint);
   outline-offset: 5px;
   border-radius: 4px;
@@ -101,13 +103,13 @@ h4 {
   font-family: var(--heading);
 }
 h1 {
-  font-size: clamp(80px, 10.1vw, 150px);
+  font-size: clamp(68px, 6.8vw, 100px);
   font-weight: 700;
-  line-height: 0.87;
+  line-height: 0.94;
   letter-spacing: -0.06em;
 }
 h2 {
-  font-size: clamp(42px, 6.4vw, 96px);
+  font-size: clamp(36px, 4.6vw, 68px);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.045em;
@@ -214,12 +216,12 @@ strong {
   display: flex;
   align-items: center;
   gap: 36px;
-  min-height: 104px;
+  min-height: 80px;
   background: var(--canvas);
   border-bottom: 1px solid var(--rule);
 }
 .wordmark {
-  font: 700 56px/1 var(--heading);
+  font: 700 44px/1 var(--heading);
   letter-spacing: -0.07em;
   text-decoration: none;
   color: var(--accent);
@@ -354,7 +356,7 @@ strong {
   grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
   align-items: start;
   gap: 36px;
-  padding: 78px 0 60px;
+  padding: 40px 0 44px;
   border-bottom: 1px solid var(--rule);
 }
 .name-accent {
@@ -362,48 +364,70 @@ strong {
 }
 .role {
   color: var(--mint);
-  font: 500 30px/1.35 var(--heading);
-  margin-top: 26px;
+  font: 500 22px/1.35 var(--heading);
+  margin-top: 18px;
   letter-spacing: -0.025em;
 }
 .hero-lead {
   color: var(--ink);
-  font-size: 32px;
+  font-size: 25px;
   line-height: 1.4;
-  margin-top: 30px;
+  margin-top: 20px;
   max-width: 640px;
   letter-spacing: -0.025em;
 }
 .hero-summary {
   color: var(--muted);
-  font-size: 21px;
+  font-size: 17px;
   line-height: 1.6;
-  margin-top: 20px;
+  margin-top: 14px;
   max-width: 600px;
 }
 .hero-actions {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 32px;
-  margin-top: 34px;
+  gap: 24px;
+  margin-top: 24px;
 }
 .hero-actions .text-link {
   color: var(--muted);
-  font-size: 19px;
+  font-size: 16px;
 }
 .hero-actions .button-primary {
-  min-width: 276px;
-  padding: 20px 30px;
-  font-size: 20px;
+  padding: 14px 22px;
+  font-size: 16px;
+}
+.hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.hero-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.hero-github .icon {
+  width: 18px;
+  height: 18px;
+}
+.print-contact {
+  display: none;
 }
 .location {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 30px;
+  margin-top: 0;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 14px;
 }
 .location .icon {
   width: 20px;
@@ -412,20 +436,39 @@ strong {
 .workflow-wrap {
   min-width: 0;
 }
+.workflow-summary {
+  display: none;
+}
+.workflow-console {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "input result" "controls result";
+  gap: 12px 16px;
+}
+.workflow-data {
+  grid-area: input;
+  min-width: 0;
+}
 .workflow-visual {
-  padding: 32px;
+  padding: 24px;
   border: 1px solid var(--rule);
   border-radius: 16px;
   background: var(--surface);
 }
 .workflow-visual h2 {
-  font: 400 28px/1.4 var(--mono);
+  font: 500 20px/1.4 var(--mono);
   letter-spacing: -0.04em;
+}
+.workflow-intro {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
 }
 .workflow-diagram {
   position: relative;
-  height: 306px;
-  margin: 32px 0 22px;
+  height: 108px;
+  margin: 14px 0 16px;
 }
 .workflow-connections {
   position: absolute;
@@ -440,7 +483,7 @@ strong {
 }
 .flow-signal {
   fill: var(--accent-fill);
-  offset-path: path("M55 88C145 88 150 118 260 118S375 88 465 88");
+  offset-path: path("M78 56H442");
   offset-rotate: 0deg;
   offset-distance: 26%;
   animation: none;
@@ -451,14 +494,14 @@ strong {
 .flow-signal:nth-of-type(3) {
   offset-distance: 82%;
 }
-:root[data-motion="running"] .flow-signal {
-  animation: flow-travel 4.8s linear infinite;
+:root[data-motion="running"] .workflow-visual[data-state="running"] .flow-signal {
+  animation: flow-travel 1.2s linear infinite;
 }
-:root[data-motion="running"] .flow-signal:nth-of-type(2) {
-  animation-delay: -1.6s;
+:root[data-motion="running"] .workflow-visual[data-state="running"] .flow-signal:nth-of-type(2) {
+  animation-delay: -0.4s;
 }
-:root[data-motion="running"] .flow-signal:nth-of-type(3) {
-  animation-delay: -3.2s;
+:root[data-motion="running"] .workflow-visual[data-state="running"] .flow-signal:nth-of-type(3) {
+  animation-delay: -0.8s;
 }
 @keyframes flow-travel {
   from {
@@ -470,32 +513,32 @@ strong {
 }
 .workflow-node {
   position: absolute;
-  width: 124px;
+  width: 100px;
   transform: translateX(-50%);
   text-align: center;
   color: var(--ink);
-  font: 18px/1.5 var(--mono);
+  font: 14px/1.5 var(--mono);
 }
 .node-receive {
-  top: calc(41.9% - 56px);
-  left: 10.58%;
+  top: 6px;
+  left: 15%;
 }
 .node-transform {
-  top: calc(56.19% - 56px);
+  top: 6px;
   left: 50%;
 }
 .node-deliver {
-  top: calc(41.9% - 56px);
-  left: 89.42%;
+  top: 6px;
+  left: 85%;
 }
 .node-icon {
   display: grid;
   place-items: center;
-  width: 112px;
-  height: 112px;
-  margin: 0 auto 10px;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 5px;
   border: 2px solid var(--node-rule);
-  border-radius: 20px;
+  border-radius: 12px;
   background: var(--surface);
   color: var(--mint);
   transition:
@@ -504,8 +547,8 @@ strong {
     box-shadow 180ms;
 }
 .node-icon > .icon {
-  width: 54px;
-  height: 54px;
+  width: 32px;
+  height: 32px;
   stroke-width: 1.3;
 }
 .tool-icon {
@@ -524,35 +567,58 @@ strong {
 [data-flow-stage][data-complete="true"] .node-icon {
   border-color: var(--mint);
 }
-.workflow-code {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 26px;
-  padding: 28px 20px;
+.workflow-data label,
+.output-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+  font: 500 14px/1.5 var(--sans);
+}
+#workflow-input,
+#workflow-output {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
   border: 1px solid var(--rule);
-  border-radius: 8px;
-  color: var(--muted);
-  font: 20px/1.5 var(--mono);
+  border-radius: 6px;
+  background: var(--canvas);
+  color: var(--ink);
+  font: 14px/1.5 var(--mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
-.workflow-code span:nth-of-type(2) {
-  color: var(--mint);
+#workflow-input {
+  min-height: 106px;
+  resize: vertical;
 }
-.workflow-code .icon {
-  width: 22px;
-  height: 22px;
+#workflow-input[aria-invalid="true"] {
+  border-color: var(--accent);
+}
+#workflow-output {
+  min-height: 150px;
+}
+.workflow-result {
+  grid-area: result;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.workflow-result pre {
+  flex: 1;
+  min-height: 150px;
 }
 .workflow-controls {
+  grid-area: controls;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 20px 14px;
-  margin-top: 38px;
+  gap: 12px;
+  margin-top: 0;
 }
 .workflow-controls .button {
-  min-width: 232px;
-  padding: 15px 20px;
-  font-size: 18px;
+  padding: 11px 16px;
+  font-size: 14px;
   gap: 10px;
 }
 .workflow-controls .icon {
@@ -560,7 +626,8 @@ strong {
   height: 19px;
 }
 #workflow-status {
-  flex: 1 1 95px;
+  order: 3;
+  flex: 1 1 100%;
   color: var(--muted);
   font: 14px/1.5 var(--mono);
 }
@@ -573,50 +640,51 @@ strong {
   background: var(--mint);
   margin-right: 8px;
 }
+.workflow-visual[data-state="error"] #workflow-status {
+  color: var(--accent);
+}
+.workflow-visual[data-state="error"] #workflow-status::before {
+  background: var(--accent);
+}
 .motion-toggle {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 36px;
-  padding: 0;
+  min-height: 44px;
+  padding: 0 4px;
   border: 0;
   background: transparent;
   color: var(--muted);
-  font: 12px/1.4 var(--mono);
+  font: 13px/1.4 var(--sans);
   cursor: pointer;
+  width: auto;
+  justify-content: center;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
-.motion-toggle .icon {
-  width: 36px;
-  height: 36px;
-  padding: 4px;
-  border: 1px solid var(--muted);
-  border-radius: 50%;
+.workflow-footer {
+  margin-top: 14px;
 }
 .workflow-note {
-  margin: 14px 4px 0;
   color: var(--muted);
-  font: 13px/1.6 var(--mono);
+  font: 14px/1.5 var(--sans);
 }
-@media (hover: hover) and (pointer: fine) {
-  :root[data-motion="running"] .workflow-visual[data-tilt] {
-    transform: perspective(1100px) rotateX(calc(var(--pointer-y, 0) * -2deg))
-      rotateY(calc(var(--pointer-x, 0) * 2deg));
-    transition: transform 150ms ease-out;
-  }
+.demo-source {
+  margin-top: 6px;
+  min-height: 36px;
+  font-size: 14px;
 }
 
 /* Open sections replace document sidebars and repeated cards. */
 .skills,
 .experience,
 .training {
-  padding: 76px 0;
+  padding: 48px 0;
 }
 .skills {
-  padding: 36px 0;
+  padding: 48px 0;
   border-bottom: 1px solid var(--rule);
-}
-.skills h2 {
-  font-size: clamp(42px, 7.45vw, 112px);
 }
 .skills .section-heading {
   padding-bottom: 22px;
@@ -634,42 +702,39 @@ strong {
 .section-heading > p {
   max-width: 480px;
   color: var(--muted);
-  font-size: 22px;
+  font-size: 18px;
   line-height: 1.5;
 }
 .skills-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px 72px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px 36px;
 }
 .skill-group {
   position: relative;
   min-width: 0;
-  padding-left: 98px;
+  padding-left: 34px;
 }
 .skill-group::before {
   content: "";
   position: absolute;
-  top: 20px;
+  top: 14px;
   left: 0;
-  width: 62px;
-  height: 5px;
+  width: 20px;
+  height: 3px;
   background: var(--accent-fill);
 }
 .skill-group h3 {
   color: var(--mint);
   margin-bottom: 10px;
-  font-size: 32px;
+  font-size: 23px;
 }
 .skill-group ul {
   list-style: none;
   padding: 0;
   color: var(--ink);
-  font-size: 24px;
-  line-height: 1.7;
-}
-.skill-group:last-child {
-  grid-column: 1 / -1;
+  font-size: 17px;
+  line-height: 1.6;
 }
 .experience {
   padding-top: 36px;
@@ -682,8 +747,8 @@ strong {
 .earlier-job {
   position: relative;
   display: grid;
-  grid-template-columns: 288px minmax(0, 1fr);
-  column-gap: 64px;
+  grid-template-columns: 176px minmax(0, 1fr);
+  column-gap: 44px;
   padding: 30px 0 34px;
   border-bottom: 1px solid var(--rule);
 }
@@ -693,7 +758,7 @@ strong {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 264px;
+  left: 160px;
   width: 1px;
   background: var(--rule);
 }
@@ -702,9 +767,9 @@ strong {
   content: "";
   position: absolute;
   top: 39px;
-  left: 254px;
-  width: 21px;
-  height: 21px;
+  left: 154px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   background: var(--accent-fill);
 }
@@ -717,13 +782,13 @@ strong {
   min-width: 0;
 }
 .job h3 {
-  font-size: 34px;
+  font-size: 28px;
   line-height: 1.3;
 }
 .company {
   color: var(--accent);
   font-family: var(--heading);
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 500;
   line-height: 1.4;
   margin-top: 5px;
@@ -731,10 +796,10 @@ strong {
 .period {
   grid-column: 1;
   grid-row: 1 / 3;
-  max-width: 225px;
+  max-width: 150px;
   padding-top: 2px;
   color: var(--mint);
-  font-size: 21px;
+  font-size: 15px;
   line-height: 1.55;
 }
 .period time {
@@ -743,7 +808,7 @@ strong {
 .bullets {
   grid-column: 2;
   grid-row: 2;
-  font-size: 21px;
+  font-size: 18px;
   line-height: 1.5;
   margin-top: 18px;
 }
@@ -754,7 +819,7 @@ strong {
   margin-top: 10px;
 }
 .earlier-experience > h3 {
-  padding: 42px 0 12px 352px;
+  padding: 32px 0 12px 220px;
   font-size: 24px;
 }
 .earlier-job h4 {
@@ -775,7 +840,7 @@ strong {
   border-bottom: 0;
 }
 .training > h2 {
-  font-size: clamp(42px, 5.1vw, 76px);
+  font-size: clamp(36px, 4.6vw, 68px);
   margin-bottom: 24px;
 }
 .training {
@@ -783,8 +848,8 @@ strong {
 }
 .featured-training {
   display: grid;
-  grid-template-columns: 245px minmax(0, 1fr) auto;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 24px;
   align-items: center;
   padding: 20px 24px;
   border: 1px solid var(--rule);
@@ -792,9 +857,9 @@ strong {
   background: var(--surface);
 }
 .featured-certificate {
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
-  font: 600 30px/1.35 var(--heading);
+  font: 600 26px/1.35 var(--heading);
   text-decoration: none;
 }
 .featured-certificate .icon {
@@ -802,15 +867,18 @@ strong {
 }
 .featured-training > p {
   grid-column: 1;
-  grid-row: 1;
+  grid-row: 2;
   color: var(--mint);
-  font-size: 18px;
+  font-size: 14px;
+}
+.featured-training time {
+  white-space: nowrap;
 }
 .featured-training > .text-link {
-  grid-column: 3;
-  grid-row: 1;
+  grid-column: 2;
+  grid-row: 1 / 3;
   color: var(--accent);
-  font-size: 20px;
+  font-size: 16px;
   white-space: nowrap;
 }
 .certificate-groups {
@@ -844,6 +912,9 @@ strong {
 }
 .all-certificates {
   font-size: 20px;
+}
+.additional-courses-heading {
+  display: none;
 }
 .all-certificates summary {
   display: flex;
@@ -972,10 +1043,10 @@ strong {
   }
   .hero {
     gap: 36px;
-    padding-top: 58px;
+    padding-top: 32px;
   }
   h1 {
-    font-size: clamp(76px, 9vw, 110px);
+    font-size: clamp(68px, 6.5vw, 90px);
   }
   .role {
     font-size: 21px;
@@ -1001,12 +1072,7 @@ strong {
     font-size: 20px;
   }
   .workflow-diagram {
-    height: 230px;
-  }
-  .workflow-code {
-    font-size: 14px;
-    gap: 18px;
-    padding: 18px 12px;
+    height: 108px;
   }
   .workflow-controls {
     gap: 14px;
@@ -1017,13 +1083,14 @@ strong {
     padding: 11px 15px;
   }
   .workflow-controls .motion-toggle {
-    width: 100%;
+    width: auto;
   }
   .skills-grid {
-    gap: 40px;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
   }
   .skill-group {
-    padding-left: 62px;
+    padding-left: 34px;
   }
   .skill-group ul {
     font-size: 17px;
@@ -1054,7 +1121,7 @@ strong {
     padding-left: 220px;
   }
   .featured-training {
-    grid-template-columns: 155px minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 18px;
   }
   .featured-certificate {
@@ -1070,19 +1137,19 @@ strong {
 @media (max-width: 1000px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 28px;
   }
   h1 {
-    font-size: clamp(90px, 13vw, 126px);
+    font-size: clamp(68px, 10vw, 100px);
   }
   .hero-copy {
     max-width: 650px;
   }
   .role {
-    font-size: 26px;
+    font-size: 23px;
   }
   .hero-lead {
-    font-size: 28px;
+    font-size: 25px;
   }
   .hero-summary {
     font-size: 18px;
@@ -1092,13 +1159,13 @@ strong {
     max-width: 670px;
   }
   .workflow-visual {
-    padding: 32px;
+    padding: 24px;
   }
   .workflow-visual h2 {
-    font-size: 24px;
+    font-size: 20px;
   }
   .workflow-diagram {
-    height: 260px;
+    height: 108px;
   }
   .workflow-controls .motion-toggle {
     width: auto;
@@ -1124,11 +1191,11 @@ strong {
   }
   .featured-certificate {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
   }
   .featured-training > p {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 2;
   }
   .featured-training > .text-link {
     grid-column: 2;
@@ -1203,26 +1270,26 @@ strong {
     padding: 5px 0;
   }
   .hero {
-    padding: 52px 0 54px;
+    padding: 28px 0 32px;
   }
   h1 {
-    font-size: clamp(62px, 14.8vw, 100px);
+    font-size: clamp(56px, 12vw, 80px);
   }
   .role {
-    font-size: 22px;
-    margin-top: 22px;
+    font-size: 20px;
+    margin-top: 16px;
   }
   .hero-lead {
-    font-size: 24px;
-    margin-top: 25px;
+    font-size: 22px;
+    margin-top: 18px;
   }
   .hero-summary {
     font-size: 16px;
-    margin-top: 16px;
+    margin-top: 12px;
   }
   .hero-actions {
-    gap: 24px;
-    margin-top: 28px;
+    gap: 18px;
+    margin-top: 20px;
   }
   .button-primary,
   .hero-actions .button-primary {
@@ -1233,13 +1300,48 @@ strong {
     font-size: 14px;
   }
   .location {
-    font-size: 12px;
-    margin-top: 26px;
+    font-size: 14px;
+    margin-top: 0;
+  }
+  .hero-meta {
+    margin-top: 12px;
+    gap: 2px 18px;
+  }
+  .workflow-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    min-height: 56px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+    font: 500 15px/1.5 var(--sans);
+    list-style: none;
+    cursor: pointer;
+  }
+  .workflow-summary::-webkit-details-marker {
+    display: none;
+  }
+  .workflow-wrap[open] > .workflow-summary .icon {
+    transform: rotate(90deg);
+  }
+  .workflow-wrap[open] > .workflow-visual {
+    margin-top: 12px;
+  }
+  .workflow-console {
+    grid-template-columns: 1fr;
+    grid-template-areas: "input" "controls" "result";
+  }
+  #workflow-output {
+    min-height: 104px;
   }
   .skills,
   .experience,
   .training {
-    padding: 52px 0;
+    padding: 36px 0;
   }
   .section-heading {
     display: block;
@@ -1252,16 +1354,16 @@ strong {
   }
   .skills-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
   }
   .skill-group {
-    padding-left: 58px;
+    padding-left: 34px;
   }
   .skill-group:last-child {
     grid-column: auto;
   }
   .skill-group::before {
-    width: 35px;
+    width: 20px;
     top: 14px;
     height: 3px;
   }
@@ -1429,13 +1531,13 @@ strong {
     padding: 0 22px;
   }
   h1 {
-    font-size: clamp(57px, 14.8vw, 72px);
+    font-size: clamp(51px, 13.5vw, 64px);
   }
   .hero-lead {
     font-size: 22px;
   }
   .hero-actions {
-    gap: 24px 20px;
+    gap: 14px 20px;
   }
   .workflow-visual {
     padding: 21px;
@@ -1444,18 +1546,18 @@ strong {
     font-size: 18px;
   }
   .workflow-diagram {
-    height: 200px;
+    height: 90px;
     margin-top: 12px;
   }
   .workflow-node {
-    width: 72px;
+    width: 80px;
     font-size: 12px;
   }
   .node-icon {
-    width: 62px;
-    height: 62px;
+    width: 52px;
+    height: 52px;
     border-radius: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
   }
   .node-icon > .icon,
   .tool-icon {
@@ -1464,37 +1566,52 @@ strong {
   }
   .node-receive,
   .node-deliver {
-    top: calc(41.9% - 31px);
+    top: 6px;
   }
   .node-transform {
-    top: calc(56.19% - 31px);
-  }
-  .workflow-code {
-    font-size: 11px;
-    gap: 8px;
-    padding: 14px 7px;
-  }
-  .workflow-code .icon {
-    width: 14px;
-    height: 14px;
+    top: 6px;
   }
   .workflow-controls {
-    margin-top: 22px;
-    gap: 16px 10px;
+    margin-top: 0;
+    gap: 10px;
   }
   .workflow-controls .button {
-    width: 100%;
+    width: auto;
     padding: 12px 14px;
   }
   .motion-toggle {
-    font-size: 10px;
+    font-size: 12px;
   }
   #workflow-status {
-    font-size: 10px;
-    flex-basis: 75px;
+    font-size: 14px;
+    flex-basis: 100%;
   }
   .workflow-note {
-    font-size: 10px;
+    font-size: 14px;
+  }
+}
+@media (min-width: 1001px) and (max-height: 700px) {
+  .site-header {
+    min-height: 72px;
+  }
+  .hero {
+    padding-top: 28px;
+  }
+  h1 {
+    font-size: clamp(64px, 6.1vw, 88px);
+  }
+  .hero-lead {
+    font-size: 22px;
+  }
+  .hero-summary {
+    font-size: 16px;
+  }
+  .workflow-visual {
+    padding: 20px;
+  }
+  .workflow-diagram {
+    margin: 8px 0 10px;
+    height: 108px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1506,9 +1623,6 @@ strong {
   *::after {
     transition: none !important;
     animation: none !important;
-  }
-  .workflow-visual[data-tilt] {
-    transform: none !important;
   }
 }
 :root[data-motion="paused"] .flow-signal,
@@ -1576,6 +1690,20 @@ strong {
   }
   .hero-copy {
     max-width: none;
+  }
+  .hero-meta {
+    display: block;
+    margin-top: 0;
+  }
+  .hero-github {
+    display: none;
+  }
+  .print-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1mm 4mm;
+    margin-top: 2mm;
+    font: 7.7pt/1.5 var(--sans);
   }
   h1 {
     font-size: 28pt;
@@ -1698,6 +1826,9 @@ strong {
     padding: 3mm 0 0;
     font-size: 10.5pt;
   }
+  .earlier-experience {
+    break-inside: avoid;
+  }
   .earlier-job h4 {
     font-size: 10pt;
   }
@@ -1761,8 +1892,23 @@ strong {
   }
   .extra-certificates {
     grid-template-columns: 1fr 1fr;
-    gap: 1mm 5mm;
+    gap: 0.7mm 5mm;
     margin-top: 1mm;
+  }
+  .extra-certificates li + li {
+    margin-top: 0;
+  }
+  .additional-courses-heading {
+    display: block;
+    color: var(--mint);
+    font-size: 9pt;
+    line-height: 1.4;
+    margin: 2mm 0 1mm;
+    break-after: avoid;
+  }
+  .all-certificates {
+    break-inside: avoid;
+    border-top: 1px solid var(--rule);
   }
   .contact {
     padding: 4mm 0 0;

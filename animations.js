@@ -5,11 +5,14 @@
   const toggle = document.getElementById('theme-toggle');
   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const motionToggle = document.getElementById('motion-toggle');
   const workflow = document.querySelector('.workflow-visual');
   const runWorkflow = document.getElementById('run-workflow');
   const workflowStatus = document.getElementById('workflow-status');
+  const workflowInput = document.getElementById('workflow-input');
+  const workflowOutput = document.getElementById('workflow-output');
+  const workflowDisclosure = document.querySelector('.workflow-wrap');
+  const compactWorkflow = window.matchMedia('(max-width: 700px)');
   const stages = ['receive', 'transform', 'deliver'].map(stage =>
     document.querySelector('.workflow-node[data-flow-stage="' + stage + '"]'));
   const revealAnimations = new Map();
@@ -23,11 +26,30 @@
   let backgrounded = document.visibilityState === 'hidden';
   let workflowTimer = null;
   let workflowRunning = false;
+  let pendingResult = null;
+  let mobileDemoExpanded = false;
 
   function listen(media, callback) {
     if (media.addEventListener) media.addEventListener('change', callback);
     else if (media.addListener) media.addListener(callback);
   }
+
+  // Mobile readers reach work first; opening the demo is a native keyboard/touch action.
+  function layoutWorkflow() {
+    if (!workflowDisclosure) return;
+    const focusInside = workflowDisclosure.contains(document.activeElement) &&
+      document.activeElement !== workflowDisclosure.querySelector('summary');
+    workflowDisclosure.open = !compactWorkflow.matches || mobileDemoExpanded || focusInside;
+  }
+  if (workflowDisclosure) {
+    const summary = workflowDisclosure.querySelector('summary');
+    if (summary) summary.addEventListener('click', () => {
+      mobileDemoExpanded = !workflowDisclosure.open;
+    });
+    workflowDisclosure.addEventListener('toggle', queueReadingPosition);
+  }
+  layoutWorkflow();
+  listen(compactWorkflow, layoutWorkflow);
 
   function applyTheme(dark) {
     root.dataset.theme = dark ? 'dark' : 'light';
@@ -53,12 +75,6 @@
     if (!explicitChoice) applyTheme(event.matches);
   });
 
-  function resetPointer() {
-    if (!workflow) return;
-    workflow.style.setProperty('--pointer-x', '0');
-    workflow.style.setProperty('--pointer-y', '0');
-  }
-
   function cancelReveals() {
     revealAnimations.forEach(animation => animation.cancel());
     revealAnimations.clear();
@@ -77,13 +93,16 @@
     workflowTimer = null;
     const wasRunning = workflowRunning;
     workflowRunning = false;
+    pendingResult = null;
     if (runWorkflow) runWorkflow.disabled = false;
+    if (workflowInput) workflowInput.readOnly = false;
     if (workflow) {
       workflow.setAttribute('aria-busy', 'false');
       if (wasRunning) workflow.dataset.state = 'idle';
     }
     if (wasRunning) {
       clearStages();
+      if (workflowOutput) workflowOutput.textContent = 'Run the sample to see the routed message.';
       if (workflowStatus) workflowStatus.textContent = message;
     }
   }
@@ -102,15 +121,15 @@
       motionToggle.setAttribute('aria-disabled', String(mode === 'reduced'));
       motionToggle.title = mode === 'reduced' ? 'Your system reduced-motion setting is active.' : label;
       const text = motionToggle.querySelector('.motion-label');
-      if (text) text.textContent = label;
+      if (text) text.textContent = mode === 'reduced' ? 'Reduced motion' : 'Motion: ' + (mode === 'running' ? 'on' : 'off');
     }
     if (mode !== 'running') {
       cancelReveals();
-      resetPointer();
       stopWorkflow(backgrounded ? 'Demo paused while tab is hidden' :
         mode === 'reduced' ? 'Reduced motion enabled — ready to run' : 'Motion paused');
-    } else if (workflow && workflowStatus && !workflowRunning && workflow.dataset.state !== 'complete') {
-      // Resume ambient effects, not a cancelled demo; announce the real idle state.
+    } else if (workflow && workflowStatus && !workflowRunning &&
+               !['complete', 'error'].includes(workflow.dataset.state)) {
+      // Resume optional motion, not a cancelled demo; announce the real idle state.
       workflowStatus.textContent = 'Ready to run';
     }
   }
@@ -127,6 +146,24 @@
   }
   listen(reducedMotion, applyMotion);
 
+  // A deterministic, browser-only example. No credentials, network calls or real services.
+  function transformPayload(raw) {
+    let payload;
+    try { payload = JSON.parse(raw); } catch (_) {
+      throw new Error('Enter valid JSON with requester, topic and priority.');
+    }
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload) ||
+        typeof payload.requester !== 'string' || !payload.requester.trim() || payload.requester.length > 60 ||
+        typeof payload.topic !== 'string' || !payload.topic.trim() || payload.topic.length > 120 ||
+        !['high', 'normal'].includes(payload.priority)) {
+      throw new Error('Use requester (1–60 characters), topic (1–120 characters) and priority "high" or "normal".');
+    }
+    return {
+      channel: payload.priority === 'high' ? '#support-priority' : '#support',
+      text: '[' + payload.priority.toUpperCase() + '] ' + payload.requester.trim() + ': ' + payload.topic.trim(),
+    };
+  }
+
   function finishWorkflow() {
     workflowTimer = null;
     workflowRunning = false;
@@ -135,25 +172,51 @@
     workflow.dataset.state = 'complete';
     workflow.setAttribute('aria-busy', 'false');
     workflowStatus.textContent = 'Workflow complete';
+    workflowOutput.textContent = JSON.stringify(pendingResult, null, 2);
+    workflowInput.readOnly = false;
+    pendingResult = null;
     runWorkflow.disabled = false;
   }
 
-  if (workflow && runWorkflow && workflowStatus && stages.every(Boolean)) {
+  if (workflow && runWorkflow && workflowStatus && workflowInput && workflowOutput && stages.every(Boolean)) {
     workflow.dataset.state = 'idle';
     workflow.setAttribute('aria-busy', 'false');
+    workflowInput.addEventListener('input', () => {
+      if (workflowRunning) return;
+      clearStages();
+      workflow.dataset.state = 'idle';
+      workflowInput.removeAttribute('aria-invalid');
+      workflowInput.setAttribute('aria-describedby', 'workflow-help');
+      workflowStatus.textContent = 'Ready to run';
+      workflowOutput.textContent = 'Run the sample to see the routed message.';
+    });
     runWorkflow.addEventListener('click', () => {
       if (workflowRunning) return;
       clearStages();
+      workflowInput.removeAttribute('aria-invalid');
+      workflowInput.setAttribute('aria-describedby', 'workflow-help');
+      try {
+        pendingResult = transformPayload(workflowInput.value);
+      } catch (error) {
+        workflow.dataset.state = 'error';
+        workflowInput.setAttribute('aria-invalid', 'true');
+        workflowInput.setAttribute('aria-describedby', 'workflow-help workflow-status');
+        workflowStatus.textContent = error.message;
+        workflowOutput.textContent = 'Correct the payload, then run it again.';
+        return;
+      }
       workflowRunning = true;
       workflow.dataset.state = 'running';
       workflow.setAttribute('aria-busy', 'true');
       runWorkflow.disabled = true;
+      workflowInput.readOnly = true;
+      workflowOutput.textContent = 'Processing the sample…';
       // Reduced or paused motion keeps the demo useful without timed movement.
       if (!motionRunning()) {
         finishWorkflow();
         return;
       }
-      const labels = ['Receiving data…', 'Transforming data…', 'Delivering result…'];
+      const labels = ['Receiving data…', 'Transforming data…', 'Preparing preview…'];
       function showStage(index) {
         stages.forEach(node => { delete node.dataset.active; });
         stages[index].dataset.active = 'true';
@@ -204,22 +267,6 @@
     }
   });
 
-  if (workflow && workflow.hasAttribute('data-tilt')) {
-    resetPointer();
-    workflow.addEventListener('pointermove', event => {
-      if (!motionRunning() || !finePointer.matches || event.pointerType === 'touch') return;
-      const bounds = workflow.getBoundingClientRect();
-      if (!bounds.width || !bounds.height) return;
-      const x = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1));
-      const y = Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1));
-      workflow.style.setProperty('--pointer-x', x.toFixed(3));
-      workflow.style.setProperty('--pointer-y', y.toFixed(3));
-    });
-    workflow.addEventListener('pointerleave', resetPointer);
-    window.addEventListener('blur', resetPointer);
-    listen(finePointer, resetPointer);
-  }
-
   const progress = document.getElementById('reading-progress');
   const navTargets = Array.from(document.querySelectorAll('.navigation a[href^="#"]')).map(link => ({
     link, section: document.getElementById(link.getAttribute('href').slice(1)),
@@ -238,7 +285,8 @@
       }
     }
     const header = document.querySelector('.site-header');
-    const checkpoint = (header ? header.getBoundingClientRect().height : 0) + 48;
+    const checkpoint = Math.max((header ? header.getBoundingClientRect().height : 0) + 24,
+      parseFloat(window.getComputedStyle(root).scrollPaddingTop) || 0) + 2;
     const ordered = navTargets.slice().sort((a, b) =>
       a.section.getBoundingClientRect().top - b.section.getBoundingClientRect().top);
     let current = null;

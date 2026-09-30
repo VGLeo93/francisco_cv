@@ -58,17 +58,17 @@ Developer and automation specialist who connects business tools with JavaScript,
 
 ### Earlier support experience
 
-**Cash App — Tech Support Representative | Jul 2019 – Nov 2019**
-
-- Provided technical and customer support; collaborated across teams and supported risk and fraud reviews.
-
 **The Office Gurus — Bilingual Customer Service Representative | Nov 2019 – May 2020**
 
 - Handled follow-ups, payment processing, data entry, reactivations and cancellations across chat, email and calls.
 
-## Training and certifications
+**Cash App — Tech Support Representative | Jul 2019 – Nov 2019**
 
-- [Machine Learning / AI Engineer Career Path](certifications/machine-learning-ai-engineer-career-path.pdf) — completed October 2025.
+- Provided technical and customer support; collaborated across teams and supported risk and fraud reviews.
+
+## Training and course certificates
+
+- [Machine Learning / AI Engineer Career Path](certifications/machine-learning-ai-engineer-career-path.pdf) — Codecademy, Certificate of Completion, October 20, 2025.
 - [Build Chatbots with Python](certifications/build-chatbots-with-python-skill-path.pdf)
 - [OpenAI API Coding with Python](certifications/openai-api-coding-with-python-course.pdf)
 - [Learn Prompt Engineering](certifications/learn-prompt-engineering-course.pdf)

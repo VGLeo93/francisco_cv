@@ -2,15 +2,15 @@
 
 [View the CV website](https://vgleo93.github.io/francisco_cv/) · [Download the PDF](Francisco_Vaquero_CV.pdf) · [Read the Markdown CV](Francisco_Vaquero_CV_Tech.md)
 
-A developer portfolio and downloadable résumé, built with semantic HTML, responsive CSS and small vanilla JavaScript enhancements. Dark ink, coral accents, oversized typography and an interactive workflow playground give the website its own identity. Skills use open capability groups; six roles form a readable career timeline; training and contact close the page.
+A developer portfolio and downloadable résumé, built with semantic HTML, responsive CSS and small vanilla JavaScript enhancements. Dark ink, coral accents, name-led typography and an interactive workflow playground give the website its own identity. Six roles form a readable career timeline before the open skills groups; training and contact close the page.
 
 The site has no framework or third-party runtime requests. Fonts, tool icons, the original portrait and all 16 certificates are served locally.
 
 ## Content
 
-The September 2026 redesign presents Francisco as a developer working with automation and integrations. The workflow playground is an illustrative, local-state demo—not a claimed client project. It sends a visible signal through Webhook → Python → Slack when a visitor presses `Run workflow`; it does not contact an API or send messages.
+The September 2026 redesign presents Francisco as a developer working with automation and integrations. The workflow playground is a browser-only JavaScript example—not a claimed client project. Edit the synthetic JSON payload and press `Run workflow` to normalize the text and select a support channel from its priority. The result is shown on the page, never sent to an API or messaging service. Invalid JSON or fields produce a recoverable inline error. On phones, a native disclosure keeps the demo optional so readers reach experience sooner. The demo links directly to its source code.
 
-The existing website is the source for contact details and employment dates; the original Markdown draft used a different phone number and overlapping early-role dates. The revamp preserves the published website's details. No new employers, credentials, dates, proficiency scores or numerical achievements were added. The existing AI Engineer certificate records completion in October 2025. The original portrait and all 16 certificate PDFs are retained.
+The existing website is the source for contact details and employment dates; the original Markdown draft used a different phone number and overlapping early-role dates. The revamp preserves the published website's details. No new employers, credentials, dates, proficiency scores or numerical achievements were added. The existing AI Engineer document is identified as a Codecademy Certificate of Completion dated October 20, 2025. The original portrait and all 16 certificate PDFs are retained; the page serves a smaller 240×309 WebP copy of the portrait.
 
 The owner subsequently confirmed the FundFlare employment dates as December 14, 2023–April 26, 2025. The website, Markdown CV and downloadable PDF use this corrected range.
 
@@ -34,16 +34,16 @@ If Chrome is in a nonstandard location, set `CHROME` to its executable. Dependen
 - `Save as PDF` downloads `Francisco_Vaquero_CV.pdf`.
 - Browser printing uses a compact white A4 stylesheet and expands all certificate links. The generated download is two pages with selectable, tagged text and public certificate links.
 - The theme follows the system until a reader saves a choice; storage-restricted browsing is supported.
-- One-shot section reveals, moving workflow signals and subtle fine-pointer tilt are optional. `Pause motion` saves a preference; the operating system's reduced-motion setting takes priority. Background tabs and printing cancel active motion. A cancelled workflow returns to a ready state rather than restarting unexpectedly.
-- The workflow remains usable without timed movement when motion is paused or reduced. All résumé content stays visible without JavaScript; native certificate disclosure still works.
+- One-shot section reveals and signals during a workflow run are optional. There is no idle animation or pointer tilt. `Pause motion` saves a preference; the operating system's reduced-motion setting takes priority. Background tabs and printing cancel active motion. A cancelled workflow returns to a ready state rather than restarting unexpectedly.
+- The workflow produces the same result without timed movement when motion is paused or reduced. All résumé content stays visible without JavaScript; native disclosures still work. PDF page one includes readable email, phone and public profile URLs.
 
 ## Verification
 
-`npm run test:ui` checks identity, six roles, the precise FundFlare dates, 16 certificates, fonts and local downloads, anchors, active navigation/progress, disclosure, theme/system/storage behavior, text contrast, finite reveals, workflow stages, reentry prevention, keyboard activation/focus, motion persistence, live reduced-motion changes, simulated background visibility, print restoration, no-JavaScript reading, console health and overflow at 320, 360, 390, 768, 1024 and 1469 pixels.
+`npm run test:ui` checks identity, six roles, the precise FundFlare dates, 16 certificates, fonts and local downloads, anchors, active navigation/progress, disclosure, theme/system/storage behavior, text contrast, finite reveals, payload validation and deterministic output, error descriptions, workflow stages, reentry prevention, keyboard activation/focus, motion persistence, live reduced-motion changes, simulated background visibility, print restoration, no-JavaScript reading, console health and overflow at 320, 360, 390, 768, 1024 and 1469 pixels. It also checks the 1168×556 laptop opening and mobile first paint with the deferred script withheld.
 
 Tests and PDF export share a loopback-only HTTP server that serves public CV files, not development tools or directory listings. This gives fonts the same same-origin behavior as GitHub Pages.
 
-[Design references, fidelity checks, delegation and QA scope](DESIGN_NOTES.md) document the redesign. The main agent checked real Chrome interactions and independently reran the sub-agent's regression suite. Both PDF pages were rendered and visually inspected.
+[Design references, refinement decisions, delegation and QA scope](DESIGN_NOTES.md) document the redesign. The requested Claude Opus 5.5 high-effort critic reviewed source and local captures; its material finishing requests were implemented. The main agent checked real Chrome interactions and independently ran the expanded regression suite. Both PDF pages were rendered and visually inspected, including first-page contact links and the separate additional-course group.
 
 To capture local QA images outside the repository:
 
@@ -63,11 +63,11 @@ The generated site excludes development tools and local evidence. Original Power
 
 - `index.html`: professional content and accessible page structure.
 - `styles.css`: design tokens, responsive layouts and A4 print rules.
-- `animations.js`: theme, finite reveals, workflow state, motion controls, pointer tilt, navigation/progress and print restoration.
+- `animations.js`: theme, finite reveals, payload validation/transformation, workflow state, motion controls, responsive demo disclosure, navigation/progress and print restoration.
 - `Francisco_Vaquero_CV_Tech.md`: editable, application-friendly text CV.
 - `Francisco_Vaquero_CV.pdf`: printable download.
 - `scripts/`: shared browser launcher, restricted local HTTP preview, PDF export and site packaging.
-- `assets/`: self-hosted fonts, SVG tool icons and their licenses.
+- `assets/`: self-hosted fonts, optimized portrait, original SVG tool references and their licenses.
 - `certifications/`: original certification documents.
 
 ## Asset attribution

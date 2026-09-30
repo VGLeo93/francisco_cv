@@ -1,6 +1,37 @@
 # Animated developer CV — design and QA
 
-September 29, 2026. The redesign implements an ink/coral/mint developer portfolio, with a clean printable résumé as a separate presentation. No new employment, projects, achievements or credentials were invented.
+September 29, 2026. The current site uses an ink/coral/mint developer portfolio and a separate printable résumé. No employment, projects, achievements or credentials were invented.
+
+## Current refinement: proof before tools
+
+The approved follow-up makes the existing design easier to scan and gives its workflow demonstration real, inspectable behavior. It retains the palette, self-hosted Space Grotesk/Inter, open timeline and original portrait. The original concept journal below is historical: its 150px name, Python/Slack nodes, idle signals and pointer tilt no longer describe the current implementation.
+
+| Review point | Current treatment | Local evidence |
+| --- | --- | --- |
+| Opening hierarchy | Shorter introduction; View experience, Get in touch and GitHub visible sooner | 1168×556 laptop action checks; desktop capture `03-wide-desktop.png` |
+| Mobile reading order | Native optional demo, then Experience, Skills and Training | At 390×844, Experience begins at y804 instead of y2479 in the previous version; `05-mobile-opening.png` |
+| Developer proof | Editable synthetic JSON produces a deterministic JavaScript message preview, with validation and a source-file link | Normal/high priority results, malformed/invalid input, reruns and text-only output checked |
+| Motion | Finite reveals and signals only during a run; no idle loop or pointer tilt | Run/pause/reduced-motion/background/print tests; visible Motion: on/off label with an accessible action name |
+| Training and print | Truthful Codecademy completion label, newest-first earlier roles and a distinct Additional courses print group | Two A4 pages; four readable clickable contact links on page one; 16 unique certificate destinations |
+
+### Requested independent critic
+
+The actual Claude CLI used `claude-opus-5-5` with high effort, not a substitute model. Initial and resumed final critiques used the same session, `28a010ca-5a91-457a-b983-6dead0e495a9`, under Read-only tools, empty strict MCP configuration and no browser access. Both calls exited successfully. The critic read selected source and the supplied local captures; it did not run tests or inspect the deployed website.
+
+Its initial critique led to the honest JavaScript/Preview labels, actual input/output, an in-frame no-service disclaimer, run-only signals, removal of tilt, a smaller mobile opening and stronger chronology/credential labeling. The final verdict found no release-blocking defect but requested a visible motion label and a clearly separate PDF course group before publication. Those changes were applied. Its minor input-description issue was also fixed: invalid fields reference the current error, and editing or a valid run restores the help-only description. A parser-time disclosure initializer resolves mobile state before the panel contents can paint; a regression test withholds the deferred script and compares the Experience position before and after it loads.
+
+The unchanged critic reports remain local QA evidence, not site assets:
+
+- `/tmp/francisco-cv-opus55-high-initial-28a010ca.md`
+- `/tmp/francisco-cv-opus55-high-final-8a297813.md`
+
+The main agent independently reviewed the proposed changes, reran the repository UI checks, examined the local Chrome captures and rendered both PDF pages with Poppler. CodeRabbit also reviewed the implementation; binary PDF/image output is verified separately. Browser captures are in `/tmp/francisco-cv-refine.QvTAfn/` and are not bundled or published.
+
+The six roles, exact FundFlare dates (`2023-12-14`–`2025-04-26`), all 16 certificate destinations and original portrait bytes are preserved. The page now uses a 4,088-byte 240×309 WebP derived from the untouched 1,621,990-byte portrait. Previously tracked dependencies and stale `dist/` output were removed from the Git index; their local copies remain available. Deployment still packages an explicit public asset list.
+
+Verification scope remains local Chromium, not physical phones, Safari/Firefox, formal accessibility certification or a production performance measurement. The delayed-script check is a deterministic first-paint regression, not a physical slow-phone test. GitHub Actions publication status is checked separately; no live-domain browser verification is claimed.
+
+## Original redesign journal (historical)
 
 ## Accepted references
 
