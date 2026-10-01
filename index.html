@@ -7,7 +7,7 @@
     <title>Francisco Vaquero | Software Developer &amp; Automation Specialist</title>
     <meta
       name="description"
-      content="Francisco Vaquero, Software Developer and Automation Specialist. I build applications, connect systems, and automate workflows. Try a small app and explore my work at Praeco."
+      content="Francisco Vaquero, Software Developer and Automation Specialist. I build applications, connect systems, and automate workflows. Explore my development, automation and infrastructure work at Praeco."
     />
     <link rel="canonical" href="https://vgleo93.github.io/francisco_cv/" />
     <meta
@@ -16,7 +16,7 @@
     />
     <meta
       property="og:description"
-      content="I build applications, connect systems, and automate workflows. Try an interactive example and explore my experience, skills and course certificates."
+      content="I build applications, connect systems, and automate workflows. Explore the systems I build, my experience, skills and course certificates."
     />
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://vgleo93.github.io/francisco_cv/" />
@@ -44,8 +44,9 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260930-request-app" />
-    <script src="animations.js?v=20260930-request-app" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260930-data-workspace" />
+    <script src="animations.js?v=20260930-data-workspace" defer></script>
+    <script src="data-workspace.js?v=20260930-data-workspace" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#experience">Skip to experience</a>
@@ -122,13 +123,6 @@
           stroke-width="2.2"
         />
         <circle cx="7" cy="7" r="1.2" fill="var(--surface)" stroke="none" />
-      </symbol>
-      <symbol id="icon-github" viewBox="0 0 16 16">
-        <path
-          fill="currentColor"
-          stroke="none"
-          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.23.48-2.7-.95-2.7-.95-.36-.92-.89-1.16-.89-1.16-.73-.5.05-.49.05-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.87c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.74.54 1.49v2.18c0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
-        />
       </symbol>
     </svg>
 
@@ -210,11 +204,6 @@
               ></a>
             </div>
             <div class="hero-meta">
-              <a class="hero-github" href="https://github.com/VGLeo93"
-                target="_blank" rel="noopener noreferrer">
-                <svg class="icon" aria-hidden="true"><use href="#icon-github" /></svg>
-                GitHub<svg class="icon icon-small" aria-hidden="true"><use href="#icon-external" /></svg>
-              </a>
               <p class="location">
                 <svg class="icon" aria-hidden="true"><use href="#icon-pin" /></svg>
                 Antiguo Cuscatlán, El Salvador
@@ -223,166 +212,25 @@
             <div class="print-contact">
               <a href="mailto:franciscovaquero93@gmail.com">franciscovaquero93@gmail.com</a>
               <a href="tel:+50361312121">+503 6131 2121</a>
-              <a href="https://github.com/VGLeo93">github.com/VGLeo93</a>
               <a href="https://www.linkedin.com/in/francisco-vaquerog/">linkedin.com/in/francisco-vaquerog</a>
             </div>
           </div>
-          <details class="workflow-wrap" open data-reveal>
-            <summary class="workflow-summary">Try a small app I built<svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg></summary>
-            <script>
-              // Resolve the mobile disclosure before its contents can paint.
-              document.currentScript.parentElement.open = !window.matchMedia("(max-width: 700px)").matches;
-            </script>
-            <div
-              class="workflow-visual"
-              role="region"
-              data-state="idle"
-              aria-labelledby="workflow-heading"
-            >
-              <h2 id="workflow-heading">From request to next step</h2>
-              <p class="workflow-intro">Choose an example, change a detail, and see how a small app organizes the work.</p>
-              <div
-                class="workflow-diagram"
-                role="group"
-                aria-label="Three steps: receive a request, organize the details, and prepare the next step."
-              >
-                <svg
-                  class="workflow-connections"
-                  viewBox="0 0 520 160"
-                  preserveAspectRatio="none"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    class="flow-line"
-                    d="M78 56H442"
-                  />
-                  <circle class="flow-signal" r="4" />
-                  <circle class="flow-signal" r="4" />
-                  <circle class="flow-signal" r="4" />
-                </svg>
-                <div
-                  class="workflow-node node-receive"
-                  data-flow-stage="receive"
-                >
-                  <div class="node-icon">
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#icon-webhook" />
-                    </svg>
-                  </div>
-                  <span>Request</span>
-                </div>
-                <div
-                  class="workflow-node node-transform"
-                  data-flow-stage="transform"
-                >
-                  <div class="node-icon">
-                    <svg class="icon" aria-hidden="true"><use href="#icon-code" /></svg>
-                  </div>
-                  <span>Organize</span>
-                </div>
-                <div
-                  class="workflow-node node-deliver"
-                  data-flow-stage="deliver"
-                >
-                  <div class="node-icon">
-                    <svg class="icon" aria-hidden="true"><use href="#icon-mail" /></svg>
-                  </div>
-                  <span>Next step</span>
-                </div>
-              </div>
-              <div class="workflow-console">
-              <form id="workflow-form" class="workflow-data" data-enhanced novalidate autocomplete="off">
-                <div class="workflow-field">
-                  <label for="workflow-example">Choose an example</label>
-                  <select id="workflow-example" aria-describedby="workflow-help">
-                    <option value="support">App support</option>
-                    <option value="onboarding">New customer</option>
-                    <option value="billing">Billing question</option>
-                  </select>
-                </div>
-                <div class="workflow-field-row">
-                  <div class="workflow-field">
-                    <label for="workflow-requester">Name</label>
-                    <input id="workflow-requester" type="text" value="Ada" maxlength="60" required aria-describedby="workflow-help" />
-                  </div>
-                  <div class="workflow-field">
-                    <label for="workflow-priority">Urgency</label>
-                    <select id="workflow-priority" aria-describedby="workflow-help">
-                      <option value="normal">Normal</option>
-                      <option value="high" selected>Urgent</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="workflow-field">
-                  <label for="workflow-input">What do they need?</label>
-                  <input id="workflow-input" type="text" value="Help signing in" maxlength="120" required aria-describedby="workflow-help" />
-                </div>
-              <div class="workflow-controls" data-enhanced>
-                <button
-                  id="run-workflow"
-                  class="button button-primary"
-                  type="submit"
-                >
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#icon-play" /></svg
-                  >Prepare request
-                </button>
-                <p
-                  id="workflow-status"
-                  role="status"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  Ready to try
-                </p>
-                <button
-                  id="motion-toggle"
-                  class="motion-toggle"
-                  type="button"
-                  aria-pressed="false"
-                  aria-label="Pause motion"
-                >
-                  <span class="motion-label">Motion: on</span>
-                </button>
-              </div>
-              </form>
-              <div class="workflow-result" data-enhanced>
-                <p class="output-label" id="workflow-output-label">Ready for the next person</p>
-                <div id="workflow-output" aria-labelledby="workflow-output-label">
-                  <p id="workflow-empty">Your organized request will appear here, with a team, a next step, and a reply draft.</p>
-                  <div id="workflow-card" hidden>
-                    <span class="request-priority" id="result-priority"></span>
-                    <h3 id="result-topic"></h3>
-                    <p class="request-person">For <span id="result-requester"></span></p>
-                    <dl class="request-details">
-                      <dt>Team</dt><dd id="result-team"></dd>
-                      <dt>Next step</dt><dd id="result-action"></dd>
-                    </dl>
-                    <div class="request-reply">
-                      <h4>Reply draft</h4>
-                      <p id="result-reply"></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </div>
-              <div class="workflow-footer">
-                <p class="workflow-explanation"><strong>What this shows:</strong> I build apps that collect information and automations that prepare the next step, so people spend less time copying and sorting details.</p>
-                <p class="workflow-note" id="workflow-help">
-                  Sample requests only. Nothing you enter is sent or saved.
-                </p>
-                <details class="workflow-logic">
-                  <summary>How does it work?</summary>
-                  <p>The app checks the details, picks a team from the request type, and uses urgency to choose the next action. The reply is a template for someone to review.</p>
-                <a class="text-link demo-source"
-                  href="https://github.com/VGLeo93/francisco_cv/blob/main/animations.js"
-                  target="_blank" rel="noopener noreferrer">View the code<svg class="icon icon-small" aria-hidden="true"><use href="#icon-external" /></svg></a>
-                </details>
-                <noscript><p class="workflow-note">Enable JavaScript to try the app. The complete CV is available below.</p></noscript>
-              </div>
+          <section class="demo-preview" aria-labelledby="demo-heading" data-reveal>
+            <p class="demo-eyebrow">Interactive example · Fictional data</p>
+            <h2 id="demo-heading">Make messy data useful.</h2>
+            <p class="demo-intro">Find duplicate contacts, fix missing details and export a clean list in a small working app.</p>
+            <div class="demo-sample" aria-label="Examples of data problems">
+              <div><span>MAYA@EXAMPLE.COM</span><span class="sample-tag">Same person</span></div>
+              <div><span>maya@example.com</span><span class="sample-tag">Repeated entry</span></div>
+              <div><span>Email missing</span><span class="sample-tag">Needs a check</span></div>
             </div>
-          </details>
+            <button id="open-workspace" class="button button-primary" type="button" aria-haspopup="dialog" disabled data-enhanced>
+              Open interactive demo<svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+            </button>
+            <p class="demo-explanation">This shows how I turn a manual task into an app people can use: check the data, handle exceptions and prepare the next step.</p>
+            <p class="demo-note">Runs in your browser using fictional contacts. No access to my private repositories is needed.</p>
+            <noscript><p class="demo-note">Enable JavaScript to try the workspace. My full experience is available below.</p></noscript>
+          </section>
         </section>
 
         <div class="resume-body">
@@ -917,17 +765,6 @@
                   </li>
                   <li>
                     <svg class="icon" aria-hidden="true">
-                      <use href="#icon-github" /></svg
-                    ><a
-                      href="https://github.com/VGLeo93"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      >GitHub<svg class="icon icon-small" aria-hidden="true">
-                        <use href="#icon-external" /></svg
-                    ></a>
-                  </li>
-                  <li>
-                    <svg class="icon" aria-hidden="true">
                       <use href="#icon-linkedin" /></svg
                     ><a
                       href="https://www.linkedin.com/in/francisco-vaquerog/"
@@ -973,19 +810,84 @@
       </main>
 
       <footer class="site-footer">
-        <span>Francisco Vaquero</span
-        ><a class="text-link" href="#top"
+        <span>Francisco Vaquero</span>
+        <button id="motion-toggle" class="motion-toggle" type="button"
+          aria-label="Pause motion" aria-pressed="false" data-enhanced>
+          <span class="motion-label">Motion: on</span>
+        </button>
+        <a class="text-link" href="#top"
           >Back to top<svg class="icon" aria-hidden="true">
             <use href="#icon-up" /></svg
         ></a>
       </footer>
     </div>
+    <dialog id="data-workspace" class="data-workspace" aria-labelledby="workspace-heading" aria-describedby="workspace-description">
+      <header class="workspace-header">
+        <div>
+          <p class="demo-eyebrow">Interactive example</p>
+          <h2 id="workspace-heading">Data cleanup workspace</h2>
+        </div>
+        <button id="close-workspace" class="workspace-close" type="button" autofocus>Close <span aria-hidden="true">×</span></button>
+      </header>
+      <div class="workspace-content">
+        <p id="workspace-description">Six fictional contacts, a few common problems. Clean the list, review a record and download the contacts that are ready.</p>
+        <div class="workspace-toolbar">
+          <button id="clean-records" class="button button-primary" type="button">Clean sample data</button>
+          <button id="export-records" class="button button-outline" type="button" disabled>Export ready contacts</button>
+          <button id="reset-records" class="workspace-reset" type="button">Reset example</button>
+        </div>
+        <dl class="workspace-stats" aria-label="Current record counts">
+          <div><dt>Total contacts</dt><dd id="count-total">6</dd></div>
+          <div><dt>Ready to use</dt><dd id="count-ready">—</dd></div>
+          <div><dt>Need review</dt><dd id="count-review">—</dd></div>
+          <div><dt>Duplicates</dt><dd id="count-duplicate">—</dd></div>
+        </dl>
+        <p id="workspace-status" class="workspace-status" role="status" aria-live="polite" aria-atomic="true">Start with “Clean sample data” to find formatting issues, missing details and duplicates.</p>
+        <div class="workspace-grid">
+          <section class="record-collection" aria-labelledby="records-heading">
+            <h3 id="records-heading">Contacts</h3>
+            <div class="record-filters" role="group" aria-label="Filter contacts">
+              <button type="button" data-filter="all" aria-pressed="true">All</button>
+              <button type="button" data-filter="ready" aria-pressed="false" disabled>Ready</button>
+              <button type="button" data-filter="review" aria-pressed="false" disabled>Need review</button>
+              <button type="button" data-filter="duplicate" aria-pressed="false" disabled>Duplicates</button>
+            </div>
+            <p class="record-hint">Select a contact to see the checks and edit its details.</p>
+            <ul id="record-list" class="record-list" aria-label="Fictional contacts"></ul>
+            <p id="records-empty" class="records-empty" hidden>No contacts in this view. Try another filter.</p>
+          </section>
+          <section class="record-inspector" aria-labelledby="inspector-heading">
+            <h3 id="inspector-heading" tabindex="-1">Review a contact</h3>
+            <p id="inspector-empty" hidden>Select a contact to review.</p>
+            <form id="record-form" novalidate autocomplete="off">
+              <p id="record-state" class="record-state">Not checked yet</p>
+              <ul id="record-notes" class="record-notes"></ul>
+              <fieldset id="record-fields" disabled>
+                <legend class="sr-only">Contact details</legend>
+                <label for="record-name">Name</label>
+                <input id="record-name" name="name" maxlength="60" type="text" aria-describedby="record-notes" />
+                <label for="record-company">Company</label>
+                <input id="record-company" name="company" maxlength="60" type="text" aria-describedby="record-notes" />
+                <label for="record-email">Email</label>
+                <input id="record-email" name="email" maxlength="90" type="text" inputmode="email" spellcheck="false" aria-describedby="record-notes" />
+                <button class="button button-primary" type="submit">Apply changes &amp; recheck</button>
+              </fieldset>
+            </form>
+          </section>
+        </div>
+        <details class="workspace-rules">
+          <summary>How does this example work?</summary>
+          <p>The app removes extra spaces, makes email addresses lowercase, checks required details and email format, and finds repeated email addresses. The first complete record is kept; duplicates and records needing review are left out of the export. Editing a contact checks the whole list again.</p>
+        </details>
+        <p class="workspace-privacy">Use fictional details. Nothing is sent to a server, and changes reset when you reload the page.</p>
+      </div>
+    </dialog>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Francisco Vaquero",
-        "jobTitle": "Developer · Automation & Integrations",
+        "jobTitle": "Software Developer & Automation Specialist",
         "email": "mailto:franciscovaquero93@gmail.com",
         "telephone": "+50361312121",
         "address": {
@@ -994,8 +896,7 @@
           "addressCountry": "SV"
         },
         "sameAs": [
-          "https://www.linkedin.com/in/francisco-vaquerog/",
-          "https://github.com/VGLeo93"
+          "https://www.linkedin.com/in/francisco-vaquerog/"
         ]
       }
     </script>

@@ -2,7 +2,7 @@
 
 [View the CV website](https://vgleo93.github.io/francisco_cv/) · [Download the PDF](Francisco_Vaquero_CV.pdf) · [Read the Markdown CV](Francisco_Vaquero_CV_Tech.md)
 
-A developer portfolio and downloadable résumé, built with semantic HTML, responsive CSS and small vanilla JavaScript enhancements. Dark ink, coral accents, name-led typography and a small request-handling app give the website its own identity. Seven roles form a readable career timeline before the open skills groups; training and contact close the page.
+A developer portfolio and downloadable résumé, built with semantic HTML, responsive CSS and small vanilla JavaScript enhancements. Dark ink, coral accents, name-led typography and an interactive data-cleaning workspace give the website its own identity. Seven roles form a readable career timeline before the open skills groups; training and contact close the page.
 
 The site has no framework or third-party runtime requests. Fonts, tool icons, the original portrait and all 16 certificates are served locally.
 
@@ -10,9 +10,11 @@ The site has no framework or third-party runtime requests. Fonts, tool icons, th
 
 The headline is **Software Developer & Automation Specialist**, reflecting hands-on application development and automation work. Development tools are listed separately from experience and course certificates.
 
-The interactive example, **From request to next step**, uses a plain-language form. Visitors choose app support, a new customer or a billing question, then edit the sample name, request and urgency. `Prepare request` creates a readable card showing the responsible team, next action and a template reply. Changing urgency changes the action; changing any input clears the previous result. Invalid fields receive a clear error and keyboard focus. An explanation connects the example to collecting information and automating handoffs, with optional rule details and a source link.
+**Make messy data useful** opens a working data-cleanup app in a native dialog. Visitors process six clearly fictional contacts, inspect missing details and invalid email formats, filter ready/review/duplicate records, edit contacts, and download a CSV containing only ready records. Counts and explanations update after each edit. Cleanup trims whitespace, normalizes email case and keeps the first complete record for each email. An incomplete earlier record does not suppress a complete later one. CSV quoting preserves punctuation and makes formula-like cells inert in spreadsheet applications.
 
-This is a working browser-only example with deterministic rules and templates. It does not claim a client project, a real backend, an AI response, an actual message or a saved customer record. No form values leave the page or enter storage. On phones, a native disclosure keeps the demo optional so readers reach experience sooner.
+The app runs entirely in the browser, makes no service calls and does not persist contact data. Closing the dialog preserves the current tab's work; resetting or reloading restores the sample. The native dialog supports Escape and focus containment, returns focus to its launch button, and keeps the CV readable underneath. On phones, selecting a contact brings its editing section into view. A plain-English explanation connects the app to checking information, handling exceptions and preparing the next step.
+
+All demo data and code are standalone examples, with no private project code, client data, invented client outcomes or live-backend claims. GitHub profile and source-code links have been removed from the website, structured profile metadata, Markdown CV and PDF. Email, phone and LinkedIn remain the contact options. Repository visibility is unchanged.
 
 The existing website is the source for contact details and earlier employment dates; the original Markdown draft used a different phone number and overlapping early-role dates. These published details are preserved. The existing AI Engineer document is identified as a Codecademy Certificate of Completion dated October 20, 2025. The original portrait and all 16 certificate PDFs are retained; the page serves a smaller 240×309 WebP copy of the portrait.
 
@@ -40,12 +42,12 @@ If Chrome is in a nonstandard location, set `CHROME` to its executable. Dependen
 - `Save as PDF` downloads `Francisco_Vaquero_CV.pdf`.
 - Browser printing uses a compact white A4 stylesheet and expands all certificate links. The generated download is two pages with selectable, tagged text and public certificate links.
 - The theme follows the system until a reader saves a choice; storage-restricted browsing is supported.
-- One-shot section reveals and signals during request preparation are optional. There is no idle animation or pointer tilt. `Pause motion` saves a preference; the operating system's reduced-motion setting takes priority. Background tabs and printing cancel active motion, unlock all form fields and clear the incomplete result. A cancelled example returns to a ready state rather than restarting unexpectedly.
-- The workflow produces the same result without timed movement when motion is paused or reduced. All résumé content stays visible without JavaScript; native disclosures still work. PDF page one includes readable email, phone and public profile URLs.
+- One-shot section reveals are optional. The footer's `Pause motion` control saves a preference; the operating system's reduced-motion setting takes priority. Background tabs and printing cancel active motion. There is no idle animation or pointer tilt.
+- All résumé content stays visible without JavaScript; certificate disclosures still work and the demo displays an explanatory fallback. The interactive app stays out of the compact printable CV. PDF page one includes readable email, phone and LinkedIn details.
 
 ## Verification
 
-`npm run test:ui` checks identity, seven roles, the current Praeco role and start date, the precise FundFlare dates, 16 certificates, fonts and local downloads, anchors, active navigation/progress, disclosure, theme/system/storage behavior, text contrast, finite reveals, all three example routes and both urgency levels, field validation and trimming, safe literal text, stale-result clearing, template output, error descriptions/focus, workflow stages, reentry prevention, keyboard activation/focus, motion persistence, live reduced-motion changes, simulated background visibility, print restoration, no-JavaScript reading, console health and overflow at 320, 360, 390, 768, 1024 and 1469 pixels. It also checks the 1168×556 laptop opening and mobile first paint with the deferred script withheld.
+`npm run test:ui` checks identity, seven roles, the current Praeco role and start date, the precise FundFlare dates, 16 certificates, fonts and local downloads, anchors, active navigation/progress, theme/system/storage behavior, text contrast, finite reveals, modal keyboard/focus behavior, cleanup and duplicate handling, editing and validation, filtering and empty states, actual CSV download and escaping, reset and tab-session persistence, removal of GitHub profile/source links, motion persistence, live reduced-motion changes, simulated background visibility, print restoration, no-JavaScript reading, console health and overflow at 320, 360, 390, 768, 1024 and 1469 pixels. It also checks the 1168×556 laptop opening and mobile first paint with the deferred script withheld.
 
 Tests and PDF export share a loopback-only HTTP server that serves public CV files, not development tools or directory listings. This gives fonts the same same-origin behavior as GitHub Pages.
 
@@ -69,7 +71,8 @@ The generated site excludes development tools and local evidence. Original Power
 
 - `index.html`: professional content and accessible page structure.
 - `styles.css`: design tokens, responsive layouts and A4 print rules.
-- `animations.js`: theme, finite reveals, sample-request validation/routing, reply templates, workflow state, motion controls, responsive demo disclosure, navigation/progress and print restoration.
+- `animations.js`: theme, finite reveals, motion controls, navigation/progress and print restoration.
+- `data-workspace.js`: fictional sample records, cleanup and validation, contact editing, filters, dialog behavior and CSV export.
 - `Francisco_Vaquero_CV_Tech.md`: editable, application-friendly text CV.
 - `Francisco_Vaquero_CV.pdf`: printable download.
 - `scripts/`: shared browser launcher, restricted local HTTP preview, PDF export and site packaging.
