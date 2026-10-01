@@ -9,7 +9,7 @@ const path = require('node:path');
 async function startLocalSite(root) {
   const base = await fs.promises.realpath(root);
   const files = new Set([
-    'index.html', 'styles.css', 'animations.js', 'cv-francisco.png',
+    'index.html', 'styles.css', 'animations.js', 'data-workspace.js', 'cv-francisco.png',
     'Francisco_Vaquero_CV.pdf', 'Francisco_Vaquero_CV_Tech.md',
   ]);
   const types = {

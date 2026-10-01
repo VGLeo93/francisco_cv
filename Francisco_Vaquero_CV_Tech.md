@@ -6,7 +6,7 @@ Antiguo Cuscatlán, El Salvador
 
 [franciscovaquero93@gmail.com](mailto:franciscovaquero93@gmail.com) · [+503 6131 2121](tel:+50361312121)
 
-[LinkedIn](https://www.linkedin.com/in/francisco-vaquerog/) · [GitHub](https://github.com/VGLeo93)
+[LinkedIn](https://www.linkedin.com/in/francisco-vaquerog/)
 
 ## Professional summary
 
